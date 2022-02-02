@@ -1,0 +1,12 @@
+# ignore all object files
+*.o
+*.gch
+
+# ignore all executables
+*.out
+a.out
+minishell
+
+# ignore all valgrind stuff's
+*.dSYM
+
