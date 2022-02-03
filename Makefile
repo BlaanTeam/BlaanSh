@@ -4,7 +4,8 @@ CFLAGS=-Wall -Wextra -Werror
 INCLUDE=include/
 HEADER=$(addprefix $(INCLUDE), minishell.h)
 SRC=src/
-FILES=minishell.c
+FILES=minishell.c \
+	gc.c
 OBJS=$(FILES:%.c=%.o)
 OBJS:=$(addprefix $(SRC), $(OBJS))
 RL_DIR=$(addprefix $(shell brew --prefix readline), /)
