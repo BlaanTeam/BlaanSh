@@ -6,20 +6,14 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 22:13:08 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/02 14:11:55 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/03 22:36:42 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	interrput_handler(int sig)
-{
-	(void)sig;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+t_global	g_global = {.gc = 0, \
+						.status = 0};
 
 int	main(int ac, char **av, char **env)
 {
@@ -28,15 +22,18 @@ int	main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	(void)env;
-	signal(SIGINT, interrput_handler);
-	signal(SIGQUIT, SIG_IGN);
+	g_global.gc = gc_init();
+	if (!g_global.gc)
+		exit_with_error("malloc");
 	while (true)
 	{
+		term_init();
 		cmdline = readline("minishell$ ");
+		term_restore();
 		if (!cmdline)
-			return (0);
-		add_history(cmdline);
-		printf("%s\n", cmdline);
-		free(cmdline);
+			break ;
+		gc_append(g_global.gc, cmdline);
 	}
+	gc_clean(g_global.gc);
+	return (EXIT_SUCCESS);
 }
