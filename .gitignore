@@ -4,9 +4,10 @@
 
 # ignore all executables
 *.out
-a.out
 minishell
 
 # ignore all valgrind stuff's
 *.dSYM
 
+# ignore all vscode settings
+.vscode/*
