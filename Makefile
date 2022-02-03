@@ -6,6 +6,7 @@ HEADER=$(addprefix $(INCLUDE), minishell.h)
 SRC=src/
 FILES=minishell.c \
 	termios_utils.c \
+	error_utils.c \
 	gc.c 
 OBJS=$(FILES:%.c=%.o)
 OBJS:=$(addprefix $(SRC), $(OBJS))
