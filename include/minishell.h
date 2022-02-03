@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/02 15:51:24 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/03 22:34:46 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,11 @@
 # include <stdbool.h>
 # include "readline/readline.h"
 # include "readline/history.h"
+# include <errno.h>
 # include <sys/types.h>
+# include <termios.h>
 # include <signal.h>
+# include "gc.h"
 
 /*
 grammer rules :
@@ -31,5 +34,20 @@ grammer rules :
 	cmd_arg: WORD
 	comment : HASH TEXT
 */
+
+typedef struct s_global {
+	t_gc	*gc;
+	int		status;
+}	t_global;
+
+// declare global variable
+extern t_global	g_global;
+
+// termios utils
+void	term_init(void);
+void	term_restore(void);
+
+// error utils
+void	exit_with_error(char *msg);
 
 #endif
