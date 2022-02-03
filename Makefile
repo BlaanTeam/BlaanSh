@@ -5,7 +5,8 @@ INCLUDE=include/
 HEADER=$(addprefix $(INCLUDE), minishell.h)
 SRC=src/
 FILES=minishell.c \
-	gc.c
+	termios_utils.c \
+	gc.c 
 OBJS=$(FILES:%.c=%.o)
 OBJS:=$(addprefix $(SRC), $(OBJS))
 RL_DIR=$(addprefix $(shell brew --prefix readline), /)
