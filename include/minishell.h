@@ -54,5 +54,6 @@ void	term_restore(void);
 
 // error utils
 void	exit_with_error(char *msg);
+void	alloc_error(void);
 
 #endif
