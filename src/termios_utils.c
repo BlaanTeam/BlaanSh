@@ -32,7 +32,6 @@ void	term_init(void)
 	if (tcgetattr(STDIN_FILENO, &new_term) != 0)
 		exit_with_error("tcgetattr");
 	new_term.c_lflag &= ~(ECHOCTL);
-	new_term.c_cc[VQUIT] = 255;
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &new_term) != 0)
 		exit_with_error("tcsetattr");
 }
