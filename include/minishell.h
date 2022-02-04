@@ -43,6 +43,11 @@ typedef struct s_global {
 // declare global variable
 extern t_global	g_global;
 
+// global utils
+char	*ft_strdup(const char *s1);
+char	*ft_strjoin(char const *s1, char const *s2);
+size_t	ft_strlen(const char *s);
+
 // termios utils
 void	term_init(void);
 void	term_restore(void);
