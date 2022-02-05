@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/03 22:34:46 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/05 01:27:30 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ grammer rules :
 	comment : HASH TEXT
 */
 
+typedef struct s_venv
+{
+	char			*key;
+	char			*value;
+	struct s_venv	*next;
+}	t_venv;
+
 typedef struct s_global {
 	t_gc	*gc;
 	int		status;
@@ -51,6 +58,12 @@ size_t	ft_strlen(const char *s);
 // termios utils
 void	term_init(void);
 void	term_restore(void);
+
+// env utils
+t_venv	*venv_init(char **env);
+char	**venv_export_array(t_venv	*venv_head);
+void	display_venv(t_venv *venv);
+void	display_env(char **env);
 
 // error utils
 void	exit_with_error(char *msg);
