@@ -10,6 +10,8 @@ FILES=minishell.c \
 	ft_strdup.c \
 	ft_strjoin.c \
 	ft_strlen.c \
+	env_utils1.c \
+	env_utils2.c \
 	gc.c 
 OBJS=$(FILES:%.c=%.o)
 OBJS:=$(addprefix $(SRC), $(OBJS))
