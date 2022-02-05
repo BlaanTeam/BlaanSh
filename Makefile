@@ -7,11 +7,10 @@ SRC=src/
 FILES=minishell.c \
 	termios_utils.c \
 	error_utils.c \
-	ft_strdup.c \
-	ft_strjoin.c \
-	ft_strlen.c \
 	env_utils1.c \
 	env_utils2.c \
+	list_utils.c \
+	tokenizer.c \
 	gc.c 
 OBJS=$(FILES:%.c=%.o)
 OBJS:=$(addprefix $(SRC), $(OBJS))
@@ -22,11 +21,15 @@ all: $(NAME)
 debug: CFLAGS+=-g
 debug: clean $(NAME)
 
-$(NAME): $(OBJS) 
+$(NAME): $(OBJS) libft/libft.a
 	$(CC) $(CFLAGS) $^ -o $@ -lreadline -L$(addprefix $(RL_DIR), lib)
 
+libft/libft.a:
+	make -C libft/ all
+	make -C libft/ clean
+
 %.o: %.c $(HEADER)
-	$(CC) $(CFLAGS) -c $< -o $@  -I $(INCLUDE) -I $(addprefix $(RL_DIR), include)
+	$(CC) $(CFLAGS) -c $< -o $@  -I $(INCLUDE) -I $(addprefix $(RL_DIR), include) -I libft/
 
 clean:
 	rm -f $(OBJS)

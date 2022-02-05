@@ -3,14 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 22:13:08 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/03 22:36:42 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/05 16:43:34 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "libft.h"
+
+const char *tokens[] = {
+	"WHITESPACE",
+	"WORD",
+	"PATH",
+	"PIPE",
+	"AND",
+	"OR",
+	"PARENTHESESE",
+	"ASSIGNMENT",
+	"EXPANSION",
+	"SINGLE_QUOTE",
+	"DOUBLE_QUOTE",
+	"WRITE_MODE",
+	"APPEND_MODE",
+	"HERE_DOC",
+	"READ_MODE"
+};
 
 t_global	g_global = {.gc = 0, \
 						.status = 0};
@@ -18,6 +37,7 @@ t_global	g_global = {.gc = 0, \
 int	main(int ac, char **av, char **env)
 {
 	char	*cmdline;
+	t_list	*cmdlist;
 
 	(void)ac;
 	(void)av;
@@ -33,6 +53,15 @@ int	main(int ac, char **av, char **env)
 		if (!cmdline)
 			break ;
 		gc_append(g_global.gc, cmdline);
+		add_history(cmdline);
+		cmdlist = tokenize(cmdline);
+		t_node	*top = cmdlist->top;
+		while (top) {
+			printf("tok = %-40s val = %-20s len = %zu\n", tokens[top->token], top->val, top->val? ft_strlen(top->val): 1);
+			top = top->next;
+		}
+		list_clear(cmdlist);
+		free(cmdline);
 	}
 	gc_clean(g_global.gc);
 	return (EXIT_SUCCESS);
