@@ -16,3 +16,6 @@ minishell
 *.ignore
 *.test
 *.testing
+
+# ignore libraries
+*.a
