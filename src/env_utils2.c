@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 01:22:28 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/05 01:28:25 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/05 18:06:38 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,7 @@ char	**venv_export_array(t_venv	*venv_head)
 
 	i = -1;
 	len = venv_count(venv_head);
-	env = (char **)malloc(sizeof(char *) * (len + 1));
-	if (!env)
-		alloc_error();
+	env = (char **)ft_malloc(sizeof(char *) * (len + 1));
 	gc_append(g_global.gc, env);
 	while (venv_head && ++i < len)
 	{
