@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 16:42:41 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/05 16:03:17 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/05 17:53:59 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,6 @@ grammer rules :
 // inside ''
 // inside ""
 // pipeline or inside ()
-
-void	*ft_malloc(size_t len)
-{
-	void	*p;
-
-	p = malloc(len);
-	if (!p)
-	{
-		perror("malloc");
-		exit(1);
-	}
-	return (p);
-}
 
 char	*ft_strndup(char *str, int n)
 {

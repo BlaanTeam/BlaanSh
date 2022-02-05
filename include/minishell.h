@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/05 17:56:20 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/05 17:58:01 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_global {
 extern t_global	g_global;
 
 // global utils
+void	*ft_malloc(size_t len);
 
 // termios utils
 void	term_init(void);
