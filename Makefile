@@ -7,6 +7,9 @@ SRC=src/
 FILES=minishell.c \
 	termios_utils.c \
 	error_utils.c \
+	ft_strdup.c \
+	ft_strjoin.c \
+	ft_strlen.c \
 	gc.c 
 OBJS=$(FILES:%.c=%.o)
 OBJS:=$(addprefix $(SRC), $(OBJS))
