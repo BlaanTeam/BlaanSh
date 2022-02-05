@@ -11,3 +11,8 @@ minishell
 
 # ignore all vscode settings
 .vscode/*
+
+# ignore testing files
+*.ignore
+*.test
+*.testing
