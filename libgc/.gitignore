@@ -1,0 +1,8 @@
+# ignore all valgrind folder's
+*.dSYM
+# ignore a.out & gc
+a.out
+gc
+
+# ignore all object file
+*.o
