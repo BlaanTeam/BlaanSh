@@ -1,18 +1,20 @@
-/**
- * @file gc.h
- * @author BlaanTeam (blaanteam@gmail.com)
- * @brief The garbage collector header file
- * @version 0.1
- * @date 2022-01-05
- * 
- * @copyright Copyright (c) 2022
- * 
- */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gc.h                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/06 00:29:24 by asabani           #+#    #+#             */
+/*   Updated: 2022/02/06 00:29:37 by asabani          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef GC_H
-#define GC_H
-#include <stdlib.h>
-#define GC_ALL	1U
-#define GC_TMP	2U
+# define GC_H
+# include <stdlib.h>
+# define GC_ALL	1U
+# define GC_TMP	2U
 
 typedef struct s_dustbin
 {

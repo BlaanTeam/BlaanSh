@@ -1,13 +1,15 @@
-/**
- * @file gc.c
- * @author BlaanTeam (blaanteam@gmail.com)
- * @brief The garabage collector source file.
- * @version 0.1
- * @date 2022-01-05
- * 
- * @copyright Copyright (c) 2022
- * 
- */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gc.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/06 00:28:46 by asabani           #+#    #+#             */
+/*   Updated: 2022/02/06 00:29:06 by asabani          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "gc.h"
 
 /**
