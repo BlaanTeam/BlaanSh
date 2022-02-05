@@ -6,12 +6,11 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 22:13:08 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/05 17:03:33 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/05 17:59:44 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "libft.h"
 
 const char *tokens[] = {
 	"WHITESPACE",
