@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/06 18:38:28 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/06 18:42:06 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	term_restore(void);
 // env utils
 t_venv	*venv_init(char **env);
 char	**venv_export_array(t_venv	*venv_head);
+void	venv_insert(t_venv **venv_head, char *key, char *value, bool overwrite);
 t_venv	*venv_find(t_venv *venv_head, char *key);
 void	display_venv(t_venv *venv);
 void	display_env(char **env);

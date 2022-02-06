@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 23:46:32 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/06 18:33:41 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/06 18:41:30 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static t_venv	*venv_new_node(char *key, char *value)
 	return (venv_node);
 }
 
-static void	venv_insert(t_venv **venv_head, char *key, char *value, \
+void	venv_insert(t_venv **venv_head, char *key, char *value, \
 bool overwrite)
 {
 	t_venv	*venv_node;
