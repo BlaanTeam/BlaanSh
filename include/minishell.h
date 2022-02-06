@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/05 18:00:00 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/06 18:38:28 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <signal.h>
 # include "gc.h"
 # include "libft.h"
+# define PATH_MAX 1024
 
 /*
 grammer rules :
@@ -88,6 +89,7 @@ extern t_global	g_global;
 
 // global utils
 void	*ft_malloc(size_t len);
+char	*ft_getcwd(void);
 
 // termios utils
 void	term_init(void);
