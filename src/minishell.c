@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 22:13:08 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/05 17:59:44 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/06 16:01:15 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,6 @@ int	main(int ac, char **av, char **env)
 		list_clear(cmdlist);
 	}
 	gc_clean(&g_global.gc, GC_ALL);
+	rl_clear_history();
 	return (EXIT_SUCCESS);
 }
