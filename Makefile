@@ -9,6 +9,7 @@ FILES=minishell.c \
 	error_utils.c \
 	env_utils1.c \
 	env_utils2.c \
+	env_utils3.c \
 	global_utils.c \
 	list_utils.c \
 	tokenizer.c 
