@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 01:22:28 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/06 00:36:10 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/06 18:35:53 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,17 @@ char	**venv_export_array(t_venv	*venv_head)
 	return (env[len] = NULL, env);
 }
 
+t_venv	*venv_find(t_venv *venv_head, char *key)
+{
+	while (venv_head)
+	{
+		if (ft_memcmp(venv_head->key, key, ft_strlen(key)) == 0)
+			return (venv_head);
+		venv_head = venv_head->next;
+	}
+	return (NULL);
+}
+
 /*
 	These functions for debugging :
 		- display_venv
@@ -63,7 +74,7 @@ void	display_venv(t_venv *venv)
 	printf("-----------------The venv variables-----------------\n");
 	while (venv)
 	{
-		printf("%s:%s\n", venv->key, venv->value);
+		printf("%s=%s\n", venv->key, venv->value);
 		venv = venv->next;
 	}
 }

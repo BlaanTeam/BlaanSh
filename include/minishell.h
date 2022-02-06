@@ -96,6 +96,7 @@ void	term_restore(void);
 // env utils
 t_venv	*venv_init(char **env);
 char	**venv_export_array(t_venv	*venv_head);
+t_venv	*venv_find(t_venv *venv_head, char *key);
 void	display_venv(t_venv *venv);
 void	display_env(char **env);
 
