@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 23:46:32 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/06 00:35:51 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/06 18:33:41 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ t_venv	*venv_init(char **env)
 {
 	int		i;
 	char	*key;
+	char	*value;
 	t_venv	*venv_head;
 
 	i = -1;
@@ -69,7 +70,16 @@ t_venv	*venv_init(char **env)
 	while (env[++i])
 	{
 		key = getkey(env[i]);
-		venv_insert(&venv_head, key, getenv(key));
+		if (ft_memcmp(key, "SHLVL", ft_strlen("SHLVL")) == 0)
+		{
+			value = ft_itoa(ft_atoi(getenv(key)) + 1);
+			if (!value)
+				alloc_error();
+			gc_append(g_global.gc, value, GC_ALL);
+		}
+		else
+			value = getenv(key);
+		venv_insert(&venv_head, key, value, false);
 	}
 	return (venv_head);
 }
