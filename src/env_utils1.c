@@ -40,10 +40,18 @@ static t_venv	*venv_new_node(char *key, char *value)
 	return (venv_node);
 }
 
-static void	venv_insert(t_venv **venv_head, char *key, char *value)
+static void	venv_insert(t_venv **venv_head, char *key, char *value, \
+bool overwrite)
 {
 	t_venv	*venv_node;
 
+	venv_node = venv_find(*venv_head, key);
+	if (venv_node)
+	{
+		if (overwrite)
+			venv_node->value = value;
+		return ;
+	}
 	venv_node = venv_new_node(key, value);
 	venv_node->next = *venv_head;
 	*venv_head = venv_node;
