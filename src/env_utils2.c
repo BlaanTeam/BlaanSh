@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 01:22:28 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/06 18:35:53 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/06 19:51:16 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_venv	*venv_find(t_venv *venv_head, char *key)
 {
 	while (venv_head)
 	{
-		if (ft_memcmp(venv_head->key, key, ft_strlen(key)) == 0)
+		if (ft_memcmp(venv_head->key, key, ft_strlen(key) + 1) == 0)
 			return (venv_head);
 		venv_head = venv_head->next;
 	}

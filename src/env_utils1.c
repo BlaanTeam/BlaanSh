@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 23:46:32 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/06 18:41:30 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/06 19:16:57 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_venv	*venv_init(char **env)
 	while (env[++i])
 	{
 		key = getkey(env[i]);
-		if (ft_memcmp(key, "SHLVL", ft_strlen("SHLVL")) == 0)
+		if (ft_memcmp(key, "SHLVL", ft_strlen("SHLVL") + 1) == 0)
 		{
 			value = ft_itoa(ft_atoi(getenv(key)) + 1);
 			if (!value)
