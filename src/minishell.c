@@ -51,7 +51,7 @@ int	main(int ac, char **av, char **env)
 		term_restore();
 		if (!cmdline)
 			break ;
-		gc_append(g_global.gc, cmdline);
+		gc_append(g_global.gc, cmdline, GC_TMP);
 		add_history(cmdline);
 		cmdlist = tokenize(cmdline);
 		t_node	*top = cmdlist->top;
@@ -61,6 +61,6 @@ int	main(int ac, char **av, char **env)
 		}
 		list_clear(cmdlist);
 	}
-	gc_clean(g_global.gc);
+	gc_clean(&g_global.gc, GC_ALL);
 	return (EXIT_SUCCESS);
 }
