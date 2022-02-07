@@ -3,17 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoussao <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/03 11:18:50 by omoussao          #+#    #+#             */
-/*   Updated: 2021/11/03 11:30:23 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/06 19:45:33 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-static int	is_w_space(char c)
-{
-	return (c == 32 || (c >= 9 && c <= 13));
-}
 
 int	ft_atoi(const char *str)
 {
@@ -23,7 +18,7 @@ int	ft_atoi(const char *str)
 
 	res = 0;
 	i = 0;
-	while (is_w_space(str[i]))
+	while (ft_isspace(str[i]))
 		i++;
 	sign = 1 - (str[i] == '-') * 2;
 	i += (str[i] == '+' || str[i] == '-');
