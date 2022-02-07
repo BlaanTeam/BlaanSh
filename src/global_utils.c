@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   global_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:53:48 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/06 17:37:41 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/07 14:21:48 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,13 @@ char	*ft_getcwd(void)
 
 	getcwd(path, PATH_MAX);
 	return (path);
+}
+
+char	*ft_strndup(char *str, int n)
+{
+	char	*ret;
+
+	ret = (char *)ft_malloc(n);
+	ft_strlcpy(ret, str, n);
+	return (ret);
 }
