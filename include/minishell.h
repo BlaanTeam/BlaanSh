@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/06 18:55:52 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/07 14:24:48 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ extern t_global	g_global;
 // global utils
 void	*ft_malloc(size_t len);
 char	*ft_getcwd(void);
+char	*ft_strndup(char *str, int n);
+char	*ft_charstr(char c);
 
 // termios utils
 void	term_init(void);
