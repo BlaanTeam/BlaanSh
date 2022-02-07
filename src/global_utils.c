@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:53:48 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/07 14:21:48 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/07 14:22:42 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,15 @@ char	*ft_strndup(char *str, int n)
 
 	ret = (char *)ft_malloc(n);
 	ft_strlcpy(ret, str, n);
+	return (ret);
+}
+
+char	*ft_charstr(char c)
+{
+	char	*ret;
+
+	ret = (char *)ft_malloc(2);
+	ret[0] = c;
+	ret[1] = 0;
 	return (ret);
 }
