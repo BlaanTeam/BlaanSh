@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 16:42:41 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/08 17:33:03 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/08 17:34:15 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,18 @@ char	*var_expand_state(t_list *tokens, char *line)
 	return (line + len);
 }
 
-char	*sq_parse_mode(t_list *cmdline, char *line)
+char	*squote_state(t_list *tokens, char *line)
 {
 	int	len;
 
-	push_back(cmdline, SINGLE_QUOTE, ft_charstr('\''));
+	push_back(tokens, SINGLE_QUOTE, NULL);
 	len = 0;
 	while (line[len] && line[len] != '\n' && line[len] != '\'')
 		len++;
-	push_back(cmdline, WORD, ft_strndup(line, len + 1));
+	push_back(tokens, WORD, ft_strndup(line, len + 1));
 	if (line[len] == '\'')
 	{
-		push_back(cmdline, SINGLE_QUOTE, ft_charstr('\''));
+		push_back(tokens, SINGLE_QUOTE, NULL);
 		len++;
 	}
 	return (line + len);
