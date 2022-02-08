@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:53:48 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/07 14:22:42 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/09 00:00:15 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,14 @@ void	*ft_malloc(size_t len)
 	if (!block)
 		alloc_error();
 	return (block);
+}
+
+void	*gc_filter(void *ptr, t_gc_flag append_flag)
+{
+	if (!ptr)
+		exit_with_error("malloc");
+	gc_append(g_global.gc, ptr, append_flag);
+	return (ptr);
 }
 
 char	*ft_getcwd(void)

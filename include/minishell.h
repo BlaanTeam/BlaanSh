@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/07 23:51:29 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/09 00:01:27 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_global {
 extern t_global	g_global;
 
 // global utils
+void	*gc_filter(void *ptr, t_gc_flag append_flag);
 void	*ft_malloc(size_t len);
 char	*ft_getcwd(void);
 char	*ft_strndup(char *str, int n);
