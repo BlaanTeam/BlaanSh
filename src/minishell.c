@@ -3,31 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 22:13:08 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/06 16:01:15 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/08 16:04:10 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-const char *tokens[] = {
+//* names of tokens (for debuging)
+const char *token_names[] = {
 	"WHITESPACE",
+	"TK_NEWLINE",
 	"WORD",
 	"PATH",
 	"PIPE",
-	"AND",
-	"OR",
-	"PARENTHESESE",
-	"ASSIGNMENT",
-	"EXPANSION",
+	"AND_IF",
+	"OR_IF",
+	"O_PARENTHESESE",
+	"C_PARENTHESESE",
+	"EQUAL",
+	"AMPERSAND",
+	"SEMICL",
+	"DSEMICL",
+	"VAR_EXPANSION",
+	"TILDE_EXPANSION",
+	"WILDCARD_EXPANSION",
 	"SINGLE_QUOTE",
 	"DOUBLE_QUOTE",
-	"WRITE_MODE",
-	"APPEND_MODE",
-	"HERE_DOC",
-	"READ_MODE"
+	"LESS",
+	"DLESS",
+	"GREAT",
+	"DGREAT"
 };
 
 t_global	g_global = {.gc = 0, \
@@ -36,7 +44,7 @@ t_global	g_global = {.gc = 0, \
 int	main(int ac, char **av, char **env)
 {
 	char	*cmdline;
-	t_list	*cmdlist;
+	t_list	*tokens;
 
 	(void)ac;
 	(void)av;
@@ -53,13 +61,17 @@ int	main(int ac, char **av, char **env)
 			break ;
 		gc_append(g_global.gc, cmdline, GC_TMP);
 		add_history(cmdline);
-		cmdlist = tokenize(cmdline);
-		t_node	*top = cmdlist->top;
-		while (top) {
-			printf("tok = %-40s val = %-20s len = %zu\n", tokens[top->token], top->val, top->val? ft_strlen(top->val): 1);
+
+		//* debug: show tokens
+		tokens = tokenize(cmdline);
+		t_node	*top = tokens->top;
+		while (top)
+		{
+			printf("tok = %-40s val = %-20s len = %zu\n", token_names[top->token], top->val, top->val? ft_strlen(top->val): 0);
 			top = top->next;
 		}
-		list_clear(cmdlist);
+		list_clear(tokens);
+		//* end debug
 	}
 	gc_clean(&g_global.gc, GC_ALL);
 	rl_clear_history();
