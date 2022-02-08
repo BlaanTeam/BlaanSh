@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 16:42:41 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/08 17:25:24 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/08 17:33:03 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,22 +31,22 @@ grammer rules :
  * *	 - for the wildcard expansion: if there are no matches, the pattern will be considered as a WORD
  */
 
-char	*parse_expansion(t_list *cmdline, char *line)
+char	*var_expand_state(t_list *tokens, char *line)
 {
 	int	len;
 		
 	if (ft_isdigit(*line) || *line == '?' || *line == '$')
 	{
-		push_back(cmdline, EXPANSION, ft_charstr(*line));
+		push_back(tokens, VAR_EXPANSION, ft_charstr(*line));
 		return (line + 1);
 	}
 	len = 0;
 	while (line[len] && (ft_isalnum(line[len]) || line[len] == '_'))
 		len++;
 	if (len)
-		push_back(cmdline, EXPANSION, ft_strndup(line, len + 1));
+		push_back(tokens, VAR_EXPANSION, ft_strndup(line, len + 1));
 	else
-		push_back(cmdline, WORD, ft_charstr('$'));
+		push_back(tokens, WORD, ft_charstr('$'));
 	return (line + len);
 }
 
