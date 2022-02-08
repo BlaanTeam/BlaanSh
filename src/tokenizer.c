@@ -6,12 +6,11 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 16:42:41 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/08 17:34:15 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/08 17:45:07 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "libft.h"
 
 /*
 grammer rules :
@@ -172,19 +171,26 @@ char	*general_state(t_list *tokens, char *line)
 
 t_list	*tokenize(char *line)
 {
-	t_list	*cmdline;
-	char	c;
+	t_list	*tokens;
 
-	cmdline = new_list();
-	while (*line && *line != '\n')
+	tokens = new_list();
+	while (*line && *line != '#' && *line != '\n')
 	{
-		c = *line;
-		if (c == '\'')
-			line = sq_parse_mode(cmdline, line + 1);
-		else if (c == '\"')
-			line = dq_parse_mode(cmdline, line + 1);
+		if (ft_isspace(*line))
+			line = whitespaces(tokens, line);
+		else if (*line == '\'')
+			line = squote_state(tokens, line + 1);
+		else if (*line == '\"')
+			line = dquote_state(tokens, line + 1);
+		else if (*line == '$')
+			line = var_expand_state(tokens, line + 1);
+		else if (*line == '|' || *line == '&' || *line == '>' || *line == '<')
+			line = lookahead_state(tokens, line);
+		else if (*line == '=' || *line == '(' || *line == ')')
+			line = character_state(tokens, line);
 		else
-			line = pipeline_parse_mode(cmdline, line);
+			line = general_state(tokens, line);
 	}
-	return (cmdline);
+	push_back(tokens, TK_NEWLINE, NULL);
+	return (tokens);
 }
