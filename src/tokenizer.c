@@ -144,6 +144,32 @@ char	*character_state(t_list *tokens, char *line)
 	push_back(tokens, token, NULL);
 	return (line + 1);
 }
+
+// tilde will work only if it's passed like ~ or ~/<some characters that possibly 0>
+// wildcard expansion will not work if the token is represented as a TILDE_EXPANSION or as a PATH
+char	*general_state(t_list *tokens, char *line)
+{
+	int		len;
+	char	*word;
+
+	len = 0;
+	while (!ft_strchr("\'\"$<>()&|", line[len]) && !ft_isspace(line[len]))
+		len++;
+	if (len)
+	{
+		word = ft_strndup(line, len + 1);
+		if (word[0] == '~' && (!word[1] || word[1] == '/'))
+			push_back(tokens, TILDE_EXPANSION, word);
+		else if (ft_strchr(word, '/'))
+			push_back(tokens, PATH, word);
+		else if (ft_strchr(word, '*'))
+			push_back(tokens, WILDCARD_EXPANSION, word);
+		else
+			push_back(tokens, WORD, word);
+	}
+	return (line + len);
+}
+
 t_list	*tokenize(char *line)
 {
 	t_list	*cmdline;
