@@ -95,8 +95,18 @@ char	*dquote_state(t_list *tokens, char *line)
 	return (line + len);
 }
 
-char	*pipeline_parse_mode(t_list *cmdline, char *line)
+char	*whitespaces(t_list *tokens, char *line)
 {
+	int	len;
+
+	len = 0;
+	while (line[len] && line[len] != '\n' && ft_isspace(line[len]))
+		len++;
+	if (len)
+		push_back(tokens, WHITESPACE, NULL);
+	return (line + len);
+}
+
 	(void)cmdline;
 	while (*line && *line != '\n')
 		line++;
