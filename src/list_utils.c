@@ -6,12 +6,11 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:09:45 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/03 18:35:59 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/08 17:34:26 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "libft.h"
 
 t_list	*new_list(void)
 {
