@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:09:45 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/08 17:34:26 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/09 00:08:53 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,7 @@ t_list	*new_list(void)
 {
 	t_list	*list;
 
-	list = (t_list *)malloc(sizeof(t_list));
-	if (!list)
-	{
-		perror("malloc");
-		exit(1);
-	}
+	list = (t_list *)gc_filter(malloc(sizeof(t_list)), GC_TMP);
 	list->len = 0;
 	list->top = NULL;
 	list->bottom = NULL;
@@ -32,12 +27,7 @@ void	push_front(t_list *list, t_token token, char *val)
 {
 	t_node	*new;
 
-	new = (t_node *)malloc(sizeof(t_node));
-	if (!new)
-	{
-		perror("malloc");
-		exit(1);
-	}
+	new = (t_node *)gc_filter(malloc(sizeof(t_node)), GC_TMP);
 	new->token = token;
 	new->val = val;
 	new->next = list->top;
@@ -54,12 +44,7 @@ void	push_back(t_list *list, t_token token, char *val)
 {
 	t_node	*new;
 
-	new = (t_node *)malloc(sizeof(t_node));
-	if (!new)
-	{
-		perror("malloc");
-		exit(1);
-	}
+	new = (t_node *)gc_filter(malloc(sizeof(t_node)), GC_TMP);
 	new->token = token;
 	new->val = val;
 	new->prev = list->bottom;
