@@ -107,9 +107,29 @@ char	*whitespaces(t_list *tokens, char *line)
 	return (line + len);
 }
 
-	(void)cmdline;
-	while (*line && *line != '\n')
-		line++;
+char	*lookahead_state(t_list *tokens, char *line)
+{
+	char	c;
+	int		len;
+	t_token	token1;
+	t_token	token2;
+
+	c = *line;
+	token1 = (c == '|') * PIPE + (c == '&') * AMPERSAND + (c == '>') * GREAT
+		+ (c == '<') * LESS + (c == ';') * SEMICL;
+	token2 = (c == '|') * OR_IF + (c == '&') * AND_IF + (c == '>') * DGREAT
+		+ (c == '<') * DLESS + (c == ';') * DSEMICL;
+	len = 1;
+	while (line[len] == c)
+		len++;
+	line += len;
+	while (len > 1)
+	{
+		push_back(tokens, token2, NULL);
+		len -= 2;
+	}
+	if (len)
+		push_back(tokens, token1, ft_charstr(c));
 	return (line);
 }
 
