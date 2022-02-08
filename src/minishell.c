@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 22:13:08 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/08 16:04:10 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/09 00:22:47 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ int	main(int ac, char **av, char **env)
 			printf("tok = %-40s val = %-20s len = %zu\n", token_names[top->token], top->val, top->val? ft_strlen(top->val): 0);
 			top = top->next;
 		}
-		list_clear(tokens);
+		// list_clear(tokens);
+		gc_clean(&g_global.gc, GC_TMP);
 		//* end debug
 	}
 	gc_clean(&g_global.gc, GC_ALL);
