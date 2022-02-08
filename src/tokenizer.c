@@ -155,7 +155,7 @@ char	*general_state(t_list *tokens, char *line)
 	char	*word;
 
 	len = 0;
-	while (!ft_strchr("\'\"$<>()&|", line[len]) && !ft_isspace(line[len]))
+	while (!ft_strchr("\'\"()$=<>&|;", line[len]) && !ft_isspace(line[len]))
 		len++;
 	if (len)
 	{
@@ -187,7 +187,7 @@ t_list	*tokenize(char *line)
 			line = dquote_state(tokens, line + 1);
 		else if (*line == '$')
 			line = var_expand_state(tokens, line + 1);
-		else if (*line == '|' || *line == '&' || *line == '>' || *line == '<')
+		else if (*line && ft_strchr("|&<>;", *line))
 			line = lookahead_state(tokens, line);
 		else if (*line == '=' || *line == '(' || *line == ')')
 			line = character_state(tokens, line);
