@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 16:42:41 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/08 17:45:07 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/08 18:06:11 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,11 @@ char	*lookahead_state(t_list *tokens, char *line)
 	int		len;
 	t_token	token1;
 	t_token	token2;
+	char	val2[3];
 
 	c = *line;
+	val2[0] = c;
+	val2[1] = c;
 	token1 = (c == '|') * PIPE + (c == '&') * AMPERSAND + (c == '>') * GREAT
 		+ (c == '<') * LESS + (c == ';') * SEMICL;
 	token2 = (c == '|') * OR_IF + (c == '&') * AND_IF + (c == '>') * DGREAT
@@ -124,7 +127,7 @@ char	*lookahead_state(t_list *tokens, char *line)
 	line += len;
 	while (len > 1)
 	{
-		push_back(tokens, token2, NULL);
+		push_back(tokens, token2, ft_strndup(val2, 3));
 		len -= 2;
 	}
 	if (len)
