@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 16:42:41 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/07 14:30:48 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/08 17:25:24 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,12 @@ grammer rules :
 	comment : HASH TEXT
 */
 
-// inside ''
-// inside ""
-// pipeline or inside ()
+/**
+ * TODO: - add allocated memory to tmp_dustbin
+ * TODO: - PARSER		check syntax errors
+ * TODO: - EXPANDER 	variables, tilde, wildcard
+ * *	 - for the wildcard expansion: if there are no matches, the pattern will be considered as a WORD
+ */
 
 char	*parse_expansion(t_list *cmdline, char *line)
 {
