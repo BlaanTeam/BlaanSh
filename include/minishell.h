@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/07 14:24:48 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/07 23:51:29 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,27 @@ grammer rules :
 typedef enum e_token
 {
 	WHITESPACE,
+	TK_NEWLINE,
 	WORD,
 	PATH,
 	PIPE,
-	AND,
-	OR,
-	PARENTHESESE,
-	ASSIGNMENT,
-	EXPANSION,
+	AND_IF,
+	OR_IF,
+	O_PARENTHESESE,
+	C_PARENTHESESE,
+	EQUAL,
+	AMPERSAND,
+	SEMICL,
+	DSEMICL,
+	VAR_EXPANSION,
+	TILDE_EXPANSION,
+	WILDCARD_EXPANSION,
 	SINGLE_QUOTE,
 	DOUBLE_QUOTE,
-	WRITE_MODE,
-	APPEND_MODE,
-	HERE_DOC,
-	READ_MODE
+	LESS,
+	DLESS,
+	GREAT,
+	DGREAT
 }	t_token;
 
 typedef struct s_node
