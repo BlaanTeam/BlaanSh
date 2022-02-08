@@ -133,6 +133,17 @@ char	*lookahead_state(t_list *tokens, char *line)
 	return (line);
 }
 
+char	*character_state(t_list *tokens, char *line)
+{
+	char	c;
+	t_token	token;
+
+	c = *line;
+	token = (c == '=') * EQUAL + (c == '(') * O_PARENTHESESE
+		+ (c == ')') * C_PARENTHESESE;
+	push_back(tokens, token, NULL);
+	return (line + 1);
+}
 t_list	*tokenize(char *line)
 {
 	t_list	*cmdline;
