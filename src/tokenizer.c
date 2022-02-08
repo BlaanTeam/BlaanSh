@@ -67,29 +67,29 @@ char	*squote_state(t_list *tokens, char *line)
 	return (line + len);
 }
 
-char	*dq_parse_mode(t_list *cmdline, char *line)
+char	*dquote_state(t_list *tokens, char *line)
 {
 	int		len;
 
-	push_back(cmdline, DOUBLE_QUOTE, ft_charstr('\"'));
+	push_back(tokens, DOUBLE_QUOTE, NULL);
 	len = 0;
 	while (line[len] && line[len] != '\n' && line[len] != '\"')
 	{
 		if (line[len] == '$')
 		{
 			if (len)
-				push_back(cmdline, WORD, ft_strndup(line, len + 1));
-			line = parse_expansion(cmdline, line + len + 1);
+				push_back(tokens, WORD, ft_strndup(line, len + 1));
+			line = var_expand_state(tokens, line + len + 1);
 			len = 0;
 		}
 		else
 			len++;
 	}
 	if (len)
-		push_back(cmdline, WORD, ft_strndup(line, len + 1));
+		push_back(tokens, WORD, ft_strndup(line, len + 1));
 	if (line[len] == '\"')
 	{
-		push_back(cmdline, DOUBLE_QUOTE, ft_charstr('\"'));
+		push_back(tokens, DOUBLE_QUOTE, NULL);
 		len++;
 	}
 	return (line + len);
