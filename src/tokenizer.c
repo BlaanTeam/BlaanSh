@@ -143,7 +143,7 @@ char	*character_state(t_list *tokens, char *line)
 	c = *line;
 	token = (c == '=') * EQUAL + (c == '(') * O_PARENTHESESE
 		+ (c == ')') * C_PARENTHESESE;
-	push_back(tokens, token, NULL);
+	push_back(tokens, token, ft_charstr(c));
 	return (line + 1);
 }
 
