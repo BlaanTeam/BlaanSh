@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 16:42:41 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/08 18:06:11 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/09 00:24:25 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ char	*var_expand_state(t_list *tokens, char *line)
 		
 	if (ft_isdigit(*line) || *line == '?' || *line == '$')
 	{
-		push_back(tokens, VAR_EXPANSION, ft_charstr(*line));
+		push_back(tokens, VAR_EXPANSION, gc_filter(ft_charstr(*line), GC_TMP));
 		return (line + 1);
 	}
 	len = 0;
 	while (line[len] && (ft_isalnum(line[len]) || line[len] == '_'))
 		len++;
 	if (len)
-		push_back(tokens, VAR_EXPANSION, ft_strndup(line, len + 1));
+		push_back(tokens, VAR_EXPANSION, gc_filter(ft_strndup(line, len + 1), GC_TMP));
 	else
-		push_back(tokens, WORD, ft_charstr('$'));
+		push_back(tokens, WORD, gc_filter(ft_charstr('$'), GC_TMP));
 	return (line + len);
 }
 
@@ -53,14 +53,14 @@ char	*squote_state(t_list *tokens, char *line)
 {
 	int	len;
 
-	push_back(tokens, SINGLE_QUOTE, NULL);
+	push_back(tokens, SINGLE_QUOTE, gc_filter(ft_charstr('\''), GC_TMP));
 	len = 0;
 	while (line[len] && line[len] != '\n' && line[len] != '\'')
 		len++;
-	push_back(tokens, WORD, ft_strndup(line, len + 1));
+	push_back(tokens, WORD, gc_filter(ft_strndup(line, len + 1), GC_TMP));
 	if (line[len] == '\'')
 	{
-		push_back(tokens, SINGLE_QUOTE, NULL);
+		push_back(tokens, SINGLE_QUOTE, gc_filter(ft_charstr('\''), GC_TMP));
 		len++;
 	}
 	return (line + len);
@@ -70,14 +70,14 @@ char	*dquote_state(t_list *tokens, char *line)
 {
 	int		len;
 
-	push_back(tokens, DOUBLE_QUOTE, NULL);
+	push_back(tokens, DOUBLE_QUOTE, gc_filter(ft_charstr('\"'), GC_TMP));
 	len = 0;
 	while (line[len] && line[len] != '\n' && line[len] != '\"')
 	{
 		if (line[len] == '$')
 		{
 			if (len)
-				push_back(tokens, WORD, ft_strndup(line, len + 1));
+				push_back(tokens, WORD, gc_filter(ft_strndup(line, len + 1), GC_TMP));
 			line = var_expand_state(tokens, line + len + 1);
 			len = 0;
 		}
@@ -85,10 +85,10 @@ char	*dquote_state(t_list *tokens, char *line)
 			len++;
 	}
 	if (len)
-		push_back(tokens, WORD, ft_strndup(line, len + 1));
+		push_back(tokens, WORD, gc_filter(ft_strndup(line, len + 1), GC_TMP));
 	if (line[len] == '\"')
 	{
-		push_back(tokens, DOUBLE_QUOTE, NULL);
+		push_back(tokens, DOUBLE_QUOTE, gc_filter(ft_charstr('\"'), GC_TMP));
 		len++;
 	}
 	return (line + len);
@@ -127,11 +127,11 @@ char	*lookahead_state(t_list *tokens, char *line)
 	line += len;
 	while (len > 1)
 	{
-		push_back(tokens, token2, ft_strndup(val2, 3));
+		push_back(tokens, token2, gc_filter(ft_strndup(val2, 3), GC_TMP));
 		len -= 2;
 	}
 	if (len)
-		push_back(tokens, token1, ft_charstr(c));
+		push_back(tokens, token1, gc_filter(ft_charstr(c), GC_TMP));
 	return (line);
 }
 
@@ -143,7 +143,7 @@ char	*character_state(t_list *tokens, char *line)
 	c = *line;
 	token = (c == '=') * EQUAL + (c == '(') * O_PARENTHESESE
 		+ (c == ')') * C_PARENTHESESE;
-	push_back(tokens, token, ft_charstr(c));
+	push_back(tokens, token, gc_filter(ft_charstr(c), GC_TMP));
 	return (line + 1);
 }
 
@@ -159,7 +159,7 @@ char	*general_state(t_list *tokens, char *line)
 		len++;
 	if (len)
 	{
-		word = ft_strndup(line, len + 1);
+		word = gc_filter(ft_strndup(line, len + 1), GC_TMP);
 		if (word[0] == '~' && (!word[1] || word[1] == '/'))
 			push_back(tokens, TILDE_EXPANSION, word);
 		else if (ft_strchr(word, '/'))
