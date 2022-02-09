@@ -131,4 +131,6 @@ void	list_clear(t_list *list);
 
 t_list	*tokenize(char *line);
 
+int		set_status(int status);
+
 #endif

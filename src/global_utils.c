@@ -30,8 +30,10 @@ void	*gc_filter(void *ptr, t_gc_flag append_flag)
 	return (ptr);
 }
 
-char	*ft_getcwd(void)
+int	set_status(int status)
 {
+	return (status * 256);
+}
 void cmd_error(char *cmd, char *msg, char *extra)
 {
 		
