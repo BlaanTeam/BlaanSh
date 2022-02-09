@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 22:13:08 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/09 00:22:47 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/09 02:52:04 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ const char *token_names[] = {
 };
 
 t_global	g_global = {.gc = 0, \
-						.status = 0};
+						.status = 0, \
+						.is_running = 0};
 
 int	main(int ac, char **av, char **env)
 {
@@ -74,7 +75,7 @@ int	main(int ac, char **av, char **env)
 		gc_clean(&g_global.gc, GC_TMP);
 		//* end debug
 	}
-	gc_clean(&g_global.gc, GC_ALL);
+	gc_clean(&g_global.gc, GC_DESTROY_SELF);
 	rl_clear_history();
 	return (EXIT_SUCCESS);
 }
