@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 20:19:43 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/03 20:38:48 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/07 21:19:18 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 static void	interrput_handler(int sig)
 {
 	(void)sig;
+	if (g_global.is_running)
+		return ;
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
