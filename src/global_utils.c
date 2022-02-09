@@ -34,6 +34,17 @@ int	set_status(int status)
 {
 	return (status * 256);
 }
+
+char	*ft_getcwd()
+{
+	char	*path;
+
+	path = gc_filter(malloc(PATH_MAX), GC_ALL);
+	if (!getcwd(path, PATH_MAX))
+		g_global.status = set_status(1);
+	return (path);
+}
+
 void cmd_error(char *cmd, char *msg, char *extra)
 {
 		
