@@ -135,5 +135,6 @@ t_list	*tokenize(char *line);
 // builtin commands
 void	cd(char **av, t_venv **venv);
 int		set_status(int status);
+int		check_option(char *cmd, char *arg);
 
 #endif

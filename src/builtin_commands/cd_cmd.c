@@ -6,25 +6,25 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 20:05:02 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/09 02:10:09 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/10 00:54:17 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_option(char *arg)
+int	check_option(char *cmd, char *arg)
 {
 	if (arg[0] == '-')
 	{
 		if (arg[1] == '\0')
 			return (1);
 		else
-			return (cmd_error("cd", arg, "invalid option"), -1);
+			return (cmd_error(cmd, arg, "invalid option"), -1);
 	}
 	return (0);
 }
 
-void	change_dir(char *next_path, t_venv **venv)
+static void	change_dir(char *next_path, t_venv **venv)
 {
 	char	*current_path;
 
@@ -54,7 +54,7 @@ void	cd(char **av, t_venv **venv)
 			return (cmd_error("cd", "HOME not set", NULL));
 		return (change_dir(var->value, venv));
 	}
-	opt = check_option(av[0]);
+	opt = check_option("cd", av[0]);
 	if (opt == 1)
 	{
 		var = venv_find(*venv, "OLDPWD");
