@@ -77,9 +77,11 @@ t_venv	*venv_init(char **env)
 				alloc_error();
 			gc_append(g_global.gc, value, GC_ALL);
 		}
+		else if (ft_memcmp(key, "OLDPWD", sizeof("OLDPWD")) == 0)
+			continue ;
 		else
 			value = getenv(key);
-		venv_insert(&venv_head, key, value, false);
+		venv_insert(&venv_head, key, value, true);
 	}
 	return (venv_head);
 }
