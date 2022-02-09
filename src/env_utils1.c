@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 23:46:32 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/06 19:16:57 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/09 02:32:35 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ bool overwrite)
 {
 	t_venv	*venv_node;
 
+	if (!key || !value)
+		return ;
 	venv_node = venv_find(*venv_head, key);
 	if (venv_node)
 	{
