@@ -12,7 +12,8 @@ FILES=minishell.c \
 	env_utils3.c \
 	global_utils.c \
 	list_utils.c \
-	tokenizer.c 
+	tokenizer.c \
+	builtin_commands/cd_cmd.c
 OBJS=$(FILES:%.c=%.o)
 OBJS:=$(addprefix $(SRC), $(OBJS))
 RL_DIR=$(addprefix $(shell brew --prefix readline), /)

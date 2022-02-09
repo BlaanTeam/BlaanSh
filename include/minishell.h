@@ -131,6 +131,8 @@ void	list_clear(t_list *list);
 
 t_list	*tokenize(char *line);
 
+// builtin commands
+void	cd(char **av, t_venv **venv);
 int		set_status(int status);
 
 #endif
