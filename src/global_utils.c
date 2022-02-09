@@ -32,10 +32,17 @@ void	*gc_filter(void *ptr, t_gc_flag append_flag)
 
 char	*ft_getcwd(void)
 {
-	static char	path[PATH_MAX];
-
-	getcwd(path, PATH_MAX);
-	return (path);
+void cmd_error(char *cmd, char *msg, char *extra)
+{
+		
+	int out_fd = dup(STDOUT_FILENO);
+	dup2(STDERR_FILENO, STDOUT_FILENO);
+	printf("bash: %s: %s", cmd, msg);
+	if (extra)
+		printf(": %s", extra);
+	printf("\n");
+	g_global.status = set_status(1);
+	dup2(out_fd, STDOUT_FILENO);
 }
 
 char	*ft_strndup(char *str, int n)

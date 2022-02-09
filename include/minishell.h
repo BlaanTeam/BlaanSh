@@ -117,6 +117,7 @@ void	display_env(char **env);
 // error utils
 void	exit_with_error(char *msg);
 void	alloc_error(void);
+void	cmd_error(char *cmd, char *msg, char *extra);
 
 /*
 **	doubly linked list utils
