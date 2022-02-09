@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/09 02:29:57 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/09 17:25:09 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	*gc_filter(void *ptr, t_gc_flag append_flag);
 void	*ft_malloc(size_t len);
 char	*ft_getcwd(void);
 char	*ft_strndup(char *str, int n);
-char	*ft_charstr(char c);
+char	*ft_chardup(char c);
 
 // termios utils
 void	term_init(void);
