@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:53:48 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/10 17:09:04 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/10 20:25:16 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,11 @@ bool	is_numeric(char *str)
 		if (!ft_isdigit(str[i]))
 			return (false);
 	return (true);
+}
+
+void	exit_with_cleanup(void)
+{
+	gc_clean(&g_global.gc, GC_DESTROY_SELF);
+	rl_clear_history();
+	exit(EXIT_SUCCESS);
 }

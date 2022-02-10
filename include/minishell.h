@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/10 17:04:48 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/10 20:16:30 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ char	*ft_strndup(char *str, int n);
 char	*ft_chardup(char c);
 bool	is_identifier(char *identifier);
 bool	is_numeric(char *str);
+void	exit_with_cleanup(void);
 
 // termios utils
 void	term_init(void);
