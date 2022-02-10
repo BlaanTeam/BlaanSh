@@ -45,19 +45,6 @@ char	*ft_getcwd()
 	return (path);
 }
 
-void cmd_error(char *cmd, char *msg, char *extra)
-{
-		
-	int out_fd = dup(STDOUT_FILENO);
-	dup2(STDERR_FILENO, STDOUT_FILENO);
-	printf("bash: %s: %s", cmd, msg);
-	if (extra)
-		printf(": %s", extra);
-	printf("\n");
-	g_global.status = set_status(1);
-	dup2(out_fd, STDOUT_FILENO);
-}
-
 char	*ft_strndup(char *str, int n)
 {
 	char	*ret;
