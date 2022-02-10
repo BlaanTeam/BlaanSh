@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/10 01:33:00 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/10 17:04:48 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ t_list	*tokenize(char *line);
 void	cd(char **av, t_venv **venv);
 void	pwd(char **av, t_venv **venv);
 void	echo(char **av);
+void	ft_exit(char **av);
 int		set_status(int status);
 int		check_option(char *cmd, char *arg);
 
