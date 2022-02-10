@@ -63,3 +63,27 @@ char	*ft_chardup(char c)
 	ret[1] = 0;
 	return (ret);
 }
+
+/**
+ * BASH - manual 
+ * A  word  consisting  only  of alphanumeric characters and under‐
+ * scores, and beginning with an alphabetic character or an  under‐
+ * score.  Also referred to as an identifier.
+ * 
+ **/
+bool	is_identifier(char *identifier)
+{
+	int	i;
+
+	if (!identifier)
+		return (false);
+	i = 0;
+	if (ft_isalpha(identifier[i]) || identifier[i] == '_')
+	{
+		while (identifier[++i])
+			if (!(ft_isalnum(identifier[i]) || identifier[i] == '_'))
+				return (false);
+		return (true);
+	}
+	return (false);
+}

@@ -101,6 +101,7 @@ void	*ft_malloc(size_t len);
 char	*ft_getcwd(void);
 char	*ft_strndup(char *str, int n);
 char	*ft_chardup(char c);
+bool	is_identifier(char *identifier);
 
 // termios utils
 void	term_init(void);
