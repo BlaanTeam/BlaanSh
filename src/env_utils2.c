@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 01:22:28 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/06 19:51:16 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/10 23:56:10 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,11 @@ void	display_venv(t_venv *venv)
 
 void	display_env(char **env)
 {
-	printf("-----------------The env variables-----------------\n");
-	while (*env)
-	{
-		printf("%s\n", *env);
-		env++;
-	}
+	int	i;
+
+	if (!env)
+		return ;
+	i = -1;
+	while (env[++i])
+		printf("%s\n", env[i]);
 }
