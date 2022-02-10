@@ -6,24 +6,25 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 20:20:51 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/10 16:54:08 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/10 20:13:42 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exit_with_error(char *msg)
+void	exit_with_code(int status, char *msg, bool silently)
 {
-	perror(msg);
-	gc_clean(&g_global.gc, GC_ALL);
+	if (!silently)
+		perror(msg);
+	gc_clean(&g_global.gc, GC_DESTROY_SELF);
 	rl_clear_history();
-	exit(EXIT_FAILURE);
+	exit(status);
 }
 
 void	alloc_error(void)
 {
 	errno = ENOMEM;
-	exit_with_error("malloc");
+	exit_with_code(EXIT_FAILURE, "malloc", false);
 }
 
 void	cmd_error(char *cmd, char *msg, char *extra)

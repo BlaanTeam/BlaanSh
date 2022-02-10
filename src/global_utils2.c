@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 17:07:07 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/10 17:09:14 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/10 20:13:56 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*ft_malloc(size_t len)
 void	*gc_filter(void *ptr, t_gc_flag append_flag)
 {
 	if (!ptr)
-		exit_with_error("malloc");
+		exit_with_code(EXIT_FAILURE, "malloc", false);
 	gc_append(g_global.gc, ptr, append_flag);
 	return (ptr);
 }

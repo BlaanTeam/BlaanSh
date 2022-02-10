@@ -118,7 +118,7 @@ void	display_venv(t_venv *venv);
 void	display_env(char **env);
 
 // error utils
-void	exit_with_error(char *msg);
+void	exit_with_code(int status, char *msg, bool silently);
 void	alloc_error(void);
 void	cmd_error(char *cmd, char *msg, char *extra);
 

@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 20:19:43 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/07 21:19:18 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/10 20:13:01 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ void	term_init(void)
 	if (signal(SIGINT, interrput_handler) == SIG_ERR || \
 		signal(SIGQUIT, SIG_IGN) == SIG_ERR || \
 		signal(SIGTSTP, SIG_IGN) == SIG_ERR)
-		exit_with_error("signal");
+		exit_with_code(EXIT_FAILURE, "signal", false);
 	if (tcgetattr(STDIN_FILENO, &new_term) != 0)
-		exit_with_error("tcgetattr");
+		exit_with_code(EXIT_FAILURE, "tcgetattr", false);
 	new_term.c_lflag &= ~(ECHOCTL);
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &new_term) != 0)
-		exit_with_error("tcsetattr");
+		exit_with_code(EXIT_FAILURE, "tcsetattr", false);
 }
 
 void	term_restore(void)
@@ -45,10 +45,10 @@ void	term_restore(void)
 	if (signal(SIGINT, SIG_DFL) == SIG_ERR || \
 		signal(SIGQUIT, SIG_DFL) == SIG_ERR || \
 		signal(SIGTSTP, SIG_DFL) == SIG_ERR)
-		exit_with_error("signal");
+		exit_with_code(EXIT_FAILURE, "signal", false);
 	if (tcgetattr(STDIN_FILENO, &old_term) != 0)
-		exit_with_error("tcgetattr");
+		exit_with_code(EXIT_FAILURE, "tcgetattr", false);
 	old_term.c_lflag |= ECHOCTL;
 	if (tcsetattr(STDIN_FILENO, TCSANOW, &old_term) != 0)
-		exit_with_error("tcsetattr");
+		exit_with_code(EXIT_FAILURE, "tcsetattr", false);
 }
