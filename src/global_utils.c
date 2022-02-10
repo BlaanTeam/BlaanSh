@@ -87,3 +87,14 @@ bool	is_identifier(char *identifier)
 	}
 	return (false);
 }
+
+bool	is_numeric(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+		if (!ft_isdigit(str[i]))
+			return (false);
+	return (true);
+}

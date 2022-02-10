@@ -102,6 +102,7 @@ char	*ft_getcwd(void);
 char	*ft_strndup(char *str, int n);
 char	*ft_chardup(char c);
 bool	is_identifier(char *identifier);
+bool	is_numeric(char *str);
 
 // termios utils
 void	term_init(void);
