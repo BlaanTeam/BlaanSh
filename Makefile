@@ -10,7 +10,8 @@ FILES=minishell.c \
 	env_utils1.c \
 	env_utils2.c \
 	env_utils3.c \
-	global_utils.c \
+	global_utils1.c \
+	global_utils2.c \
 	list_utils.c \
 	tokenizer.c \
 	builtin_commands/cd_cmd.c \
