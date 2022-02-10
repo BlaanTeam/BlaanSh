@@ -14,6 +14,7 @@ minishell
 
 # ignore testing files
 *.ignore
+*.ig
 *.test
 *.testing
 
