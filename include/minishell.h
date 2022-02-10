@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/09 15:54:39 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/10 01:01:50 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	*gc_filter(void *ptr, t_gc_flag append_flag);
 void	*ft_malloc(size_t len);
 char	*ft_getcwd(void);
 char	*ft_strndup(char *str, int n);
-char	*ft_charstr(char c);
+char	*ft_chardup(char c);
 
 // termios utils
 void	term_init(void);

@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:53:48 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/09 00:00:15 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/09 17:23:25 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*ft_strndup(char *str, int n)
 	return (ret);
 }
 
-char	*ft_charstr(char c)
+char	*ft_chardup(char c)
 {
 	char	*ret;
 
