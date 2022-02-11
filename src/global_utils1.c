@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:53:48 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/10 20:25:16 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/11 15:43:27 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ char	*ft_getcwd(void)
 {
 	char	*path;
 
+	errno = 0;
 	path = gc_filter(malloc(PATH_MAX), GC_ALL);
 	if (!getcwd(path, PATH_MAX))
 		g_global.status = set_status(1);
