@@ -104,6 +104,7 @@ char	*ft_chardup(char c);
 bool	is_identifier(char *identifier);
 bool	is_numeric(char *str);
 void	exit_with_cleanup(void);
+bool	is_option(char *str);
 
 // termios utils
 void	term_init(void);

@@ -6,21 +6,11 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 23:10:31 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/10 23:42:35 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/11 19:03:43 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static	bool	is_option(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (str[i] && str[i] == '-' && str[i + 1])
-		return (true);
-	return (false);
-}
 
 void	unset(char **av, t_venv **venv)
 {
