@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 23:46:32 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/09 02:32:35 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/11 15:52:15 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,27 +63,26 @@ t_venv	*venv_init(char **env)
 {
 	int		i;
 	char	*key;
-	char	*value;
+	char	*shlvl;
 	t_venv	*venv_head;
 
 	i = -1;
-	key = NULL;
 	venv_head = NULL;
+	shlvl = "0";
 	while (env[++i])
 	{
 		key = getkey(env[i]);
-		if (ft_memcmp(key, "SHLVL", ft_strlen("SHLVL") + 1) == 0)
-		{
-			value = ft_itoa(ft_atoi(getenv(key)) + 1);
-			if (!value)
-				alloc_error();
-			gc_append(g_global.gc, value, GC_ALL);
-		}
-		else if (ft_memcmp(key, "OLDPWD", sizeof("OLDPWD")) == 0)
+		if (!ft_memcmp(key, "SHLVL", sizeof("SHLVL")))
+			shlvl = getenv(key);
+		else if (!ft_memcmp(key, "OLDPWD", sizeof("OLDPWD")))
 			continue ;
-		else
-			value = getenv(key);
-		venv_insert(&venv_head, key, value, true);
+		venv_insert(&venv_head, key, getenv(key), true);
 	}
+	venv_insert(&venv_head, "SHLVL", \
+	gc_filter(ft_itoa(ft_atoi(shlvl) + 1), GC_ALL), true);
+	venv_insert(&venv_head, "PWD", ft_getcwd(), true);
+	if (errno == ENOENT)
+		printf("shell-init: error retrieving current directory: \
+getcwd: cannot access parent directories: %s\n", strerror(errno));
 	return (venv_head);
 }
