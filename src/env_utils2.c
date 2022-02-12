@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 01:22:28 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/10 23:56:10 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/12 20:09:37 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ static int	venv_count(t_venv *venv_head)
 	counter = 0;
 	while (venv_head)
 	{
+		if (!(venv_head->eflag & E_EMPTY))
+			counter++;
 		venv_head = venv_head->next;
-		counter++;
 	}
 	return (counter);
 }
@@ -32,24 +33,21 @@ char	**venv_export_array(t_venv	*venv_head)
 	char	*str;
 	char	**env;
 
-	i = -1;
+	i = 0;
 	len = venv_count(venv_head);
-	env = (char **)ft_malloc(sizeof(char *) * (len + 1));
-	gc_append(g_global.gc, env, GC_ALL);
-	while (venv_head && ++i < len)
-	{
-		str = ft_strjoin(venv_head->key, "=");
-		if (!str)
-			alloc_error();
-		gc_append(g_global.gc, str, GC_ALL);
-		str = ft_strjoin(str, venv_head->value);
-		if (!str)
-			alloc_error();
-		gc_append(g_global.gc, str, GC_ALL);
-		env[len - i - 1] = str;
+	env = gc_filter(malloc(sizeof(char *) * (len + 1)), GC_ALL);
+	while (venv_head && i < len)
+	{	
+		if (!(venv_head->eflag & E_EMPTY))
+		{
+			str = gc_filter(ft_strjoin(venv_head->key, "="), GC_ALL);
+			str = gc_filter(ft_strjoin(str, venv_head->value), GC_ALL);
+			env[len - i++ - 1] = str;
+		}
 		venv_head = venv_head->next;
 	}
-	return (env[len] = NULL, env);
+	env[len] = NULL;
+	return (env);
 }
 
 t_venv	*venv_find(t_venv *venv_head, char *key)
