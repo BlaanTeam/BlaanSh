@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 16:23:39 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/10 20:15:55 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/12 18:02:36 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	ft_exit(char **av)
 {
 	if (!av[0])
-		exit_with_cleanup();	
+		exit_with_cleanup();
 	if (!is_numeric(av[0]))
 		return (cmd_error("exit", av[0], "numeric argument required"), \
 		exit_with_code(255, NULL, true));
