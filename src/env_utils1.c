@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 23:46:32 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/12 18:06:35 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/12 23:31:56 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ static t_venv	*venv_new_node(char *key, char *value, short eflag)
 {
 	t_venv	*venv_node;
 
-	venv_node = (t_venv *)ft_malloc(sizeof(t_venv));
-	gc_append(g_global.gc, venv_node, GC_ALL);
+	venv_node = gc_filter(malloc(sizeof(t_venv)), GC_ALL);
 	venv_node->key = key;
 	venv_node->value = value;
 	venv_node->eflag = eflag;
