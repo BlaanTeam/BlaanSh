@@ -57,6 +57,8 @@ int	main(int ac, char **av, char **env)
 	while (true)
 	{
 		term_init();
+		if (WIFSIGNALED(g_global.status))
+			printf("\n");
 		cmdline = readline("minishell$ ");
 		term_restore();
 		if (!cmdline)
