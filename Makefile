@@ -19,7 +19,8 @@ FILES=minishell.c \
 	builtin_commands/echo_cmd.c \
 	builtin_commands/exit_cmd.c \
 	builtin_commands/unset_cmd.c \
-	builtin_commands/env_cmd.c
+	builtin_commands/env_cmd.c \
+	builtin_commands/export_cmd.c
 OBJS=$(FILES:%.c=%.o)
 OBJS:=$(addprefix $(SRC), $(OBJS))
 RL_DIR=$(addprefix $(shell brew --prefix readline), /)
