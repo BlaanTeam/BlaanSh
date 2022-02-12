@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 22:13:08 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/09 02:52:04 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/12 23:56:46 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ int	main(int ac, char **av, char **env)
 	t_list	*tokens;
 
 	(void)ac;
-	(void)av;
-	(void)env;
 	g_global.gc = gc_init();
 	if (!g_global.gc)
 		exit_with_code(EXIT_FAILURE, "malloc", false);
@@ -63,9 +61,28 @@ int	main(int ac, char **av, char **env)
 		if (WIFSIGNALED(g_global.status))
 			printf("\n");
 		cmdline = readline("minishell$ ");
-		term_restore();
 		if (!cmdline)
 			break ;
+		av = ft_split(cmdline, ' ');
+		if (av[0])
+		{
+			if (strcmp(av[0], "pwd") == 0)
+				pwd(av + 1, &venv);
+			else if (strcmp(av[0], "cd") == 0)
+				cd(av + 1, &venv);
+			else if (strcmp(av[0], "echo") == 0)
+				echo(av +1);
+			else if (strcmp(av[0], "exit") == 0)
+				ft_exit(av + 1);
+			else if (strcmp(av[0], "unset") == 0)
+				unset(av + 1, &venv);
+			else if (strcmp(av[0], "env") == 0)
+				ft_env(av + 1, &venv);
+			else if (strcmp(av[0], "$?") == 0)
+				printf("%d\n", WEXITSTATUS(g_global.status));
+			else if (strcmp(av[0], "export") == 0)
+				export(av + 1, &venv);
+		}
 		gc_append(g_global.gc, cmdline, GC_TMP);
 		add_history(cmdline);
 
