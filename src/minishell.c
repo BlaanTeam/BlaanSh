@@ -46,6 +46,7 @@ t_global	g_global = {.gc = 0, \
 int	main(int ac, char **av, char **env)
 {
 	char	*cmdline;
+	t_venv	*venv;
 	t_list	*tokens;
 
 	(void)ac;
@@ -54,6 +55,7 @@ int	main(int ac, char **av, char **env)
 	g_global.gc = gc_init();
 	if (!g_global.gc)
 	set_program_name(av[0]);
+	venv = venv_init(env);
 	while (true)
 	{
 		term_init();
