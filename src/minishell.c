@@ -54,6 +54,7 @@ int	main(int ac, char **av, char **env)
 	(void)env;
 	g_global.gc = gc_init();
 	if (!g_global.gc)
+		exit_with_code(EXIT_FAILURE, "malloc", false);
 	set_program_name(av[0]);
 	venv = venv_init(env);
 	while (true)
@@ -80,7 +81,5 @@ int	main(int ac, char **av, char **env)
 		gc_clean(&g_global.gc, GC_TMP);
 		//* end debug
 	}
-	gc_clean(&g_global.gc, GC_DESTROY_SELF);
-	rl_clear_history();
-	return (EXIT_SUCCESS);
+	exit_with_cleanup();
 }
