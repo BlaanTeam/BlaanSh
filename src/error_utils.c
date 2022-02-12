@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 20:20:51 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/10 20:13:42 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/12 23:51:51 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	cmd_error(char *cmd, char *msg, char *extra)
 
 	out_fd = dup(STDOUT_FILENO);
 	dup2(STDERR_FILENO, STDOUT_FILENO);
-	printf("bash: %s: %s", cmd, msg);
+	printf("%s: %s: %s", g_global.program_name, cmd, msg);
 	if (extra)
 		printf(": %s", extra);
 	printf("\n");

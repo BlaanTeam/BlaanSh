@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/12 20:47:50 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/12 23:52:51 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef struct s_venv
 
 typedef struct s_global {
 	t_gc	*gc;
+	char	*program_name;
 	int		status;
 	bool	is_running;
 }				t_global;
@@ -109,6 +110,7 @@ bool	is_identifier(char *identifier);
 bool	is_numeric(char *str);
 void	exit_with_cleanup(void);
 bool	is_option(char *str);
+void	set_program_name(char *path);
 
 // termios utils
 void	term_init(void);

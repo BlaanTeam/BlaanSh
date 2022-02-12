@@ -39,6 +39,7 @@ const char *token_names[] = {
 };
 
 t_global	g_global = {.gc = 0, \
+						.program_name = NULL, \
 						.status = 0, \
 						.is_running = 0};
 
@@ -52,7 +53,7 @@ int	main(int ac, char **av, char **env)
 	(void)env;
 	g_global.gc = gc_init();
 	if (!g_global.gc)
-		exit_with_error("malloc");
+	set_program_name(av[0]);
 	while (true)
 	{
 		term_init();
