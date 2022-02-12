@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 23:46:32 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/12 17:58:06 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/12 18:06:35 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ static t_venv	*venv_new_node(char *key, char *value, short eflag)
 	gc_append(g_global.gc, venv_node, GC_ALL);
 	venv_node->key = key;
 	venv_node->value = value;
+	venv_node->eflag = eflag;
 	venv_node->next = NULL;
 	return (venv_node);
 }
 
-void	venv_insert(t_venv **venv_head, char *key, char *value, \
-bool overwrite)
+void	venv_insert(t_venv **venv_head, char *key, char *value, short eflag)
 {
 	t_venv	*venv_node;
 
@@ -59,11 +59,14 @@ bool overwrite)
 	venv_node = venv_find(*venv_head, key);
 	if (venv_node)
 	{
-		if (overwrite)
-			venv_node->value = value;
+		if (eflag & E_GLOBAL)
+			venv_node->eflag = E_GLOBAL;
+		if (eflag & E_LOCAL)
+			venv_node->eflag = E_LOCAL;
+		venv_node->value = value;
 		return ;
 	}
-	venv_node = venv_new_node(key, value);
+	venv_node = venv_new_node(key, value, eflag);
 	venv_node->next = *venv_head;
 	*venv_head = venv_node;
 }
@@ -85,11 +88,11 @@ t_venv	*venv_init(char **env)
 			shlvl = getenv(key);
 		else if (!ft_memcmp(key, "OLDPWD", sizeof("OLDPWD")))
 			continue ;
-		venv_insert(&venv_head, key, getenv(key), true);
+		venv_insert(&venv_head, key, getenv(key), E_GLOBAL);
 	}
 	venv_insert(&venv_head, "SHLVL", \
-	gc_filter(ft_itoa(ft_atoi(shlvl) + 1), GC_ALL), true);
-	venv_insert(&venv_head, "PWD", ft_getcwd(), true);
+	gc_filter(ft_itoa(ft_atoi(shlvl) + 1), GC_ALL), E_GLOBAL);
+	venv_insert(&venv_head, "PWD", ft_getcwd(), E_GLOBAL);
 	if (errno == ENOENT)
 		printf("shell-init: error retrieving current directory: \
 getcwd: cannot access parent directories: %s\n", strerror(errno));

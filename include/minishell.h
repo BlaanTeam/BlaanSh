@@ -25,6 +25,8 @@
 # include "gc.h"
 # include "libft.h"
 # define PATH_MAX 1024
+# define E_GLOBAL 0x1
+# define E_LOCAL 0x2
 
 /*
 grammer rules :
@@ -83,6 +85,7 @@ typedef struct s_venv
 {
 	char			*key;
 	char			*value;
+	short			eflag;
 	struct s_venv	*next;
 }	t_venv;
 
@@ -113,7 +116,7 @@ void	term_restore(void);
 // env utils
 t_venv	*venv_init(char **env);
 char	**venv_export_array(t_venv	*venv_head);
-void	venv_insert(t_venv **venv_head, char *key, char *value, bool overwrite);
+void	venv_insert(t_venv **venv_head, char *key, char *value, short eflag);
 t_venv	*venv_find(t_venv *venv_head, char *key);
 bool	venv_remove(t_venv **venv_head, char *key);
 void	display_venv(t_venv *venv);
