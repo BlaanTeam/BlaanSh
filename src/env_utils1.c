@@ -6,29 +6,38 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 23:46:32 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/11 15:52:15 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/12 17:58:06 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*getkey(char *str)
+char	*getkey(char *var)
 {
-	int		i;
-	char	*key;
+	int	i;
 
 	i = 0;
-	key = ft_strdup(str);
-	if (!key)
-		alloc_error();
-	gc_append(g_global.gc, key, GC_ALL);
-	while (str[i] && str[i] != '=')
+	while (var[i] && (var[i] != '+' || var[i + 1] != '=') && var[i] != '=')
 		i++;
-	key[i] = 0x0;
-	return (key);
+	return (gc_filter(ft_strndup(var, i + 1), GC_ALL));
 }
 
-static t_venv	*venv_new_node(char *key, char *value)
+char	*getvalue(char *var)
+{
+	int	i;
+
+	i = 0;
+	while (var[i] && (var[i] != '+' || var[i + 1] != '=') && var[i] != '=')
+		i++;
+	if (var[i] == '+' && var[i + 1] == '=')
+		i++;
+	else if (var[i] == '+' && var[i + 1] != '=')
+		return (NULL);
+	i++;
+	return (gc_filter(ft_strdup(var + i), GC_ALL));
+}
+
+static t_venv	*venv_new_node(char *key, char *value, short eflag)
 {
 	t_venv	*venv_node;
 

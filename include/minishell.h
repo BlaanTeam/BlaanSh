@@ -118,6 +118,8 @@ t_venv	*venv_find(t_venv *venv_head, char *key);
 bool	venv_remove(t_venv **venv_head, char *key);
 void	display_venv(t_venv *venv);
 void	display_env(char **env);
+char	*getkey(char *var);
+char	*getvalue(char *var);
 
 // error utils
 void	exit_with_code(int status, char *msg, bool silently);
