@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 16:42:41 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/09 17:24:03 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/15 16:06:35 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ grammer rules :
 */
 
 /**
- * TODO: - add allocated memory to tmp_dustbin
- * TODO: - PARSER		check syntax errors
- * TODO: - EXPANDER 	variables, tilde, wildcard
- * *	 - for the wildcard expansion: if there are no matches, the pattern will be considered as a WORD
+ * TODO: add ASSIGNMENT token, either in parsing or in the tokenizer
+ * 
+ *
+ *  for the wildcard expansion: if there are no matches, the pattern will be considered as a WORD
  */
 
 char	*var_expand_state(t_list *tokens, char *line)
@@ -141,8 +141,7 @@ char	*character_state(t_list *tokens, char *line)
 	t_token	token;
 
 	c = *line;
-	token = (c == '=') * EQUAL + (c == '(') * O_PARENTHESESE
-		+ (c == ')') * C_PARENTHESESE;
+	token = (c == '(') * O_PARENTHESESE + (c == ')') * C_PARENTHESESE;
 	push_back(tokens, token, gc_filter(ft_chardup(c), GC_TMP));
 	return (line + 1);
 }
@@ -155,7 +154,7 @@ char	*general_state(t_list *tokens, char *line)
 	char	*word;
 
 	len = 0;
-	while (!ft_strchr("\'\"()$=<>&|;", line[len]) && !ft_isspace(line[len]))
+	while (!ft_strchr("\'\"()$<>&|;", line[len]) && !ft_isspace(line[len]))
 		len++;
 	if (len)
 	{
@@ -177,6 +176,7 @@ t_list	*tokenize(char *line)
 	t_list	*tokens;
 
 	tokens = new_list();
+	push_back(tokens, CMDBEGIN, NULL);
 	while (*line && *line != '#' && *line != '\n')
 	{
 		if (ft_isspace(*line))
@@ -189,11 +189,11 @@ t_list	*tokenize(char *line)
 			line = var_expand_state(tokens, line + 1);
 		else if (*line && ft_strchr("|&<>;", *line))
 			line = lookahead_state(tokens, line);
-		else if (*line == '=' || *line == '(' || *line == ')')
+		else if (*line == '(' || *line == ')')
 			line = character_state(tokens, line);
 		else
 			line = general_state(tokens, line);
 	}
-	push_back(tokens, TK_NEWLINE, NULL);
+	push_back(tokens, ENDOFCMD, gc_filter(ft_strdup("newline"), GC_TMP));
 	return (tokens);
 }
