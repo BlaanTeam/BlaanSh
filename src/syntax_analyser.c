@@ -178,3 +178,22 @@ bool	check_parentheses(t_node *tokp)
 	}
 	return (true);
 }
+
+bool	check_redirections(t_node *tokp)
+{
+	t_node	*right;
+	t_token	tok;
+
+	tok = tokp->token;
+	// if (tok != LESS && tok != DLESS && tok != GREAT && tok != DGREAT)
+	if (!(tok & (LESS | DLESS | GREAT | DGREAT)))
+		return (true);
+	right = get_right(tokp);
+	if (!(right->token & STRING))
+	{
+		fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", right->val);
+		return (false);
+	}
+	return (true);
+}
+
