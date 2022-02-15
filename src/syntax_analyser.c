@@ -65,3 +65,24 @@ grammer rules :
 		- every open parentheses has to have a matching closing parentheses
 		- every single/double quotes have to be matched
 */
+
+t_node	*get_right(t_node *tokp)
+{
+	t_node	*right;
+
+	right = tokp->next;
+	if (right->token == WHITESPACE)
+		right = right->next;
+	return (right);
+}
+
+t_node	*get_left(t_node *tokp)
+{
+	t_node	*left;
+
+	left = tokp->prev;
+	if (left->token == WHITESPACE)
+		left = left->prev;
+	return (left);
+}
+
