@@ -197,3 +197,32 @@ bool	check_redirections(t_node *tokp)
 	return (true);
 }
 
+bool	check_matching_quotes_parentheses(t_list *tokens)
+{
+	t_list	*stack;
+	t_node	*top;
+	int		dquotes;
+	int		squotes;
+
+	dquotes = 0;
+	squotes = 0;
+	top = tokens->top;
+	stack = new_list();
+	while (top->token != ENDOFCMD)
+	{
+		if (top->token == O_PARENTHESESE)
+			push_front(stack, O_PARENTHESESE, NULL);
+		else if (top->token == C_PARENTHESESE && !del_front(stack))
+			return (fprintf(stderr, "minishell: syntax error near unexpected token `)'\n"), false);
+		dquotes += (top->token == DOUBLE_QUOTE);
+		squotes += (top->token == SINGLE_QUOTE);
+		top = top->next;
+	}
+	if (stack->len)
+		fprintf(stderr, "minishell: unexpected EOF while looking for matching `)'\n");
+	else if (dquotes & 1)
+		fprintf(stderr, "minishell: unclosed double quotes\n");
+	else if (squotes & 1)
+		fprintf(stderr, "minishell: unclosed single quotes\n");
+	return (!(stack->len) && !(dquotes & 1) && !(squotes & 1));
+}
