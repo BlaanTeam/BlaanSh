@@ -126,3 +126,55 @@ bool	check_statements(t_node *tokp)
 	}
 	return (true);
 }
+
+// bool	check_assignment(t_node *tokp)
+// {
+// 	(void)tokp;
+// 	// TODO: will be done in expansion phase
+// 	// if not in the right spot it will not cause an error, instead it will be changed to WORD
+// 	return (true);
+// }
+
+bool	check_parentheses(t_node *tokp)
+{
+	t_node	*left;
+	t_node	*right;
+	t_token	tok;
+
+	tok = tokp->token;
+	if (tok != O_PARENTHESESE && tok != C_PARENTHESESE)
+		return (true);
+	left = get_left(tokp);
+	right = get_right(tokp);
+	if (tok == O_PARENTHESESE)
+	{
+		// if (left->token != CMDBEGIN && left->token != AND_IF && left->token != OR_IF && left->token != PIPE && left->token != O_PARENTHESESE)
+		if (!(left->token & (CMDBEGIN | AND_IF | OR_IF | PIPE | O_PARENTHESESE)))
+		{
+			fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", tokp->val);
+			return (false);
+		}
+		// else if (right->token != WORD && right->token != PATH && right->token != ASSIGNMENT && right->token != O_PARENTHESESE)
+		else if (!(right->token & (STRING | O_PARENTHESESE)))
+		{
+			fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", right->val);
+			return (false);
+		}
+	}
+	else if (tok == C_PARENTHESESE)
+	{
+		// if (left->token != WORD && left->token != PATH && left->token != ASSIGNMENT && left->token != C_PARENTHESESE)
+		if (!(left->token & (STRING | C_PARENTHESESE)))
+		{
+			fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", tokp->val);
+			return (false);
+		}
+		// else if (right->token != ENDOFCMD && right->token != AND_IF && right->token != OR_IF && right->token != PIPE && right->token != C_PARENTHESESE)
+		else if (!(right->token & (ENDOFCMD | AND_IF | OR_IF | PIPE | C_PARENTHESESE)))
+		{
+			fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", right->val);
+			return (false);
+		}
+	}
+	return (true);
+}
