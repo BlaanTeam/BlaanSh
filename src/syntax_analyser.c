@@ -86,3 +86,17 @@ t_node	*get_left(t_node *tokp)
 	return (left);
 }
 
+bool	check_unexpected(t_node *tokp)
+{
+	t_token	tok;
+
+	tok = tokp->token;
+	// if (tok == AMPERSAND || tok == SEMICL || tok == DSEMICL)
+	if (tok & (AMPERSAND | SEMICL | DSEMICL))
+	{
+		fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", tokp->val);
+		return (false);
+	}
+	return (true);
+}
+
