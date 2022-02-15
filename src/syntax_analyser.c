@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 16:24:15 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/15 16:12:25 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/15 16:20:18 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,4 +225,21 @@ bool	check_matching_quotes_parentheses(t_list *tokens)
 	else if (squotes & 1)
 		fprintf(stderr, "minishell: unclosed single quotes\n");
 	return (!(stack->len) && !(dquotes & 1) && !(squotes & 1));
+}
+
+bool	validate_syntax(t_list *tokens)
+{
+	t_node	*tokp;
+	bool	check;
+
+	tokp = tokens->top->next;
+	while (tokp->token != ENDOFCMD)
+	{
+		check = check_unexpected(tokp) && check_statements(tokp)
+			&& check_parentheses(tokp) && check_redirections(tokp);
+		if (!check)
+			return (false);
+		tokp = tokp->next;
+	}
+	return (check_matching_quotes_parentheses(tokens));
 }
