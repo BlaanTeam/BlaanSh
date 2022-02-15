@@ -100,3 +100,29 @@ bool	check_unexpected(t_node *tokp)
 	return (true);
 }
 
+bool	check_statements(t_node *tokp)
+{
+	t_node	*left;
+	t_node	*right;
+	t_token	tok;
+
+	tok = tokp->token;
+	// if (tok != PIPE && tok != OR_IF && tok != AND_IF)
+	if (!(tok & (PIPE | OR_IF | AND_IF)))
+		return (true);
+	left = get_left(tokp);
+	right = get_right(tokp);
+	// if (left->token != WORD && left->token != PATH && left->token != ASSIGNMENT && left->token != C_PARENTHESESE)
+	if (!(left->token & (STRING | C_PARENTHESESE)))
+	{
+		fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", tokp->val);
+		return (false);
+	}
+	// else if (right->token != WORD && right->token != PATH && right->token != ASSIGNMENT && right->token != O_PARENTHESESE)
+	else if (!(right->token & (STRING | O_PARENTHESESE)))
+	{
+		fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", right->val);
+		return (false);
+	}
+	return (true);
+}
