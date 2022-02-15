@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:09:45 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/09 00:08:53 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/15 15:49:51 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,35 +59,23 @@ void	push_back(t_list *list, t_token token, char *val)
 
 int	del_front(t_list *list)
 {
-	t_node	*to_free;
-
 	if (list->len == 0)
 		return (0);
-	to_free = list->top;
 	list->top = list->top->next;
 	if (list->top)
 		list->top->prev = NULL;
 	(list->len)--;
-	if (to_free->val)
-		free(to_free->val);
-	free(to_free);
 	return (1);
 }
 
 int	del_back(t_list *list)
 {
-	t_node	*to_free;
-
 	if (list->len == 0)
 		return (0);
-	to_free = list->bottom;
 	list->bottom = list->bottom->prev;
 	if (list->bottom)
 		list->bottom->next = NULL;
 	(list->len)--;
-	if (to_free->val)
-		free(to_free->val);
-	free(to_free);
 	return (1);
 }
 
@@ -95,5 +83,4 @@ void	list_clear(t_list *list)
 {
 	while (list->len)
 		del_front(list);
-	free(list);
 }
