@@ -34,31 +34,37 @@ t_node	*new_node(t_token token, char *val)
 	new->prev = NULL;
 	return (new);
 }
+
+t_node	*push_front(t_list *list, t_token token, char *val)
+{
+	t_node	*new;
+
+	new = new_node(token, val);
 	new->next = list->top;
-	new->prev = NULL;
 	if (list->top)
 		list->top->prev = new;
 	else
 		list->bottom = new;
 	list->top = new;
 	(list->len)++;
+	return (new);
 }
 
-void	push_back(t_list *list, t_token token, char *val)
+t_node	*push_back(t_list *list, t_token token, char *val)
 {
 	t_node	*new;
 
-	new = (t_node *)gc_filter(malloc(sizeof(t_node)), GC_TMP);
-	new->token = token;
-	new->val = val;
+	new = new_node(token, val);
 	new->prev = list->bottom;
-	new->next = NULL;
 	if (list->bottom)
 		list->bottom->next = new;
 	else
 		list->top = new;
 	list->bottom = new;
 	(list->len)++;
+	return (new);
+}
+
 }
 
 int	del_front(t_list *list)
