@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:09:45 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/15 15:49:51 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/18 16:00:16 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,17 @@ t_list	*new_list(void)
 	return (list);
 }
 
-void	push_front(t_list *list, t_token token, char *val)
+t_node	*new_node(t_token token, char *val)
 {
 	t_node	*new;
 
 	new = (t_node *)gc_filter(malloc(sizeof(t_node)), GC_TMP);
 	new->token = token;
 	new->val = val;
+	new->next = NULL;
+	new->prev = NULL;
+	return (new);
+}
 	new->next = list->top;
 	new->prev = NULL;
 	if (list->top)
