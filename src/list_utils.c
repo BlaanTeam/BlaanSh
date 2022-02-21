@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:09:45 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/18 16:00:16 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/19 15:10:49 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,26 @@ t_node	*push_back(t_list *list, t_token token, char *val)
 	return (new);
 }
 
+t_node	*insert_node(t_list *list, t_node *new, t_node *prev)
+{
+	if (!list)
+		return (NULL);
+	(list->len)++;
+	new->prev = prev;
+	new->next =	prev->next;
+	if (!prev || !prev->next)
+	{
+		if (prev == NULL)
+			list->top = new;
+		if (prev->next == NULL)
+			list->bottom = new;
+	}
+	else
+	{
+		prev->next->prev = new;
+		prev->next = new;
+	}
+	return (new);
 }
 
 int	del_front(t_list *list)
