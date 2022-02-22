@@ -22,6 +22,7 @@
 # include <sys/types.h>
 # include <termios.h>
 # include <signal.h>
+# include <dirent.h>
 # include "gc.h"
 # include "libft.h"
 # define PATH_MAX 1024
@@ -67,7 +68,8 @@ typedef enum e_token
 	DLESS = 1 << 21,
 	GREAT = 1 << 22,
 	DGREAT = 1 << 23,
-	STRING = (WORD | PATH | TILDE_EXPANSION | ASSIGNMENT | WILDCARD_EXPANSION | SINGLE_QUOTE | DOUBLE_QUOTE)
+	STRING = (WORD | PATH | TILDE_EXPANSION | WILDCARD_EXPANSION | VAR_EXPANSION | SINGLE_QUOTE | DOUBLE_QUOTE),
+	REDIRECT = (LESS | DLESS | GREAT | DGREAT)
 }	t_token;
 
 typedef struct s_node
@@ -151,6 +153,7 @@ void	list_clear(t_list *list);
 
 t_list	*tokenize(char *line);
 bool	validate_syntax(t_list *tokens);
+t_list	*expand(t_list *tokens);
 
 // builtin commands
 void	cd(char **av, t_venv **venv);
