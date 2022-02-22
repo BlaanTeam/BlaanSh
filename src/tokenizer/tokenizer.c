@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 16:42:41 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/15 16:06:35 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/21 20:56:26 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ char	*general_state(t_list *tokens, char *line)
 			push_back(tokens, TILDE_EXPANSION, word);
 		else if (ft_strchr(word, '/'))
 			push_back(tokens, PATH, word);
-		else if (ft_strchr(word, '*'))
+		else if (ft_strchr(word, '*') || ft_strchr(word, '?'))
 			push_back(tokens, WILDCARD_EXPANSION, word);
 		else
 			push_back(tokens, WORD, word);
