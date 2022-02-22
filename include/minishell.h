@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/14 20:56:19 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/21 20:45:40 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,10 +139,14 @@ void	cmd_error(char *cmd, char *msg, char *extra);
 **	parsing utils
 */
 t_list	*new_list(void);
-void	push_front(t_list *list, t_token token, char *val);
-void	push_back(t_list *list, t_token token, char *val);
-int		del_front(t_list *list);
-int		del_back(t_list *list);
+t_node	*new_node(t_token token, char *val);
+t_node	*push_front(t_list *list, t_token token, char *val);
+t_node	*push_back(t_list *list, t_token token, char *val);
+t_node	*insert_node(t_list *list, t_node *new, t_node *prev);
+t_node	*concat_nodes(t_list *list, t_node *start, t_node *end);
+t_node	*del_front(t_list *list);
+t_node	*del_back(t_list *list);
+t_node	*del_node(t_list *list, t_node *node);
 void	list_clear(t_list *list);
 
 t_list	*tokenize(char *line);
