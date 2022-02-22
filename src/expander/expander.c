@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 13:35:44 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/22 16:21:36 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/22 17:33:45 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,16 @@
 t_node	*expand_var(t_list *tokens, t_node *node)
 {
 	char	*value;
-
+	
 	value = getenv(node->val);
+	if (ft_strncmp(node->val, "?", 2) == 0)
+		value = gc_filter(ft_itoa(WEXITSTATUS(g_global.status)), GC_TMP); // TODO : handle status code 
 	if (!value)
-		node = del_node(tokens, node);
+	{
+		del_node(tokens, node);
+		if (node->prev->token == WHITESPACE && node->next->token == WHITESPACE)
+			node = del_node(tokens, node->next);
+	}
 	else
 	{
 		node->val = value;
