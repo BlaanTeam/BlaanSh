@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 22:13:08 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/12 23:56:46 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/22 16:36:03 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 //* names of tokens (for debuging)
 const char *token_names[] = {
+	"CMDBEGIN",
+	"ENDOFCMD",
 	"WHITESPACE",
-	"TK_NEWLINE",
 	"WORD",
 	"PATH",
 	"PIPE",
@@ -24,6 +25,7 @@ const char *token_names[] = {
 	"O_PARENTHESESE",
 	"C_PARENTHESESE",
 	"EQUAL",
+	"ASSIGNMENT",
 	"AMPERSAND",
 	"SEMICL",
 	"DSEMICL",
@@ -42,6 +44,17 @@ t_global	g_global = {.gc = 0, \
 						.program_name = NULL, \
 						.status = 0, \
 						.is_running = 0};
+
+#include <string.h>
+#include <math.h>
+void	disp(t_node *top)
+{
+	while (top)
+	{
+		printf("tok = %-40s val = %s\n", token_names[(int)log2(top->token)], top->val);
+		top = top->next;
+	}
+}
 
 int	main(int ac, char **av, char **env)
 {
@@ -85,18 +98,13 @@ int	main(int ac, char **av, char **env)
 		}
 		gc_append(g_global.gc, cmdline, GC_TMP);
 		add_history(cmdline);
-
-		//* debug: show tokens
 		tokens = tokenize(cmdline);
-		t_node	*top = tokens->top;
-		while (top)
+		if (validate_syntax(tokens))
 		{
-			printf("tok = %-40s val = %-20s len = %zu\n", token_names[top->token], top->val, top->val? ft_strlen(top->val): 0);
-			top = top->next;
+			expand(tokens);
+			disp(tokens->top);
 		}
-		// list_clear(tokens);
 		gc_clean(&g_global.gc, GC_TMP);
-		//* end debug
 	}
 	exit_with_cleanup();
 }
