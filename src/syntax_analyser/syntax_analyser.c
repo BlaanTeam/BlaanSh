@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 16:24:15 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/15 16:20:18 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/21 23:04:14 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,33 +107,22 @@ bool	check_statements(t_node *tokp)
 	t_token	tok;
 
 	tok = tokp->token;
-	// if (tok != PIPE && tok != OR_IF && tok != AND_IF)
 	if (!(tok & (PIPE | OR_IF | AND_IF)))
 		return (true);
 	left = get_left(tokp);
 	right = get_right(tokp);
-	// if (left->token != WORD && left->token != PATH && left->token != ASSIGNMENT && left->token != C_PARENTHESESE)
 	if (!(left->token & (STRING | C_PARENTHESESE)))
 	{
 		fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", tokp->val);
 		return (false);
 	}
-	// else if (right->token != WORD && right->token != PATH && right->token != ASSIGNMENT && right->token != O_PARENTHESESE)
-	else if (!(right->token & (STRING | O_PARENTHESESE)))
+	else if (!(right->token & (STRING | O_PARENTHESESE | REDIRECT)))
 	{
 		fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", right->val);
 		return (false);
 	}
 	return (true);
 }
-
-// bool	check_assignment(t_node *tokp)
-// {
-// 	(void)tokp;
-// 	// TODO: will be done in expansion phase
-// 	// if not in the right spot it will not cause an error, instead it will be changed to WORD
-// 	return (true);
-// }
 
 bool	check_parentheses(t_node *tokp)
 {
@@ -148,14 +137,12 @@ bool	check_parentheses(t_node *tokp)
 	right = get_right(tokp);
 	if (tok == O_PARENTHESESE)
 	{
-		// if (left->token != CMDBEGIN && left->token != AND_IF && left->token != OR_IF && left->token != PIPE && left->token != O_PARENTHESESE)
 		if (!(left->token & (CMDBEGIN | AND_IF | OR_IF | PIPE | O_PARENTHESESE)))
 		{
 			fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", tokp->val);
 			return (false);
 		}
-		// else if (right->token != WORD && right->token != PATH && right->token != ASSIGNMENT && right->token != O_PARENTHESESE)
-		else if (!(right->token & (STRING | O_PARENTHESESE)))
+		else if (!(right->token & (STRING | O_PARENTHESESE | REDIRECT)))
 		{
 			fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", right->val);
 			return (false);
@@ -163,14 +150,12 @@ bool	check_parentheses(t_node *tokp)
 	}
 	else if (tok == C_PARENTHESESE)
 	{
-		// if (left->token != WORD && left->token != PATH && left->token != ASSIGNMENT && left->token != C_PARENTHESESE)
 		if (!(left->token & (STRING | C_PARENTHESESE)))
 		{
 			fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", tokp->val);
 			return (false);
 		}
-		// else if (right->token != ENDOFCMD && right->token != AND_IF && right->token != OR_IF && right->token != PIPE && right->token != C_PARENTHESESE)
-		else if (!(right->token & (ENDOFCMD | AND_IF | OR_IF | PIPE | C_PARENTHESESE)))
+		else if (!(right->token & (ENDOFCMD | AND_IF | OR_IF | PIPE | C_PARENTHESESE | REDIRECT)))
 		{
 			fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", right->val);
 			return (false);
@@ -185,8 +170,7 @@ bool	check_redirections(t_node *tokp)
 	t_token	tok;
 
 	tok = tokp->token;
-	// if (tok != LESS && tok != DLESS && tok != GREAT && tok != DGREAT)
-	if (!(tok & (LESS | DLESS | GREAT | DGREAT)))
+	if (!(tok & REDIRECT))
 		return (true);
 	right = get_right(tokp);
 	if (!(right->token & STRING))
@@ -194,37 +178,42 @@ bool	check_redirections(t_node *tokp)
 		fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", right->val);
 		return (false);
 	}
+	else if (right->token == VAR_EXPANSION && !getenv(right->val))
+	{
+		fprintf(stderr, "minishell: $%s: ambiguous redirect\n", right->val);
+		return (false);
+	}
 	return (true);
 }
 
 bool	check_matching_quotes_parentheses(t_list *tokens)
 {
-	t_list	*stack;
 	t_node	*top;
 	int		dquotes;
 	int		squotes;
+	int		par_matching;
 
 	dquotes = 0;
 	squotes = 0;
+	par_matching = 0;
 	top = tokens->top;
-	stack = new_list();
 	while (top->token != ENDOFCMD)
 	{
-		if (top->token == O_PARENTHESESE)
-			push_front(stack, O_PARENTHESESE, NULL);
-		else if (top->token == C_PARENTHESESE && !del_front(stack))
-			return (fprintf(stderr, "minishell: syntax error near unexpected token `)'\n"), false);
+		par_matching += (top->token == O_PARENTHESESE);
+		par_matching -= (top->token == C_PARENTHESESE);
 		dquotes += (top->token == DOUBLE_QUOTE);
 		squotes += (top->token == SINGLE_QUOTE);
+		if (par_matching < 0)
+			return (fprintf(stderr, "minishell: syntax error near unexpected token `)'\n"), false);
 		top = top->next;
 	}
-	if (stack->len)
+	if (par_matching)
 		fprintf(stderr, "minishell: unexpected EOF while looking for matching `)'\n");
 	else if (dquotes & 1)
 		fprintf(stderr, "minishell: unclosed double quotes\n");
 	else if (squotes & 1)
 		fprintf(stderr, "minishell: unclosed single quotes\n");
-	return (!(stack->len) && !(dquotes & 1) && !(squotes & 1));
+	return (!(par_matching) && !(dquotes & 1) && !(squotes & 1));
 }
 
 bool	validate_syntax(t_list *tokens)
