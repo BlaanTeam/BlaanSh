@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/21 20:45:40 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/23 23:22:14 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ typedef struct s_venv
 
 typedef struct s_global {
 	t_gc	*gc;
+	t_venv	*venv;
 	char	*program_name;
 	int		status;
 	bool	is_running;
@@ -131,6 +132,7 @@ void	display_venv(t_venv *venv);
 void	display_env(char **env);
 char	*getkey(char *var);
 char	*getvalue(char *var);
+char	*getvenv(char *key);
 
 // error utils
 void	exit_with_code(int status, char *msg, bool silently);

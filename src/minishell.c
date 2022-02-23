@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 22:13:08 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/22 16:36:03 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/23 23:19:41 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	main(int ac, char **av, char **env)
 	if (!g_global.gc)
 		exit_with_code(EXIT_FAILURE, "malloc", false);
 	set_program_name(av[0]);
-	venv = venv_init(env);
+	g_global.venv = venv_init(env);
 	while (true)
 	{
 		term_init();

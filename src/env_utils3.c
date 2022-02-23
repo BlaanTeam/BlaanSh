@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 18:43:43 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/06 19:16:24 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/23 23:23:46 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,14 @@ bool	venv_remove(t_venv **venv_head, char *key)
 		return (false);
 	prev->next = tmp->next;
 	return (true);
+}
+
+char	*getvenv(char *key)
+{
+	t_venv	*node;
+
+	node = venv_find(g_global.venv, key);
+	if (node)
+		return (node->value);
+	return (NULL);
 }
