@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 23:10:31 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/11 19:03:43 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/24 01:19:22 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,5 @@ void	unset(char **av, t_venv **venv)
 			return (cmd_error("unset", av[i], "not a valid identifier"));
 		venv_remove(venv, av[i]);
 	}
-	g_global.status = set_status(0);
+	set_status(0);
 }

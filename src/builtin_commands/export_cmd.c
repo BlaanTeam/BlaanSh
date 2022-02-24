@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 16:00:14 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/12 21:00:25 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/24 01:19:06 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	export(char **av, t_venv **venv)
 	bool	check;
 	short	mode;
 
-	g_global.status = set_status(0);
+	set_status(0);
 	if (!av[0])
 		return (display_prefixed_venv(*venv));
 	i = -1;

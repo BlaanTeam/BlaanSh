@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 15:20:06 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/10 00:53:51 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/24 01:19:11 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	print_pwd(void)
 {
 	printf("%s\n", ft_getcwd());
-	g_global.status = set_status(0);
+	set_status(0);
 }
 
 void	pwd(char **av, t_venv **venv)

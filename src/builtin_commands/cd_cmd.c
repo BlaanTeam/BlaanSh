@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 20:05:02 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/23 23:28:06 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/24 01:18:51 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	change_dir(char *next_path, t_venv **venv)
 getcwd: cannot access parent directories", strerror(errno)));
 		venv_insert(venv, "OLDPWD", current_path, E_GLOBAL);
 		venv_insert(venv, "PWD", ft_getcwd(), E_GLOBAL);
-		g_global.status = set_status(0);
+		set_status(0);
 	}
 }
 

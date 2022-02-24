@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/23 23:22:14 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/24 01:18:09 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ bool	is_numeric(char *str);
 void	exit_with_cleanup(void);
 bool	is_option(char *str);
 void	set_program_name(char *path);
+void	set_status(int status);
 int		get_status(void);
 
 // termios utils
@@ -166,7 +167,6 @@ void	unset(char **av, t_venv **venv);
 void	export(char **av, t_venv **venv);
 void	echo(char **av);
 void	ft_exit(char **av);
-int		set_status(int status);
 int		check_option(char *cmd, char *arg);
 
 #endif

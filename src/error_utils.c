@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 20:20:51 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/12 23:51:51 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/24 01:18:24 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ void	cmd_error(char *cmd, char *msg, char *extra)
 	if (extra)
 		printf(": %s", extra);
 	printf("\n");
-	g_global.status = set_status(1);
+	set_status(1);
 	dup2(out_fd, STDOUT_FILENO);
 }

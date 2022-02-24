@@ -6,14 +6,16 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:53:48 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/11 15:43:27 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/24 01:18:33 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	set_status(int status)
+void	set_status(int status)
 {
+	g_global.status = status * 256;
+}
 
 int	get_status(void)
 {
@@ -34,7 +36,7 @@ char	*ft_getcwd(void)
 	errno = 0;
 	path = gc_filter(malloc(PATH_MAX), GC_ALL);
 	if (!getcwd(path, PATH_MAX))
-		g_global.status = set_status(1);
+		set_status(1);
 	return (path);
 }
 
