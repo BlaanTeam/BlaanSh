@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 22:13:08 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/24 01:14:31 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/24 17:26:55 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,9 @@ int	main(int ac, char **av, char **env)
 				export(av + 1, &g_global.venv);
 		}
 		gc_append(g_global.gc, cmdline, GC_TMP);
-		add_history(cmdline);
-		tokens = tokenize(cmdline);
-		if (validate_syntax(tokens))
-		{
-			expand(tokens);
+		tokens = lexer(cmdline);
+		if (tokens)
 			disp(tokens->top);
-		}
 		gc_clean(&g_global.gc, GC_TMP);
 	}
 	exit_with_cleanup();
