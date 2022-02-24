@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 22:13:08 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/23 23:19:41 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/23 23:31:16 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	disp(t_node *top)
 int	main(int ac, char **av, char **env)
 {
 	char	*cmdline;
-	t_venv	*venv;
 	t_list	*tokens;
 
 	(void)ac;
@@ -80,21 +79,21 @@ int	main(int ac, char **av, char **env)
 		if (av[0])
 		{
 			if (strcmp(av[0], "pwd") == 0)
-				pwd(av + 1, &venv);
+				pwd(av + 1, &g_global.venv);
 			else if (strcmp(av[0], "cd") == 0)
-				cd(av + 1, &venv);
+				cd(av + 1, &g_global.venv);
 			else if (strcmp(av[0], "echo") == 0)
 				echo(av +1);
 			else if (strcmp(av[0], "exit") == 0)
 				ft_exit(av + 1);
 			else if (strcmp(av[0], "unset") == 0)
-				unset(av + 1, &venv);
+				unset(av + 1, &g_global.venv);
 			else if (strcmp(av[0], "env") == 0)
-				ft_env(av + 1, &venv);
+				ft_env(av + 1, &g_global.venv);
 			else if (strcmp(av[0], "$?") == 0)
 				printf("%d\n", WEXITSTATUS(g_global.status));
 			else if (strcmp(av[0], "export") == 0)
-				export(av + 1, &venv);
+				export(av + 1, &g_global.venv);
 		}
 		gc_append(g_global.gc, cmdline, GC_TMP);
 		add_history(cmdline);
