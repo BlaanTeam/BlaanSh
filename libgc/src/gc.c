@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gc.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 00:28:46 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/08 18:54:11 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/24 13:49:18 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ void	gc_clean(t_gc **self, t_gc_flag flag)
 	{
 		gc_clear_dustbin((*self)->dustbin);
 		gc_clear_dustbin((*self)->tmp_dustbin);
+		(*self)->dustbin = NULL;
+		(*self)->tmp_dustbin = NULL;
 		if (flag & GC_DESTROY_SELF)
 		{
 			free(*self);
