@@ -6,28 +6,11 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:53:48 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/24 01:18:33 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/24 20:39:53 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	set_status(int status)
-{
-	g_global.status = status * 256;
-}
-
-int	get_status(void)
-{
-	int	sig;
-	
-	if (WIFSIGNALED(g_global.status))
-	{
-		sig = WTERMSIG(g_global.status);
-		return (128 + sig);
-	}
-	return (WEXITSTATUS(g_global.status));
-}
 
 char	*ft_getcwd(void)
 {
