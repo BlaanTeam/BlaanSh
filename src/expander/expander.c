@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 13:35:44 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/23 23:22:14 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/24 17:01:20 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_node	*expand_var(t_list *tokens, t_node *node)
 {
 	char	*value;
-	
+
 	value = getvenv(node->val);
 	if (ft_strncmp(node->val, "?", 2) == 0)
 		value = gc_filter(ft_itoa(WEXITSTATUS(g_global.status)), GC_TMP); // TODO : handle status code 
@@ -117,7 +117,11 @@ t_node	*expand_wildcards(t_list *tokens, t_node *node)
 	}
 }
 
-t_list	*concat_chained_words(t_list *tokens)
+/**
+ * Concatinate connected words
+ * Delete WHITESPACE tokens
+ */
+t_list	*update_tokens(t_list *tokens)
 {
 	t_node	*top;
 
@@ -132,12 +136,14 @@ t_list	*concat_chained_words(t_list *tokens)
 				del_node(tokens, top->next);
 			}
 		}
+		if (top->token == WHITESPACE)
+			del_node(tokens, top);
 		top = top->next;
 	}
 	return (tokens);
 }
 
-t_list	*expand(t_list *tokens)
+t_list	*expander(t_list *tokens)
 {
 	t_node	*top;
 	t_node	*next;
@@ -158,5 +164,5 @@ t_list	*expand(t_list *tokens)
 			next = top->next;
 		top = next;
 	}
-	return (concat_chained_words(tokens));
+	return (update_tokens(tokens));
 }
