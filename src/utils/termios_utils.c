@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 20:19:43 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/10 20:13:01 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/24 20:33:28 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static void	interrput_handler(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+	set_status(1);
 }
 
 void	term_init(void)
