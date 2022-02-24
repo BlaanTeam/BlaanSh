@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 13:35:44 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/24 17:01:20 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/24 19:30:01 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,18 @@ t_node	*expand_wildcards(t_list *tokens, t_node *node)
 	}
 }
 
+t_node	*handle_redirect(t_node *node)
+{
+	t_node	*right;
+
+	right = get_right(node);
+	if (node->token & DLESS)
+		right->token = WORD;
+	else if (right->token &WILDCARD_EXPANSION)
+		right->token = WORD;
+	return (right);
+}
+
 /**
  * Concatinate connected words
  * Delete WHITESPACE tokens
@@ -152,13 +164,16 @@ t_list	*expander(t_list *tokens)
 	top = tokens->top;
 	while (top && top->token != ENDOFCMD)
 	{
+		next = top->next;
 		if (top->token & (DOUBLE_QUOTE | SINGLE_QUOTE))
 			next = del_node(tokens, top)->next;
-		else if (top->token == VAR_EXPANSION)
+		else if (top->token & REDIRECT)
+			next = handle_redirect(top);
+		else if (top->token & VAR_EXPANSION)
 			next = expand_var(tokens, top);
-		else if (top->token == TILDE_EXPANSION)
+		else if (top->token & TILDE_EXPANSION)
 			next = expand_tilde(top);
-		else if (top->token == WILDCARD_EXPANSION)
+		else if (top->token & WILDCARD_EXPANSION)
 			next = expand_wildcards(tokens, top);
 		else
 			next = top->next;
