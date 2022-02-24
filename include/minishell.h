@@ -25,7 +25,7 @@
 # include <dirent.h>
 # include "gc.h"
 # include "libft.h"
-# define PATH_MAX 1024
+# include <limits.h>
 # define E_GLOBAL 0x1
 # define E_LOCAL 0x2
 # define E_EMPTY 0x4
