@@ -6,31 +6,13 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 16:42:41 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/21 20:56:26 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/24 16:42:25 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-grammer rules :
-	cmdline:  (pipeline [io_modifier]) | comment | varible_assignment | WHITESPACE
-	pipeline : pipeline [PIPE cmd_and_args] | cmd_and_args | EMPTY
-	cmd_and_args : WHITESPACE (cmd_name | cmd_path) cmd_arg*
-	cmd_name : WORD
-	cmd_path : PATH
-	cmd_arg: WORD
-	comment : HASH TEXT
-*/
-
-/**
- * TODO: add ASSIGNMENT token, either in parsing or in the tokenizer
- * 
- *
- *  for the wildcard expansion: if there are no matches, the pattern will be considered as a WORD
- */
-
-char	*var_expand_state(t_list *tokens, char *line)
+char	*dollar(t_list *tokens, char *line)
 {
 	int	len;
 		
@@ -49,7 +31,7 @@ char	*var_expand_state(t_list *tokens, char *line)
 	return (line + len);
 }
 
-char	*squote_state(t_list *tokens, char *line)
+char	*single_quote(t_list *tokens, char *line)
 {
 	int	len;
 
@@ -66,7 +48,7 @@ char	*squote_state(t_list *tokens, char *line)
 	return (line + len);
 }
 
-char	*dquote_state(t_list *tokens, char *line)
+char	*double_quote(t_list *tokens, char *line)
 {
 	int		len;
 
@@ -78,14 +60,13 @@ char	*dquote_state(t_list *tokens, char *line)
 		{
 			if (len)
 				push_back(tokens, WORD, gc_filter(ft_strndup(line, len + 1), GC_TMP));
-			line = var_expand_state(tokens, line + len + 1);
+			line = dollar(tokens, line + len + 1);
 			len = 0;
 		}
 		else
 			len++;
 	}
-	if (len)
-		push_back(tokens, WORD, gc_filter(ft_strndup(line, len + 1), GC_TMP));
+	push_back(tokens, WORD, gc_filter(ft_strndup(line, len + 1), GC_TMP));
 	if (line[len] == '\"')
 	{
 		push_back(tokens, DOUBLE_QUOTE, gc_filter(ft_chardup('\"'), GC_TMP));
@@ -135,7 +116,7 @@ char	*lookahead_state(t_list *tokens, char *line)
 	return (line);
 }
 
-char	*character_state(t_list *tokens, char *line)
+char	*parentheses(t_list *tokens, char *line)
 {
 	char	c;
 	t_token	token;
@@ -146,9 +127,7 @@ char	*character_state(t_list *tokens, char *line)
 	return (line + 1);
 }
 
-// tilde will work only if it's passed like ~ or ~/<some characters that possibly 0>
-// wildcard expansion will not work if the token is represented as a TILDE_EXPANSION or as a PATH
-char	*general_state(t_list *tokens, char *line)
+char	*normal_state(t_list *tokens, char *line)
 {
 	int		len;
 	char	*word;
@@ -171,28 +150,28 @@ char	*general_state(t_list *tokens, char *line)
 	return (line + len);
 }
 
-t_list	*tokenize(char *line)
+t_list	*tokenizer(char *cmdline)
 {
 	t_list	*tokens;
 
 	tokens = new_list();
 	push_back(tokens, CMDBEGIN, NULL);
-	while (*line && *line != '#' && *line != '\n')
+	while (*cmdline && *cmdline != '#' && *cmdline != '\n')
 	{
-		if (ft_isspace(*line))
-			line = whitespaces(tokens, line);
-		else if (*line == '\'')
-			line = squote_state(tokens, line + 1);
-		else if (*line == '\"')
-			line = dquote_state(tokens, line + 1);
-		else if (*line == '$')
-			line = var_expand_state(tokens, line + 1);
-		else if (*line && ft_strchr("|&<>;", *line))
-			line = lookahead_state(tokens, line);
-		else if (*line == '(' || *line == ')')
-			line = character_state(tokens, line);
+		if (ft_isspace(*cmdline))
+			cmdline = whitespaces(tokens, cmdline);
+		else if (*cmdline == '\'')
+			cmdline = single_quote(tokens, cmdline + 1);
+		else if (*cmdline == '\"')
+			cmdline = double_quote(tokens, cmdline + 1);
+		else if (*cmdline == '$')
+			cmdline = dollar(tokens, cmdline + 1);
+		else if (*cmdline && ft_strchr("|&<>;", *cmdline))
+			cmdline = lookahead_state(tokens, cmdline);
+		else if (*cmdline == '(' || *cmdline == ')')
+			cmdline = parentheses(tokens, cmdline);
 		else
-			line = general_state(tokens, line);
+			cmdline = normal_state(tokens, cmdline);
 	}
 	push_back(tokens, ENDOFCMD, gc_filter(ft_strdup("newline"), GC_TMP));
 	return (tokens);
