@@ -16,9 +16,10 @@ FILES =	minishell.c \
 		utils/global_utils1.c \
 		utils/global_utils2.c \
 		utils/global_utils3.c \
-		list_utils.c \
 		tokenizer/tokenizer.c \
 		tokenizer/lexer.c \
+		tokenizer/list_constructor_utils.c \
+		tokenizer/list_destructor_utils.c \
 		syntax_analyser/syntax_analyser.c \
 		expander/expander.c \
 		builtin_commands/cd_cmd.c \
