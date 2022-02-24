@@ -18,6 +18,7 @@ FILES =	minishell.c \
 		utils/global_utils3.c \
 		list_utils.c \
 		tokenizer/tokenizer.c \
+		tokenizer/lexer.c \
 		syntax_analyser/syntax_analyser.c \
 		expander/expander.c \
 		builtin_commands/cd_cmd.c \
