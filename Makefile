@@ -8,14 +8,14 @@ INCLUDE = include/
 HEADER = $(addprefix $(INCLUDE), minishell.h)
 SRC = src/
 FILES =	minishell.c \
-		termios_utils.c \
-		error_utils.c \
-		env_utils1.c \
-		env_utils2.c \
-		env_utils3.c \
-		global_utils1.c \
-		global_utils2.c \
-		global_utils3.c \
+		utils/termios_utils.c \
+		utils/error_utils.c \
+		utils/env_utils1.c \
+		utils/env_utils2.c \
+		utils/env_utils3.c \
+		utils/global_utils1.c \
+		utils/global_utils2.c \
+		utils/global_utils3.c \
 		list_utils.c \
 		tokenizer/tokenizer.c \
 		syntax_analyser/syntax_analyser.c \
