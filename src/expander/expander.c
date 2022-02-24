@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 13:35:44 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/24 19:30:01 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/24 20:32:20 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_node	*expand_var(t_list *tokens, t_node *node)
 
 	value = getvenv(node->val);
 	if (ft_strncmp(node->val, "?", 2) == 0)
-		value = gc_filter(ft_itoa(WEXITSTATUS(g_global.status)), GC_TMP); // TODO : handle status code 
+		value = gc_filter(ft_itoa(get_status()), GC_TMP);
 	if (!value)
 	{
 		del_node(tokens, node);
