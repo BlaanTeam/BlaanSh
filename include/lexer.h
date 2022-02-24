@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 19:42:58 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/24 19:48:12 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/24 20:48:52 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ typedef enum e_token
 	ENDOFCMD = 1 << 1,
 	WHITESPACE = 1 << 2,
 	WORD = 1 << 3,
-	PATH =  1 << 4,
-	PIPE =  1 << 5,
-	AND_IF =  1 << 6,
+	PATH = 1 << 4,
+	PIPE = 1 << 5,
+	AND_IF = 1 << 6,
 	OR_IF = 1 << 7,
 	O_PARENTHESESE = 1 << 8,
 	C_PARENTHESESE = 1 << 9,
@@ -42,7 +42,8 @@ typedef enum e_token
 	DLESS = 1 << 21,
 	GREAT = 1 << 22,
 	DGREAT = 1 << 23,
-	STRING = (WORD | PATH | TILDE_EXPANSION | WILDCARD_EXPANSION | VAR_EXPANSION | SINGLE_QUOTE | DOUBLE_QUOTE),
+	STRING = (WORD | PATH | TILDE_EXPANSION | \
+	WILDCARD_EXPANSION | VAR_EXPANSION | SINGLE_QUOTE | DOUBLE_QUOTE),
 	REDIRECT = (LESS | DLESS | GREAT | DGREAT)
 }	t_token;
 
