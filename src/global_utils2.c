@@ -6,21 +6,11 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 17:07:07 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/24 13:39:56 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/24 15:14:01 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	*ft_malloc(size_t len)
-{
-	void	*block;
-
-	block = malloc(len);
-	if (!block)
-		alloc_error();
-	return (block);
-}
 
 void	*gc_filter(void *ptr, t_gc_flag append_flag)
 {
@@ -35,7 +25,9 @@ char	*ft_strndup(char *str, int n)
 {
 	char	*ret;
 
-	ret = (char *)ft_malloc(n);
+	ret = (char *)malloc(n);
+	if (!ret)
+		return (NULL);
 	ft_strlcpy(ret, str, n);
 	return (ret);
 }
@@ -44,7 +36,9 @@ char	*ft_chardup(char c)
 {
 	char	*ret;
 
-	ret = (char *)ft_malloc(2);
+	ret = (char *)malloc(2);
+	if (!ret)
+		return (NULL);
 	ret[0] = c;
 	ret[1] = 0;
 	return (ret);
