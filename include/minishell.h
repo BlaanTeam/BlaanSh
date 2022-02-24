@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/24 01:18:09 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/24 16:13:42 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,16 @@ typedef struct s_node
 	struct s_node	*prev;
 }				t_node;
 
+typedef t_node	t_lexeme;
+
 typedef struct s_list
 {
 	int		len;
 	t_node	*top;
 	t_node	*bottom;
 }				t_list;
+
+typedef t_list	t_lexer;
 
 typedef struct s_venv
 {
@@ -155,9 +159,10 @@ t_node	*del_back(t_list *list);
 t_node	*del_node(t_list *list, t_node *node);
 void	list_clear(t_list *list);
 
-t_list	*tokenize(char *line);
+t_list	*tokenizer(char *line);
 bool	validate_syntax(t_list *tokens);
-t_list	*expand(t_list *tokens);
+t_list	*expander(t_list *tokens);
+t_lexer	*lexer(char *cmdline);
 
 // builtin commands
 void	cd(char **av, t_venv **venv);
