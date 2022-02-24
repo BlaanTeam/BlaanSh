@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_analyser.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 16:24:15 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/23 23:22:14 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/24 16:45:54 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ bool	check_redirections(t_node *tokp)
 		fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", right->val);
 		return (false);
 	}
-	else if (right->token == VAR_EXPANSION && !getvenv(right->val))
+	else if (right->token == VAR_EXPANSION && (!getvenv(right->val) || !*getvenv(right->val)))
 	{
 		fprintf(stderr, "minishell: $%s: ambiguous redirect\n", right->val);
 		return (false);
