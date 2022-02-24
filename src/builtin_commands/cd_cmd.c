@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 20:05:02 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/12 18:08:27 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/23 23:28:06 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,22 @@ getcwd: cannot access parent directories", strerror(errno)));
 void	cd(char **av, t_venv **venv)
 {
 	int		opt;
-	t_venv	*var;
+	char	*var;
 
 	if (av[0] == NULL)
 	{
-		var = venv_find(*venv, "HOME");
-		if (!var || !var->value)
+		var = getvenv("HOME");
+		if (!var)
 			return (cmd_error("cd", "HOME not set", NULL));
-		return (change_dir(var->value, venv));
+		return (change_dir(var, venv));
 	}
 	opt = check_option("cd", av[0]);
 	if (opt == 1)
 	{
-		var = venv_find(*venv, "OLDPWD");
-		if (!var || !var->value)
+		var = getvenv("OLDPWD");
+		if (!var)
 			return (cmd_error("cd", "OLDPWD not set", NULL));
-		return (change_dir(var->value, venv));
+		return (change_dir(var, venv));
 	}
 	else if (opt == 0)
 		return (change_dir(av[0], venv));
