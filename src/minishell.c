@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 22:13:08 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/23 23:31:16 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/24 01:14:31 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	main(int ac, char **av, char **env)
 			else if (strcmp(av[0], "env") == 0)
 				ft_env(av + 1, &g_global.venv);
 			else if (strcmp(av[0], "$?") == 0)
-				printf("%d\n", WEXITSTATUS(g_global.status));
+				printf("%d\n", get_status());
 			else if (strcmp(av[0], "export") == 0)
 				export(av + 1, &g_global.venv);
 		}

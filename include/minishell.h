@@ -117,6 +117,7 @@ bool	is_numeric(char *str);
 void	exit_with_cleanup(void);
 bool	is_option(char *str);
 void	set_program_name(char *path);
+int		get_status(void);
 
 // termios utils
 void	term_init(void);

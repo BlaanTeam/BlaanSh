@@ -14,7 +14,17 @@
 
 int	set_status(int status)
 {
-	return (status * 256);
+
+int	get_status(void)
+{
+	int	sig;
+	
+	if (WIFSIGNALED(g_global.status))
+	{
+		sig = WTERMSIG(g_global.status);
+		return (128 + sig);
+	}
+	return (WEXITSTATUS(g_global.status));
 }
 
 char	*ft_getcwd(void)
