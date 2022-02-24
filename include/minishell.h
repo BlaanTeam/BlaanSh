@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/24 16:13:42 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/24 19:44:42 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,66 +30,7 @@
 # define E_LOCAL 0x2
 # define E_EMPTY 0x4
 
-/*
-grammer rules :
-	cmdline:  (pipeline [io_modifier]) | comment | varible_assignment | WHITESPACE
-	pipeline : pipeline [PIPE cmd_and_args] | cmd_and_args | EMPTY
-	cmd_and_args : WHITESPACE (cmd_name | cmd_path) cmd_arg*
-	cmd_name : WORD
-	cmd_path : PATH
-	cmd_arg: WORD
-	comment : HASH TEXT
-*/
-
-// tokens
-typedef enum e_token
-{
-	CMDBEGIN = 1 << 0,
-	ENDOFCMD = 1 << 1,
-	WHITESPACE = 1 << 2,
-	WORD = 1 << 3,
-	PATH =  1 << 4,
-	PIPE =  1 << 5,
-	AND_IF =  1 << 6,
-	OR_IF = 1 << 7,
-	O_PARENTHESESE = 1 << 8,
-	C_PARENTHESESE = 1 << 9,
-	EQUAL = 1 << 10,
-	ASSIGNMENT = 1 << 11,
-	AMPERSAND = 1 << 12,
-	SEMICL = 1 << 13,
-	DSEMICL = 1 << 14,
-	VAR_EXPANSION = 1 << 15,
-	TILDE_EXPANSION = 1 << 16,
-	WILDCARD_EXPANSION = 1 << 17,
-	SINGLE_QUOTE = 1 << 18,
-	DOUBLE_QUOTE = 1 << 19,
-	LESS = 1 << 20,
-	DLESS = 1 << 21,
-	GREAT = 1 << 22,
-	DGREAT = 1 << 23,
-	STRING = (WORD | PATH | TILDE_EXPANSION | WILDCARD_EXPANSION | VAR_EXPANSION | SINGLE_QUOTE | DOUBLE_QUOTE),
-	REDIRECT = (LESS | DLESS | GREAT | DGREAT)
-}	t_token;
-
-typedef struct s_node
-{
-	t_token			token;
-	char			*val;
-	struct s_node	*next;
-	struct s_node	*prev;
-}				t_node;
-
-typedef t_node	t_lexeme;
-
-typedef struct s_list
-{
-	int		len;
-	t_node	*top;
-	t_node	*bottom;
-}				t_list;
-
-typedef t_list	t_lexer;
+#include "lexer.h"
 
 typedef struct s_venv
 {
@@ -144,25 +85,6 @@ char	*getvenv(char *key);
 void	exit_with_code(int status, char *msg, bool silently);
 void	alloc_error(void);
 void	cmd_error(char *cmd, char *msg, char *extra);
-
-/*
-**	parsing utils
-*/
-t_list	*new_list(void);
-t_node	*new_node(t_token token, char *val);
-t_node	*push_front(t_list *list, t_token token, char *val);
-t_node	*push_back(t_list *list, t_token token, char *val);
-t_node	*insert_node(t_list *list, t_node *new, t_node *prev);
-t_node	*concat_nodes(t_list *list, t_node *start, t_node *end);
-t_node	*del_front(t_list *list);
-t_node	*del_back(t_list *list);
-t_node	*del_node(t_list *list, t_node *node);
-void	list_clear(t_list *list);
-
-t_list	*tokenizer(char *line);
-bool	validate_syntax(t_list *tokens);
-t_list	*expander(t_list *tokens);
-t_lexer	*lexer(char *cmdline);
 
 // builtin commands
 void	cd(char **av, t_venv **venv);
