@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/04 23:46:32 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/12 23:31:56 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/24 21:04:32 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ t_venv	*venv_init(char **env)
 	gc_filter(ft_itoa(ft_atoi(shlvl) + 1), GC_ALL), E_GLOBAL);
 	venv_insert(&venv_head, "PWD", ft_getcwd(), E_GLOBAL);
 	if (errno == ENOENT)
-		printf("shell-init: error retrieving current directory: \
-getcwd: cannot access parent directories: %s\n", strerror(errno));
+		perror("shell-init: error retrieving current directory: \
+getcwd: cannot access parent directories");
 	return (venv_head);
 }
