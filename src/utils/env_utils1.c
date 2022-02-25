@@ -80,6 +80,7 @@ t_venv	*venv_init(char **env)
 	i = -1;
 	venv_head = NULL;
 	shlvl = "0";
+	venv_insert(&venv_head, "PATH", _PATH_STDPATH, E_GLOBAL);
 	while (env[++i])
 	{
 		key = getkey(env[i]);

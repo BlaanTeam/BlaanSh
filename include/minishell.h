@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/24 20:48:01 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/25 14:02:02 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <termios.h>
 # include <signal.h>
 # include <dirent.h>
+# include <paths.h>
 # include "gc.h"
 # include "libft.h"
 # include <limits.h>
