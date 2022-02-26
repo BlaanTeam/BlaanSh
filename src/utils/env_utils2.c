@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 01:22:28 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/12 20:09:37 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/26 23:51:53 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ char	**venv_export_array(t_venv	*venv_head)
 
 	i = 0;
 	len = venv_count(venv_head);
-	env = gc_filter(malloc(sizeof(char *) * (len + 1)), GC_ALL);
+	env = gc_filter(malloc(sizeof(char *) * (len + 1)), GC_TMP);
 	while (venv_head && i < len)
 	{	
 		if (!(venv_head->eflag & E_EMPTY))
 		{
-			str = gc_filter(ft_strjoin(venv_head->key, "="), GC_ALL);
-			str = gc_filter(ft_strjoin(str, venv_head->value), GC_ALL);
+			str = gc_filter(ft_strjoin(venv_head->key, "="), GC_TMP);
+			str = gc_filter(ft_strjoin(str, venv_head->value), GC_TMP);
 			env[len - i++ - 1] = str;
 		}
 		venv_head = venv_head->next;
