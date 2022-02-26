@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 19:42:58 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/26 23:50:33 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/26 23:56:03 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,6 @@ t_node	*del_front(t_list *list);
 t_node	*del_back(t_list *list);
 t_node	*del_node(t_list *list, t_node *node);
 void	list_clear(t_list *list);
+char	**list_export_array(t_list *list);
 
 #endif

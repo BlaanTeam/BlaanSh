@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_destructor_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 17:31:42 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/24 17:32:01 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/26 23:44:11 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,25 @@ void	list_clear(t_list *list)
 {
 	while (list->len)
 		del_front(list);
+}
+
+char	**list_export_array(t_list *list)
+{	
+	int		i;
+	char	**arr;
+	t_node	*head;
+
+	if (!list)
+		return (NULL);
+	arr = (char **)gc_filter(malloc(sizeof(char *) * (list->len + 1)), GC_TMP);
+	head = list->top;
+	i = 0;
+	while (head)
+	{
+		arr[i] = head->val;
+		head = head->next;
+		i++;
+	}
+	arr[i] = NULL;
+	return (arr);
 }
