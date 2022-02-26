@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 19:42:58 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/24 20:48:52 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/26 23:42:54 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,6 @@ t_node	*del_front(t_list *list);
 t_node	*del_back(t_list *list);
 t_node	*del_node(t_list *list, t_node *node);
 void	list_clear(t_list *list);
+char	**list_export_array(t_list *list);
 
 #endif
