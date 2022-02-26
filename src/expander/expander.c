@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 13:35:44 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/24 20:32:20 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/26 16:02:49 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_node	*expand_var(t_list *tokens, t_node *node)
 	if (!value)
 	{
 		del_node(tokens, node);
-		if (node->prev->token == WHITESPACE && node->next->token == WHITESPACE)
+		if (node->prev->token == WSPACE && node->next->token == WSPACE)
 			node = del_node(tokens, node->next);
 	}
 	else
@@ -98,11 +98,11 @@ t_node	*expand_wildcards(t_list *tokens, t_node *node)
 			if (matches_found == 0)
 			{
 				node = del_node(tokens, node)->next;
-				if (node->token == WHITESPACE)
+				if (node->token == WSPACE)
 					node = del_node(tokens, node)->next;
 			}
 			insert_node(tokens, new_node(WORD, item->d_name), node->prev);
-			insert_node(tokens, new_node(WHITESPACE, NULL), node->prev);
+			insert_node(tokens, new_node(WSPACE, NULL), node->prev);
 			matches_found++;
 		}
 		item = readdir(dirp);
@@ -124,14 +124,14 @@ t_node	*handle_redirect(t_node *node)
 	right = get_right(node);
 	if (node->token & DLESS)
 		right->token = WORD;
-	else if (right->token &WILDCARD_EXPANSION)
+	else if (right->token &WILDC)
 		right->token = WORD;
 	return (right);
 }
 
 /**
  * Concatinate connected words
- * Delete WHITESPACE tokens
+ * Delete WSPACE tokens
  */
 t_list	*update_tokens(t_list *tokens)
 {
@@ -148,7 +148,7 @@ t_list	*update_tokens(t_list *tokens)
 				del_node(tokens, top->next);
 			}
 		}
-		if (top->token == WHITESPACE)
+		if (top->token == WSPACE)
 			del_node(tokens, top);
 		top = top->next;
 	}
@@ -165,15 +165,15 @@ t_list	*expander(t_list *tokens)
 	while (top && top->token != ENDOFCMD)
 	{
 		next = top->next;
-		if (top->token & (DOUBLE_QUOTE | SINGLE_QUOTE))
+		if (top->token & (DQUOTE | SQUOTE))
 			next = del_node(tokens, top)->next;
 		else if (top->token & REDIRECT)
 			next = handle_redirect(top);
-		else if (top->token & VAR_EXPANSION)
+		else if (top->token & VAR)
 			next = expand_var(tokens, top);
-		else if (top->token & TILDE_EXPANSION)
+		else if (top->token & TILDE)
 			next = expand_tilde(top);
-		else if (top->token & WILDCARD_EXPANSION)
+		else if (top->token & WILDC)
 			next = expand_wildcards(tokens, top);
 		else
 			next = top->next;
