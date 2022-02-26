@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 19:42:58 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/26 16:00:55 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/26 23:50:33 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ typedef struct s_node
 	struct s_node	*next;
 	struct s_node	*prev;
 }				t_node;
-
-typedef t_node	t_lexeme;
 
 typedef struct s_list
 {
