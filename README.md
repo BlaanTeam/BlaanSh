@@ -5,23 +5,22 @@ Making a shell
 The base syntax used in the [syntax_analyser.c](/src/syntax_analyser/syntax_analyser.c):
 ```
 * UNEXPECTED TOKENS:
-	- `;' | `;;' | `&'
-	(we do not handle foreground or background tokens)
+	- `;;' (this token is always unrecognized in bash and zsh shells)
 
-* AND_IF, OR_IF, PIPE:
-	- left: [WHITESPACE] (STRING | CPAR)
-	- right: [WHITESPACE] (STRING | REDIRECT | OPAR)
+* AND, OR, PIPE, FG, BG:
+	- left: [WSPACE] (STRING | CPAR)
+	- right: [WSPACE] (STRING | REDIRECT | OPAR | if <FG, BG> ENDOFCMD)
 
 * OPAR "(":
-	- left: CMDBEGIN | [WHITESPACE] (AND_IF | OR_IF | PIPE | OPAR)
-	- right: [WHITESPACE] (STRING | REDIRECT | OPAR)
+	- left: CMDBEGIN | [WSPACE] (AND | OR | PIPE | OPAR)
+	- right: [WSPACE] (STRING | REDIRECT | OPAR)
 
 * CPAR ")":
-	- left: [WHITESPACE] (STRING | CPAR)
-	- right: [WHITESPACE] (AND_IF | OR_IF | PIPE | CPAR | ENDOFCMD)
+	- left: [WSPACE] (STRING | CPAR)
+	- right: [WSPACE] (AND | OR | PIPE | CPAR | ENDOFCMD)
 
 * REDIRECT:
-	- right: [WHITESPACE] STRING
+	- right: [WSPACE] STRING
 
 * PARENTHESES MATCHING AND QUOTING:
 	- inside each pair parentheses sould not be an empthy command
