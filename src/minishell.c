@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 22:13:08 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/24 17:26:55 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/26 16:05:09 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,26 @@
 const char *token_names[] = {
 	"CMDBEGIN",
 	"ENDOFCMD",
-	"WHITESPACE",
+	"WSPACE",
 	"WORD",
 	"PATH",
 	"PIPE",
-	"AND_IF",
-	"OR_IF",
-	"O_PARENTHESESE",
-	"C_PARENTHESESE",
-	"EQUAL",
-	"ASSIGNMENT",
-	"AMPERSAND",
-	"SEMICL",
-	"DSEMICL",
-	"VAR_EXPANSION",
-	"TILDE_EXPANSION",
-	"WILDCARD_EXPANSION",
-	"SINGLE_QUOTE",
-	"DOUBLE_QUOTE",
+	"AND",
+	"OR",
+	"OPAR",
+	"CPAR",
+	"BG",
+	"FG",
+	"DSEMI",
+	"VAR",
+	"TILDE",
+	"WILDC",
+	"SQUOTE",
+	"DQUOTE",
 	"LESS",
 	"DLESS",
 	"GREAT",
-	"DGREAT"
+	"DGREAT",
 };
 
 t_global	g_global = {.gc = 0, \
