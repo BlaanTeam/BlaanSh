@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:53:48 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/24 20:39:53 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/27 20:48:54 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ bool	is_numeric(char *str)
 
 void	exit_with_cleanup(void)
 {
+	term_restore();
 	gc_clean(&g_global.gc, GC_DESTROY_SELF);
 	rl_clear_history();
 	exit(EXIT_SUCCESS);
