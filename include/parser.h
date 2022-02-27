@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 17:08:16 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/26 23:50:01 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/27 15:54:29 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,25 @@ typedef struct s_cmdtree
 	int	node_type;
 }				t_cmdtree;
 
-typedef struct s_cmdlist
+typedef struct s_subsh
 {
-	int		node_type;
-	t_list	*cmdlist;
-	char	**cmdargs;
-}				t_cmdlist;
+	int			node_type;
+	t_cmdtree	*cmdtree;
+}				t_subsh;
 
-typedef struct s_branch
+typedef struct s_connector
 {
 	int			node_type;
 	t_cmdtree	*lcmdtree;
 	t_cmdtree	*rcmdtree;
-}				t_branch;
+}				t_connector;
+
+typedef struct s_cmdlist
+{
+	int		node_type;
+	t_list	*cmdvec;
+	char	**cmdargs;
+}				t_cmdlist;
 
 typedef struct s_redir
 {
@@ -69,8 +75,9 @@ t_token		peek(t_node	*tokp);
 void		scan(t_node **tokp);
 
 // Constructors
-t_cmdlist	*new_cmdlist(void);
-t_redir		*new_redir(void);
-t_branch	*new_branch(void);
+t_subsh		*new_subsh(t_cmdtree *cmdtree);
+t_connector	*new_connector(int node_type, t_cmdtree *left, t_cmdtree *right);
+t_cmdlist	*new_cmdlist(t_list *cmdvec);
+t_redir		*new_redir(t_node *tokp, t_cmdtree *cmdtree);
 
 #endif
