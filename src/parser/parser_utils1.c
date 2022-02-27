@@ -31,3 +31,26 @@ t_cmdtree	*parse_cmdline(t_node **tokp)
 	}
 	return (ret);
 }
+
+// <block> ::=  <pipeline> {("&&" | "||") <pipeline>}
+t_cmdtree	*parse_block(t_node **tokp)
+{
+	t_cmdtree	*ret;
+
+	if (current(*tokp) == ENDOFCMD)
+		return (NULL);
+	ret = parse_pipeline(tokp);
+	if (!ret)
+		return (NULL);
+	while (current(*tokp) & (AND | OR))
+	{
+		if (scan(tokp) == AND)
+			ret = new_connector(NODE_AND, ret, NULL);
+		else
+			ret = new_connector(NODE_OR, ret, NULL);
+		((t_connector *)ret)->rcmdtree = parse_pipeline(tokp);
+		if (((t_connector *)ret)->rcmdtree == NULL)
+			return (NULL);
+	}
+	return (ret);
+}
