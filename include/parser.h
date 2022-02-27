@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 17:08:16 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/27 16:47:33 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/27 19:35:54 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,14 @@ t_cmdtree	*parse_cmdlist(t_node **tokp);
 t_cmdtree	*parse_redir(t_node **tokp);
 
 // Helpers
+t_token		current(t_node *tokp);
 t_token		peek(t_node	*tokp);
-void		scan(t_node **tokp);
+t_token		scan(t_node **tokp);
 
 // Constructors
-t_subsh		*new_subsh(t_cmdtree *cmdtree);
-t_connector	*new_connector(int node_type, t_cmdtree *left, t_cmdtree *right);
-t_cmdlist	*new_cmdlist(t_list *cmdvec);
-t_redir		*new_redir(t_cmdtree *cmdtree);
+t_cmdtree	*new_subsh(t_cmdtree *cmdtree);
+t_cmdtree	*new_connector(int node_type, t_cmdtree *left, t_cmdtree *right);
+t_cmdtree	*new_cmdlist(t_list *cmdvec);
+t_cmdtree	*new_redir(t_cmdtree *cmdtree);
 
 #endif
