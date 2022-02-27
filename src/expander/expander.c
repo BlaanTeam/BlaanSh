@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 13:35:44 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/26 16:02:49 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/27 21:04:50 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ t_list	*expander(t_list *tokens)
 	t_node	*next;
 
 	next = NULL;
+	del_front(tokens);
 	top = tokens->top;
 	while (top && top->token != ENDOFCMD)
 	{
