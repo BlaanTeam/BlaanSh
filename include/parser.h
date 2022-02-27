@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 17:08:16 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/27 15:54:29 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/27 16:47:33 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_cmdlist
 typedef struct s_redir
 {
 	int			node_type;
+	int			redir_type;
 	int			io_src;
 	int			io_dst;
 	int			oflag;
@@ -78,6 +79,6 @@ void		scan(t_node **tokp);
 t_subsh		*new_subsh(t_cmdtree *cmdtree);
 t_connector	*new_connector(int node_type, t_cmdtree *left, t_cmdtree *right);
 t_cmdlist	*new_cmdlist(t_list *cmdvec);
-t_redir		*new_redir(t_node *tokp, t_cmdtree *cmdtree);
+t_redir		*new_redir(t_cmdtree *cmdtree);
 
 #endif
