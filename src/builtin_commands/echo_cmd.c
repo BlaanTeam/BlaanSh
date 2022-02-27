@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 01:03:58 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/10 01:43:42 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/27 23:04:58 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	echo(char **av)
 	i = -1;
 	nl = true;
 	check = true;
+	set_status(0);
 	while (av[++i])
 	{
 		if (is_valid_option(av[i]) && check)
