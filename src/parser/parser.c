@@ -6,15 +6,16 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 17:09:44 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/27 21:08:03 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/27 23:15:25 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// The grammar recognized by the parser:
+// The grammar recognized by this parser:
 
-// <cmdline>    ::=  <block> {(";" | "&") <block>} [(";" | "&")]
+// <cmdline>    ::= <block>
+//              |   <block> (";" | "&") <cmdline>
 // 
 // <block>      ::=  <pipeline> {("&&" | "||") <pipeline>}
 //
