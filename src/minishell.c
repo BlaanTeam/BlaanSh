@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 22:13:08 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/26 16:05:09 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/27 21:29:58 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,30 +73,18 @@ int	main(int ac, char **av, char **env)
 		cmdline = readline("minishell$ ");
 		if (!cmdline)
 			break ;
-		av = ft_split(cmdline, ' ');
-		if (av[0])
-		{
-			if (strcmp(av[0], "pwd") == 0)
-				pwd(av + 1, &g_global.venv);
-			else if (strcmp(av[0], "cd") == 0)
-				cd(av + 1, &g_global.venv);
-			else if (strcmp(av[0], "echo") == 0)
-				echo(av +1);
-			else if (strcmp(av[0], "exit") == 0)
-				ft_exit(av + 1);
-			else if (strcmp(av[0], "unset") == 0)
-				unset(av + 1, &g_global.venv);
-			else if (strcmp(av[0], "env") == 0)
-				ft_env(av + 1, &g_global.venv);
-			else if (strcmp(av[0], "$?") == 0)
-				printf("%d\n", get_status());
-			else if (strcmp(av[0], "export") == 0)
-				export(av + 1, &g_global.venv);
-		}
 		gc_append(g_global.gc, cmdline, GC_TMP);
 		tokens = lexer(cmdline);
 		if (tokens)
-			disp(tokens->top);
+		{
+			g_global.is_running = 1;
+			av = list_export_array(tokens);
+			av[tokens->len-1] = NULL;
+			exec_cmd(av[1], av + 1);
+			wait(&g_global.status);
+			g_global.is_running = 0;
+			// disp(tokens->top);
+		}
 		gc_clean(&g_global.gc, GC_TMP);
 	}
 	exit_with_cleanup();
