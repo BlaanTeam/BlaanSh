@@ -98,4 +98,6 @@ void	echo(char **av);
 void	ft_exit(char **av);
 int		check_option(char *cmd, char *arg);
 
+// execution utils
+int		ft_execvp(char *file, char **argv);
 #endif
