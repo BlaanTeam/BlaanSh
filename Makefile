@@ -30,6 +30,7 @@ FILES =	minishell.c \
 		builtin_commands/env_cmd.c \
 		builtin_commands/export_cmd.c \
 		executor/ft_execvp.c \
+		executor/exec_utils.c
 OBJS = $(FILES:%.c=%.o)
 OBJS := $(addprefix $(SRC), $(OBJS))
 RL_DIR = $(addprefix $(shell brew --prefix readline), /)
