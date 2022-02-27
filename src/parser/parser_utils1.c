@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 18:56:26 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/27 23:25:01 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/28 00:12:52 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,31 @@ t_cmdtree	*parse_pipeline(t_node **tokp)
 	ret = parse_command(tokp);
 	if (!ret)
 		return (NULL);
-	while (current(*tokp) == PIPE)
+	while (accept(*tokp, PIPE))
 	{
-		scan(tokp);
 		ret = new_connector(NODE_PIPE, ret, NULL);
 		((t_connector *)ret)->rcmdtree = parse_command(tokp);
 		if (((t_connector *)ret)->rcmdtree == NULL)
 			return (NULL);
 	}
 	return (ret);
+}
+
+// <command>  ::=  <cmdlist>
+//            |    "(" <cmdline> ")" <redir>  (* subshell *)
+t_cmdtree	*parse_command(t_node **tokp)
+{
+	t_cmdtree	*ret;
+
+	if (current(*tokp) == ENDOFCMD)
+		return (NULL);
+	if (accept(*tokp, OPAR))
+	{
+		ret = new_subsh(NULL);
+		((t_subsh *)ret)->cmdtree = parse_cmdline(tokp);
+		if (((t_subsh *)ret)->cmdtree == NULL || !expect(tokp, CPAR))
+			return (NULL);
+		return (parse_redir(ret, tokp));
+	}
+	return (parse_cmdlist(tokp));
 }
