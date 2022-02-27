@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 18:56:26 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/27 23:17:37 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/27 23:25:01 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,27 @@ t_cmdtree	*parse_block(t_node **tokp)
 		else
 			ret = new_connector(NODE_OR, ret, NULL);
 		((t_connector *)ret)->rcmdtree = parse_pipeline(tokp);
+		if (((t_connector *)ret)->rcmdtree == NULL)
+			return (NULL);
+	}
+	return (ret);
+}
+
+// <pipeline> ::=  <command> {"|" <command>}
+t_cmdtree	*parse_pipeline(t_node **tokp)
+{
+	t_cmdtree	*ret;
+
+	if (current(*tokp) == ENDOFCMD)
+		return (NULL);
+	ret = parse_command(tokp);
+	if (!ret)
+		return (NULL);
+	while (current(*tokp) == PIPE)
+	{
+		scan(tokp);
+		ret = new_connector(NODE_PIPE, ret, NULL);
+		((t_connector *)ret)->rcmdtree = parse_command(tokp);
 		if (((t_connector *)ret)->rcmdtree == NULL)
 			return (NULL);
 	}
