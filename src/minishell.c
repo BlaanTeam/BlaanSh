@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 22:13:08 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/27 21:29:58 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/28 00:41:08 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	main(int ac, char **av, char **env)
 			g_global.is_running = 1;
 			av = list_export_array(tokens);
 			av[tokens->len-1] = NULL;
-			exec_cmd(av[1], av + 1);
+			exec_cmd(av[0], av);
 			wait(&g_global.status);
 			g_global.is_running = 0;
 			// disp(tokens->top);
