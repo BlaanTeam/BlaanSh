@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 01:03:58 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/27 23:04:58 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/28 22:36:47 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ void	echo(char **av)
 		}
 		else
 			check = false;
-		printf("%s", av[i]);
+		ft_putstr_fd(av[i], STDOUT_FILENO);
 		if (av[i + 1])
-			printf(" ");
+			ft_putstr_fd(" ", STDOUT_FILENO);
 	}
 	if (nl)
-		printf("\n");
+		ft_putstr_fd("\n", STDOUT_FILENO);
 }

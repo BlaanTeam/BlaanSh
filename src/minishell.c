@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 22:13:08 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/28 15:41:02 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/28 22:42:26 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int ac, char **av, char **env)
 	{
 		term_init();
 		if (WIFSIGNALED(g_global.status))
-			printf("\n");
+			ft_putstr_fd("\n", STDOUT_FILENO);
 		cmdline = readline("minishell$ ");
 		if (!cmdline)
 			break ;

@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 15:20:06 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/24 01:19:11 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/28 22:39:22 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	print_pwd(void)
 {
-	printf("%s\n", ft_getcwd());
+	ft_putendl_fd(ft_getcwd(), STDOUT_FILENO);
 	set_status(0);
 }
 
