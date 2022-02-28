@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/27 21:10:01 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/28 15:50:54 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,6 @@ char	**venv_export_array(t_venv	*venv_head);
 void	venv_insert(t_venv **venv_head, char *key, char *value, short eflag);
 t_venv	*venv_find(t_venv *venv_head, char *key);
 bool	venv_remove(t_venv **venv_head, char *key);
-void	display_venv(t_venv *venv);
-void	display_env(char **env);
 char	*getkey(char *var);
 char	*getvalue(char *var);
 char	*getvenv(char *key);
@@ -101,5 +99,10 @@ int		check_option(char *cmd, char *arg);
 // execution utils
 int		ft_execvp(char *file, char **argv);
 void	exec_cmd(char *cmd, char **argv);
+
+// display utils (for debugging)
+void	display_tokens(t_node *top);
+void	display_venv(t_venv *venv);
+void	display_env(char **env);
 
 #endif
