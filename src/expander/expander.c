@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 13:35:44 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/27 21:04:50 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/28 15:33:13 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,8 @@ t_node	*expand_var(t_list *tokens, t_node *node)
 	}
 	else
 	{
+		node->token = WORD;
 		node->val = value;
-		if (ft_strchr(value, '/'))
-			node->token = PATH;
-		else
-			node->token = WORD;
 	}
 	return (node->next);
 }
@@ -43,10 +40,7 @@ t_node	*expand_tilde(t_node	*node)
 	home = getvenv("HOME");
 	if (home)
 		node->val = gc_filter(ft_strjoin(home, node->val + 1), GC_TMP);
-	if (ft_strchr(node->val, '/'))
-		node->token = PATH;
-	else
-		node->token = WORD;
+	node->token = WORD;
 	return (node->next);
 }
 
@@ -140,9 +134,9 @@ t_list	*update_tokens(t_list *tokens)
 	top = tokens->top;
 	while (top && top->token != ENDOFCMD)
 	{
-		if (top->token & (WORD | PATH))
+		if (top->token & WORD)
 		{
-			while (top->next->token & (WORD | PATH))
+			while (top->next->token & WORD)
 			{
 				top->val = gc_filter(ft_strjoin(top->val, top->next->val), GC_TMP);
 				del_node(tokens, top->next);

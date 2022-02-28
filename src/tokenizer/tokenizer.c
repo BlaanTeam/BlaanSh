@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 16:42:41 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/26 16:01:48 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/28 15:21:59 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,12 +140,11 @@ char	*normal_state(t_list *tokens, char *line)
 		word = gc_filter(ft_strndup(line, len + 1), GC_TMP);
 		if (word[0] == '~' && (!word[1] || word[1] == '/'))
 			push_back(tokens, TILDE, word);
-		else if (ft_strchr(word, '/'))
-			push_back(tokens, PATH, word);
-		else if (ft_strchr(word, '*') || ft_strchr(word, '?'))
-			push_back(tokens, WILDC, word);
-		else
+		else if (ft_strchr(word, '/') || !(ft_strchr(word, '*')
+			|| ft_strchr(word, '?')))
 			push_back(tokens, WORD, word);
+		else
+			push_back(tokens, WILDC, word);
 	}
 	return (line + len);
 }

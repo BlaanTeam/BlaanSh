@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 16:24:15 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/26 17:02:49 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/28 15:26:43 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,14 +90,14 @@ bool	check_unexpected(t_node *tokp)
 	return (true);
 }
 
-bool	check_statements(t_node *tokp)
+bool	check_connectors(t_node *tokp)
 {
 	t_node	*left;
 	t_node	*right;
 	t_token	tok;
 
 	tok = tokp->token;
-	if (!(tok & OP))
+	if (!(tok & CONNECTOR))
 		return (true);
 	left = get_left(tokp);
 	right = get_right(tokp);
@@ -129,7 +129,7 @@ bool	check_parentheses(t_node *tokp)
 	right = get_right(tokp);
 	if (tok == OPAR)
 	{
-		if (!(left->token & (CMDBEGIN | OP | OPAR)))
+		if (!(left->token & (CMDBEGIN | CONNECTOR | OPAR)))
 		{
 			fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", tokp->val);
 			return (false);
@@ -147,7 +147,7 @@ bool	check_parentheses(t_node *tokp)
 			fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", tokp->val);
 			return (false);
 		}
-		else if (!(right->token & (ENDOFCMD | OP | CPAR | REDIRECT)))
+		else if (!(right->token & (ENDOFCMD | CONNECTOR | CPAR | REDIRECT)))
 		{
 			fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", right->val);
 			return (false);
@@ -216,7 +216,7 @@ bool	validate_syntax(t_list *tokens)
 	tokp = tokens->top->next;
 	while (tokp->token != ENDOFCMD)
 	{
-		check = check_unexpected(tokp) && check_statements(tokp)
+		check = check_unexpected(tokp) && check_connectors(tokp)
 			&& check_parentheses(tokp) && check_redirections(tokp);
 		if (!check)
 			return (false);
