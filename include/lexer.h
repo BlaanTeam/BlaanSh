@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 19:42:58 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/26 23:56:03 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/28 15:24:33 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,27 @@ typedef enum e_token
 	ENDOFCMD = 1 << 1,
 	WSPACE = 1 << 2,
 	WORD = 1 << 3,
-	PATH = 1 << 4,
-	PIPE = 1 << 5,
-	AND = 1 << 6,
-	OR = 1 << 7,
-	OPAR = 1 << 8,
-	CPAR = 1 << 9,
-	BG = 1 << 10,
-	FG = 1 << 11,
-	DSEMI = 1 << 12,
-	VAR = 1 << 13,
-	TILDE = 1 << 14,
-	WILDC = 1 << 15,
-	SQUOTE = 1 << 16,
-	DQUOTE = 1 << 17,
-	LESS = 1 << 18,
-	DLESS = 1 << 19,
-	GREAT = 1 << 20,
-	DGREAT = 1 << 21,
-	STRING = (WORD | PATH | TILDE | \
-	WILDC | VAR | SQUOTE | DQUOTE),
+	PIPE = 1 << 4,
+	AND = 1 << 5,
+	OR = 1 << 6,
+	OPAR = 1 << 7,
+	CPAR = 1 << 8,
+	BG = 1 << 9,
+	FG = 1 << 10,
+	DSEMI = 1 << 11,
+	VAR = 1 << 12,
+	TILDE = 1 << 13,
+	WILDC = 1 << 14,
+	SQUOTE = 1 << 15,
+	DQUOTE = 1 << 16,
+	LESS = 1 << 17,
+	DLESS = 1 << 18,
+	GREAT = 1 << 19,
+	DGREAT = 1 << 20,
+	STRING = (WORD | TILDE | WILDC | \
+	VAR | SQUOTE | DQUOTE),
 	REDIRECT = (LESS | DLESS | GREAT | DGREAT),
-	OP = (AND | OR | PIPE | FG | BG)
+	CONNECTOR = (AND | OR | PIPE | FG | BG)
 }	t_token;
 
 typedef struct s_node
