@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 18:56:26 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/28 17:44:46 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/28 17:53:24 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ t_cmdtree	*parse_cmdlist(t_node **tokp)
 	t_cmdtree	*ret;
 	t_cmdlist	*cmdlist;
 
+	if (current(*tokp) == ENDOFCMD)
+		return (NULL);
 	ret = new_cmdlist();
 	cmdlist = (t_cmdlist *)ret;
 	ret = parse_redir(ret, tokp);
