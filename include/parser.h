@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 17:08:16 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/28 00:15:25 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/28 16:06:30 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int			expect(t_node **tokp, t_token expected);
 // Constructors
 t_cmdtree	*new_subsh(t_cmdtree *cmdtree);
 t_cmdtree	*new_connector(int node_type, t_cmdtree *left, t_cmdtree *right);
-t_cmdtree	*new_cmdlist(t_list *cmdvec);
+t_cmdtree	*new_cmdlist(void);
 t_cmdtree	*new_redir(t_cmdtree *cmdtree);
 
 #endif

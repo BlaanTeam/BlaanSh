@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 16:49:07 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/27 19:36:39 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/28 16:06:08 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_cmdtree	*new_connector(int node_type, t_cmdtree *left, t_cmdtree *right)
 }
 
 // Command list node constructor
-t_cmdtree	*new_cmdlist(t_list *cmdvec)
+t_cmdtree	*new_cmdlist(void)
 {
 	t_cmdlist	*cmdlist;
 
