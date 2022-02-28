@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 18:56:26 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/28 00:12:52 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/28 17:44:46 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,30 @@ t_cmdtree	*parse_command(t_node **tokp)
 	{
 		ret = new_subsh(NULL);
 		((t_subsh *)ret)->cmdtree = parse_cmdline(tokp);
-		if (((t_subsh *)ret)->cmdtree == NULL || !expect(tokp, CPAR))
+		if (((t_subsh *)ret)->cmdtree == NULL || !accept(tokp, CPAR))
 			return (NULL);
 		return (parse_redir(ret, tokp));
 	}
 	return (parse_cmdlist(tokp));
+}
+
+// <cmdlist> ::=  <redir>+
+//           |    <redir> {<arg> <redir>}+
+t_cmdtree	*parse_cmdlist(t_node **tokp)
+{
+	t_cmdtree	*ret;
+	t_cmdlist	*cmdlist;
+
+	ret = new_cmdlist();
+	cmdlist = (t_cmdlist *)ret;
+	ret = parse_redir(ret, tokp);
+	while (current(*tokp) == WORD)
+	{
+		push_back(cmdlist->cmdvec, WORD, (*tokp)->val);
+		scan(tokp);
+		ret = parse_redir(ret, tokp);
+	}
+	if (ret == (t_cmdlist *)cmdlist && !cmdlist->cmdvec->len)
+		ret = NULL;
+	return (ret);
 }
