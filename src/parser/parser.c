@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 17:09:44 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/27 23:15:25 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/28 16:30:14 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@
 // <command>    ::=  <cmdlist>
 //              |    "(" <cmdline> ")" <redir>  (* subshell *)
 //
-// <cmdlist>    ::=  <redir> {<arg> <redir>}+
+// <cmdlist>    ::=  <redir>+                    (* at least one redirect - without WORDs *)
+//              |    <redir> {<arg> <redir>}+    (* at least one WORD - zero or more <redir> in any place *)
 //
 // <redir>      ::=  {("<" | "<<" | ">" | ">>") <filename>}
 //
-// <arg> <filename> ::= token WORD | token PATH
+// <arg> <filename> ::= token WORD
 
 // Parser
 t_cmdtree	*parser(t_lexer *tokens)
