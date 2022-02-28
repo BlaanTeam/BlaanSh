@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 16:00:14 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/24 01:19:06 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/28 22:33:24 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,16 @@ static void	display_prefixed_venv(t_venv *venv)
 	if (venv)
 	{
 		display_prefixed_venv(venv->next);
-		printf("declare -x %s=\"%s\"\n", venv->key, venv->value);
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		ft_putstr_fd(venv->key, STDOUT_FILENO);
+		if (venv->value && *venv->value)
+		{
+			ft_putstr_fd("=", STDOUT_FILENO);
+			ft_putstr_fd("\"", STDOUT_FILENO);
+			ft_putstr_fd(venv->value, STDOUT_FILENO);
+			ft_putstr_fd("\"", STDOUT_FILENO);
+		}
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	}
 }
 
@@ -88,13 +97,13 @@ void	export(char **av, t_venv **venv)
 	while (av[++i])
 	{
 		if (is_option(av[i]) && check)
-			return (cmd_error("export", av[i], "invalid option"));
+			return (_error("export", av[i], "invalid option", 2));
 		else if (is_identifier(av[i]))
 			declare(venv, E_GLOBAL | E_EMPTY, av[i], 0);
 		else if (is_assignment(av[i], &mode))
 			declare(venv, E_GLOBAL, av[i], mode);
 		else
-			cmd_error("export", av[i], "not a valid identifier");
+			_error("export", av[i], "not a valid identifier", 1);
 		check = false;
 	}
 }

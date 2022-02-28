@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 20:05:02 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/24 01:18:51 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/28 22:30:14 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_option(char *cmd, char *arg)
 		if (arg[1] == '\0')
 			return (1);
 		else
-			return (cmd_error(cmd, arg, "invalid option"), -1);
+			return (_error(cmd, arg, "invalid option", 2), -1);
 	}
 	return (0);
 }
@@ -30,12 +30,12 @@ static void	change_dir(char *next_path, t_venv **venv)
 
 	current_path = ft_getcwd();
 	if (chdir(next_path) == -1)
-		cmd_error("cd", next_path, strerror(errno));
+		_error("cd", next_path, strerror(errno), 1);
 	else
 	{
 		if (ft_memcmp(next_path, ".", sizeof(".")) == 0 && errno == ENOENT)
-			return (cmd_error("cd", "error retrieving current directory: \
-getcwd: cannot access parent directories", strerror(errno)));
+			return (_error("cd", "error retrieving current directory: \
+getcwd: cannot access parent directories", strerror(errno), 1));
 		venv_insert(venv, "OLDPWD", current_path, E_GLOBAL);
 		venv_insert(venv, "PWD", ft_getcwd(), E_GLOBAL);
 		set_status(0);
@@ -51,7 +51,7 @@ void	cd(char **av, t_venv **venv)
 	{
 		var = getvenv("HOME");
 		if (!var)
-			return (cmd_error("cd", "HOME not set", NULL));
+			return (_error("cd", "HOME not set", NULL, 1));
 		return (change_dir(var, venv));
 	}
 	opt = check_option("cd", av[0]);
@@ -59,7 +59,7 @@ void	cd(char **av, t_venv **venv)
 	{
 		var = getvenv("OLDPWD");
 		if (!var)
-			return (cmd_error("cd", "OLDPWD not set", NULL));
+			return (_error("cd", "OLDPWD not set", NULL, 1));
 		return (change_dir(var, venv));
 	}
 	else if (opt == 0)

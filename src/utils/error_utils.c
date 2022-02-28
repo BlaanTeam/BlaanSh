@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 20:20:51 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/24 01:18:24 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/28 22:31:35 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,21 @@ void	alloc_error(void)
 	exit_with_code(EXIT_FAILURE, "malloc", false);
 }
 
-void	cmd_error(char *cmd, char *msg, char *extra)
-{	
-	int	out_fd;
-
-	out_fd = dup(STDOUT_FILENO);
-	dup2(STDERR_FILENO, STDOUT_FILENO);
-	printf("%s: %s: %s", g_global.program_name, cmd, msg);
+void	_error(char *title, char *msg, char *extra, int status)
+{
+	ft_putstr_fd(g_global.program_name, STDERR_FILENO);
+	ft_putstr_fd(": ", STDERR_FILENO);
+	ft_putstr_fd(title, STDERR_FILENO);
+	if (msg)
+	{
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(msg, STDERR_FILENO);
+	}
 	if (extra)
-		printf(": %s", extra);
-	printf("\n");
-	set_status(1);
-	dup2(out_fd, STDOUT_FILENO);
+	{
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(extra, STDERR_FILENO);	
+	}
+	ft_putstr_fd("\n", STDERR_FILENO);
+	set_status(status);
 }

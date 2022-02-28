@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 17:32:29 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/28 00:25:37 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/28 22:31:18 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ int	ft_execvp(char *file, char **argv)
 
 	argv[0] = find_path(file, getvenv("PATH"));
 	if (!argv[0])
-		(cmd_error(file, "command not found", NULL), \
+		(_error(file, "command not found", NULL, 1), \
 		gc_clean(&g_global.gc, GC_TMP), exit(127));
 	stat(argv[0], &stat_);
 	if (S_ISDIR(stat_.st_mode))
-		(cmd_error(file, strerror(EISDIR), NULL), \
+		(_error(file, strerror(EISDIR), NULL, 1), \
 		gc_clean(&g_global.gc, GC_TMP), exit(126));
 	env = venv_export_array(g_global.venv);
 	execve(argv[0], argv, env);

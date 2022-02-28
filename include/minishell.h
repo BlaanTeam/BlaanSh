@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/28 15:50:54 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/28 22:32:54 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*getvenv(char *key);
 // error utils
 void	exit_with_code(int status, char *msg, bool silently);
 void	alloc_error(void);
-void	cmd_error(char *cmd, char *msg, char *extra);
+void	_error(char *title, char *msg, char *extra, int status);
 
 // builtin commands
 void	cd(char **av, t_venv **venv);
