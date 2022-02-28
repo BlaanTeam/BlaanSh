@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 01:22:28 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/26 23:51:53 by asabani          ###   ########.fr       */
+/*   Updated: 2022/02/28 15:48:08 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,31 +59,4 @@ t_venv	*venv_find(t_venv *venv_head, char *key)
 		venv_head = venv_head->next;
 	}
 	return (NULL);
-}
-
-/*
-	These functions for debugging :
-		- display_venv
-		- display_env
-*/
-
-void	display_venv(t_venv *venv)
-{
-	printf("-----------------The venv variables-----------------\n");
-	while (venv)
-	{
-		printf("%s=%s\n", venv->key, venv->value);
-		venv = venv->next;
-	}
-}
-
-void	display_env(char **env)
-{
-	int	i;
-
-	if (!env)
-		return ;
-	i = -1;
-	while (env[++i])
-		printf("%s\n", env[i]);
 }
