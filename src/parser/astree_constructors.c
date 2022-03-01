@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 16:49:07 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/28 16:06:08 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/01 20:34:03 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ t_cmdtree	*new_cmdlist(void)
 	cmdlist = gc_filter(malloc(sizeof(t_cmdlist)), GC_TMP);
 	cmdlist->node_type = NODE_CMDLST;
 	cmdlist->cmdvec = new_list();
-	cmdlist->cmdargs = NULL;
 	return ((t_cmdtree *)cmdlist);
 }
 
