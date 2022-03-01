@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 17:08:16 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/28 18:13:33 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/01 20:19:06 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ typedef struct s_cmdlist
 {
 	int		node_type;
 	t_list	*cmdvec;
-	char	**cmdargs;
 }				t_cmdlist;
 
 typedef struct s_redir
