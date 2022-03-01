@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 18:56:26 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/28 17:53:24 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/01 16:59:46 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_cmdtree	*parse_pipeline(t_node **tokp)
 	ret = parse_command(tokp);
 	if (!ret)
 		return (NULL);
-	while (accept(*tokp, PIPE))
+	while (accept(tokp, PIPE))
 	{
 		ret = new_connector(NODE_PIPE, ret, NULL);
 		((t_connector *)ret)->rcmdtree = parse_command(tokp);
@@ -83,7 +83,7 @@ t_cmdtree	*parse_command(t_node **tokp)
 
 	if (current(*tokp) == ENDOFCMD)
 		return (NULL);
-	if (accept(*tokp, OPAR))
+	if (accept(tokp, OPAR))
 	{
 		ret = new_subsh(NULL);
 		((t_subsh *)ret)->cmdtree = parse_cmdline(tokp);
@@ -106,13 +106,17 @@ t_cmdtree	*parse_cmdlist(t_node **tokp)
 	ret = new_cmdlist();
 	cmdlist = (t_cmdlist *)ret;
 	ret = parse_redir(ret, tokp);
+	if (!ret)
+		return (NULL);
 	while (current(*tokp) == WORD)
 	{
 		push_back(cmdlist->cmdvec, WORD, (*tokp)->val);
 		scan(tokp);
 		ret = parse_redir(ret, tokp);
+		if (!ret)
+			return (NULL);
 	}
-	if (ret == (t_cmdlist *)cmdlist && !cmdlist->cmdvec->len)
+	if (ret == (t_cmdtree *)cmdlist && !cmdlist->cmdvec->len)
 		ret = NULL;
 	return (ret);
 }
