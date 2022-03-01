@@ -3,36 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/28 22:32:54 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/01 17:11:00 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+
 # include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
 # include <stdbool.h>
-# include "readline/readline.h"
-# include "readline/history.h"
-# include <errno.h>
-# include <sys/types.h>
+# include <stdlib.h>
+
+# include <unistd.h>
 # include <termios.h>
 # include <signal.h>
 # include <dirent.h>
+# include <fcntl.h>
+# include <errno.h>
+# include <sys/wait.h>
+# include <sys/types.h>
+
 # include <paths.h>
+# include <limits.h>
+
+// Dependencies: GNU Readline
+# include "readline/readline.h"
+# include "readline/history.h"
+
+// Local header files
 # include "gc.h"
 # include "libft.h"
-# include <limits.h>
+# include "lexer.h"
+# include "parser.h"
+
 # define E_GLOBAL 0x1
 # define E_LOCAL 0x2
 # define E_EMPTY 0x4
-
-# include "lexer.h"
-# include "parser.h"
 
 typedef struct s_venv
 {
