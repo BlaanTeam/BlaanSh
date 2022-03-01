@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 17:08:16 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/28 16:06:30 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/02/28 18:13:33 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_cmdlist
 typedef struct s_redir
 {
 	int			node_type;
-	int			redir_type;
+	t_token		redir_type;
 	int			io_src;
 	int			io_dst;
 	int			oflag;
