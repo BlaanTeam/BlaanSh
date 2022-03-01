@@ -46,3 +46,9 @@ void	close_pipe(int fds[2])
 	close(fds[WRITE_END]);
 }
 
+void	ft_dup2(int dest, int src)
+{
+	close(src);
+	dup2(dest, src);
+}
+

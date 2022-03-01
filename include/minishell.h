@@ -78,6 +78,7 @@ void	set_program_name(char *path);
 void	set_status(int status);
 int		get_status(void);
 void	close_pipe(int fds[2]);
+void	ft_dup2(int dest, int src);
 
 // termios utils
 void	term_init(void);
