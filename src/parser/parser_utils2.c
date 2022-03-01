@@ -39,21 +39,21 @@
 // <redir>  ::=  {("<" | "<<" | ">" | ">>") <filename>}
 t_cmdtree	*parse_redir(t_cmdtree *cmdtree, t_node **tokp)
 {
-	(void)tokp;
-	return (cmdtree);
-	// t_cmdtree	*ret;
-	// t_redir		*retcpy;
-	// t_token		redir_type;
+	t_cmdtree	*ret;
+	t_token		redir_type;
 
-	// if (current(*tokp) == ENDOFCMD)
-	// 	return (cmdtree);
-	// ret = (t_cmdtree *)cmdtree;
-	// while (current(*tokp) & REDIRECT)
-	// {
-	// 	redir_type = scan(tokp);
-	// 	if (current(*tokp) != WORD)
-	// 		return (NULL);
-	// 	ret = new_redir(ret);
-	// 	fill_redir_node((t_redir *)ret, redir_type, *tokp)
-	// }
+	if (current(*tokp) == ENDOFCMD)
+		return (cmdtree);
+	ret = cmdtree;
+	while (current(*tokp) & REDIRECT)
+	{
+		redir_type = scan(tokp);
+		if (current(*tokp) != WORD)
+			return (NULL);
+		ret = new_redir(ret);
+		if (!fill_redir((t_redir *)ret, redir_type, (*tokp)->val))
+			return (NULL);
+		scan(tokp);
+	}
+	return (ret);
 }
