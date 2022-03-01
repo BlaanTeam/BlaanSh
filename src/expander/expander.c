@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 13:35:44 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/28 15:33:13 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/01 23:45:47 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,6 @@ t_list	*expander(t_list *tokens)
 	t_node	*next;
 
 	next = NULL;
-	del_front(tokens);
 	top = tokens->top;
 	while (top && top->token != ENDOFCMD)
 	{

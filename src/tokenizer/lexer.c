@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 17:04:34 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/01 19:38:50 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/01 23:00:53 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,7 @@ t_lexer	*lexer(char *cmdline)
 		set_status(2);
 		return (NULL);
 	}
-	return (expander(tokens));
+	tokens = expander(tokens);
+	del_front(tokens);
+	return (tokens);
 }
