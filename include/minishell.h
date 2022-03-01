@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/01 20:31:25 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/02 00:42:31 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ int		check_option(char *cmd, char *arg);
 // execution utils
 int		ft_execvp(char *file, char **argv);
 void	exec_cmd(char *cmd, char **argv);
+void	executor(t_cmdtree *tree);
 
 // display utils (for debugging)
 void	display_tokens(t_node *top);
