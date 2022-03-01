@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 23:42:02 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/24 20:40:17 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/01 23:53:16 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,3 +52,8 @@ void	ft_dup2(int dest, int src)
 	dup2(dest, src);
 }
 
+void	check_status(void)
+{
+	if (WIFSIGNALED(g_global.status))
+		ft_putstr_fd("\n", STDOUT_FILENO);
+}
