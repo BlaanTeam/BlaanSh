@@ -57,3 +57,13 @@ void	check_status(void)
 	if (WIFSIGNALED(g_global.status))
 		ft_putstr_fd("\n", STDOUT_FILENO);
 }
+
+pid_t	ft_fork(void)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == -1)
+		return (_error("fork", strerror(errno), NULL, 1), -1);
+	return (pid);
+}

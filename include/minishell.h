@@ -79,6 +79,7 @@ void	set_status(int status);
 int		get_status(void);
 void	close_pipe(int fds[2]);
 void	ft_dup2(int dest, int src);
+pid_t	ft_fork(void);
 void	check_status(void);
 
 // termios utils
