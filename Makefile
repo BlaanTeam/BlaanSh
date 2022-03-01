@@ -31,7 +31,12 @@ FILES =	minishell.c \
 		builtins/export_cmd.c \
 		executor/ft_execvp.c \
 		executor/exec_utils.c \
-		utils/display_utils.c
+		utils/display_utils.c \
+		parser/astree_constructors.c \
+		parser/parser_helpers.c \
+		parser/parser_utils1.c \
+		parser/parser_utils2.c \
+		parser/parser.c
 OBJS = $(FILES:%.c=%.o)
 OBJS := $(addprefix $(SRC), $(OBJS))
 RL_DIR = $(addprefix $(shell brew --prefix readline), /)
