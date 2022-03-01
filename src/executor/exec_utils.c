@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 21:06:04 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/28 22:31:01 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/02 00:02:45 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,21 @@ void	exec_cmd(char *cmd, char **argv)
 
 	if (is_builtin(cmd, argv + 1))
 		return ;
-	pid = fork();
+	pid = ft_fork();
 	if (pid == -1)
-		(_error("fork", strerror(errno), NULL, 1), exit(1));
+		return ;
 	else if (pid == 0)
 	{
-		term_restore();
+		// term_restore(); // TODO: fix termios logic
 		ft_execvp(cmd, argv);
 		_error(cmd, strerror(errno), NULL, 1);
-		gc_clean(&g_global.gc, GC_TMP);
+		gc_clean(&g_global.gc, GC_DESTROY_SELF);
 		if (errno == ENOENT)
 			exit(127);
 		if (errno == EACCES)
 			exit(126);
 		exit(1);
 	}
+	wait(&g_global.status);
+	check_status();
 }
