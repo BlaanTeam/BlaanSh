@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 17:09:44 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/01 17:14:59 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/01 19:35:27 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_cmdtree	*parser(t_lexer *tokens)
 	if (!syntax_tree
 		|| (tokp && current(tokp) != ENDOFCMD))
 	{
-		_error("parser", "Syntax Error", NULL, 2);
+		_error("parser", "syntax error!", NULL, 2);
 		return (NULL);
 	}
 	return (syntax_tree);
