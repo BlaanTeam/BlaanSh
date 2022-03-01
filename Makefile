@@ -22,13 +22,13 @@ FILES =	minishell.c \
 		tokenizer/list_destructor_utils.c \
 		syntax_analyser/syntax_analyser.c \
 		expander/expander.c \
-		builtin_commands/cd_cmd.c \
-		builtin_commands/pwd_cmd.c \
-		builtin_commands/echo_cmd.c \
-		builtin_commands/exit_cmd.c \
-		builtin_commands/unset_cmd.c \
-		builtin_commands/env_cmd.c \
-		builtin_commands/export_cmd.c \
+		builtins/cd_cmd.c \
+		builtins/pwd_cmd.c \
+		builtins/echo_cmd.c \
+		builtins/exit_cmd.c \
+		builtins/unset_cmd.c \
+		builtins/env_cmd.c \
+		builtins/export_cmd.c \
 		executor/ft_execvp.c \
 		executor/exec_utils.c \
 		utils/display_utils.c
