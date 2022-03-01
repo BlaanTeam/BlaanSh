@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/01 17:11:00 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/01 20:31:25 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@
 # define E_GLOBAL 0x1
 # define E_LOCAL 0x2
 # define E_EMPTY 0x4
+# define READ_END 0
+# define WRITE_END 1
 
 typedef struct s_venv
 {
