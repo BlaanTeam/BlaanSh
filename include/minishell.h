@@ -77,6 +77,7 @@ bool	is_option(char *str);
 void	set_program_name(char *path);
 void	set_status(int status);
 int		get_status(void);
+void	close_pipe(int fds[2]);
 
 // termios utils
 void	term_init(void);

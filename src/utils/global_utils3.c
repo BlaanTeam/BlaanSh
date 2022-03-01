@@ -39,3 +39,10 @@ int	get_status(void)
 	}
 	return (WEXITSTATUS(g_global.status));
 }
+
+void	close_pipe(int fds[2])
+{
+	close(fds[READ_END]);
+	close(fds[WRITE_END]);
+}
+
