@@ -23,18 +23,28 @@
 // 	t_cmdtree	*cmdtree;
 // }				t_redir;
 
-// void	fill_redir_node(t_redir *redir, t_token redir_type, char *file_delem)
-// {
-// 	redir->redir_type = redir_type;
-// 	redir->io_src = STDIN_FILENO;
-// 	redir->oflag = O_CREAT | O_RDONLY;
-// 	if (redir_type & (GREAT | DGREAT))
-// 	{
-// 		redir->io_src = STDOUT_FILENO;
-// 		redir->oflag &= ~O_RDONLY;
-// 		if (ret)
-// 	}
-// }
+int	fill_redir(t_redir *redir, t_token redir_type, char *file_delem)
+{
+	redir->redir_type = redir_type;
+	redir->io_src = STDIN_FILENO;
+	redir->oflag = O_RDONLY;
+	redir->filename = file_delem;
+	if (redir_type & (GREAT | DGREAT))
+	{
+		redir->io_src = STDOUT_FILENO;
+		if (redir_type == GREAT)
+			redir->oflag = O_CREAT | O_WRONLY | O_TRUNC;
+		else
+			redir->oflag = O_CREAT | O_WRONLY | O_APPEND;
+	}
+	else if (redir_type == DLESS)
+	{
+		redir->io_dst = heredoc(file_delem);
+		if (redir->io_dst == -1)
+			return (0);
+	}
+	return (1);
+}
 
 // <redir>  ::=  {("<" | "<<" | ">" | ">>") <filename>}
 t_cmdtree	*parse_redir(t_cmdtree *cmdtree, t_node **tokp)
