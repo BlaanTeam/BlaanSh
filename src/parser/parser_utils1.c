@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 18:56:26 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/01 16:59:46 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/01 20:06:06 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,13 @@ t_cmdtree	*parse_cmdline(t_node **tokp)
 	if (current(*tokp) & (FG | BG))
 	{
 		if (scan(tokp) == FG)
-			return (new_connector(NODE_FG, ret, parse_cmdline(tokp)));
-		return (new_connector(NODE_BG, ret, parse_cmdline(tokp)));
+			ret = new_connector(NODE_FG, ret, NULL);
+		ret = new_connector(NODE_BG, ret, NULL);
+		if (current(*tokp) == ENDOFCMD)
+			return (ret);
+		((t_connector *)ret)->rcmdtree = parse_cmdline(tokp);
+		if (((t_connector *)ret)->rcmdtree == NULL)
+			return (NULL);
 	}
 	return (ret);
 }
