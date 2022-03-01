@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 18:57:47 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/27 23:45:00 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/01 18:28:19 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,6 @@ int	expect(t_node **tokp, t_token expected)
 {
 	if (accept(tokp, expected))
 		return (1);
-	_error("expect: unexpected token", 158);
+	_error("expect", "unexpected token", NULL, 2);
 	return (0);
 }
