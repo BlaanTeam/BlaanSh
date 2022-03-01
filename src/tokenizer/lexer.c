@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/25 17:04:34 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/25 17:04:56 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/01 19:38:50 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_lexer	*lexer(char *cmdline)
 	tokens = tokenizer(cmdline);
 	if (!validate_syntax(tokens))
 	{
-		set_status(158);
+		set_status(2);
 		return (NULL);
 	}
 	return (expander(tokens));
