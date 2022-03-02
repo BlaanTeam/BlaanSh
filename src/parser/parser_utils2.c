@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils2.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 18:56:47 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/02 15:45:45 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/03 00:57:57 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,25 @@ int	heredoc(char *delim)
 {
 	int		hfd[2];
 	int		nbytes;
-	char	buff[BUFSIZ + 1];
+	char	buff[PIPE_BUF + 1];
 
-	if (pipe(hfd) == -1)
+	if (!delim || pipe(hfd) == -1)
 		return (-1);
 	write(1, "heredoc> ", 9);
-	nbytes = read(0, buff, BUFSIZ);
+	nbytes = read(0, buff, PIPE_BUF);
 	while (nbytes > 0)
 	{
 		buff[nbytes] = 0;
-		if ((nbytes - 1) && strncmp(buff, delim, nbytes - 1) == 0)
-		{
-			close(hfd[WRITE_END]);
-			return (hfd[READ_END]);
-		}
+		if ((nbytes - 1) && ft_memcmp(delim, buff, ft_strlen(delim)) == 0 && \
+		buff[ft_strlen(delim)] == '\n')
+			return (close(hfd[WRITE_END]), hfd[READ_END]);
 		write(hfd[WRITE_END], buff, nbytes);
 		write(1, "heredoc> ", 9);
-		nbytes = read(0, buff, BUFSIZ);
+		nbytes = read(0, buff, PIPE_BUF);
 	}
-	close(hfd[WRITE_END]);
-	return (hfd[READ_END]);
+	if (nbytes < 0)
+		return (close_pipe(hfd), -1);
+	return (close(hfd[WRITE_END]), hfd[READ_END]);
 }
 
 int	fill_redir(t_redir *redir, t_token redir_type, char *file_delem)
@@ -53,11 +52,9 @@ int	fill_redir(t_redir *redir, t_token redir_type, char *file_delem)
 			redir->oflag = O_CREAT | O_WRONLY | O_APPEND;
 	}
 	else if (redir_type == DLESS)
-	{
 		redir->io_dst = heredoc(file_delem);
-		if (redir->io_dst == -1)
-			return (0);
-	}
+	if (redir->io_dst == -1)
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	return (1);
 }
 
