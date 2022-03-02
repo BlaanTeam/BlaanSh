@@ -86,6 +86,21 @@ void	run_logical_connector(t_connector *connector, int node_type)
 	}
 }
 
+void	run_subshell(t_subsh *subshell)
+{
+	pid_t	pid;
+
+	pid = ft_fork();
+	if (pid == -1)
+		return ;
+	if (pid == 0)
+	{
+		executor(subshell->cmdtree);
+		exit(get_status());
+	}
+	waitpid(pid, &g_global.status, 0);
+}
+
 void	executor(t_cmdtree *tree)
 {
 	if (!tree)
@@ -96,4 +111,6 @@ void	executor(t_cmdtree *tree)
 		return (run_pipeline((t_connector *)tree));
 	else if (tree->node_type == NODE_AND || tree->node_type == NODE_OR)
 		return (run_logical_connector((t_connector *)tree, tree->node_type));
+	else if (tree->node_type == NODE_SUBSH)
+		return (run_subshell((t_subsh *)tree));
 }
