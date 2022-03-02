@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:12:41 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/02 17:43:30 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/02 23:58:45 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,34 @@ void	run_fg_connector(t_connector *connecter)
 	executor(connecter->rcmdtree);
 }
 
+int	run_redirection(t_redir	*redir, int exec)
+{
+	int	open_;
+
+	open_ = 1;
+	if (redir->cmdtree && redir->cmdtree->node_type == NODE_REDIR)
+		open_ = run_redirection((t_redir *)redir->cmdtree, 0);
+	if (open_)
+	{
+		if (!(redir->redir_type & DLESS))
+			redir->io_dst = open(redir->filename, redir->oflag, \
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		if (redir->io_dst == -1)
+			return (_error(redir->filename, strerror(errno), NULL, 1), 0);
+		dup2(redir->io_dst, redir->io_src);
+		close(redir->io_dst);
+		if (exec)
+		{
+			while (redir->cmdtree && redir->cmdtree->node_type == NODE_REDIR)
+				redir = (t_redir *)redir->cmdtree;
+			executor(redir->cmdtree);
+		}
+	}
+	else
+		return (set_status(1), 0);
+	return (1);
+}
+
 void	executor(t_cmdtree *tree)
 {
 	if (!tree)
@@ -140,4 +168,6 @@ void	executor(t_cmdtree *tree)
 		return (run_fg_connector((t_connector *)tree));
 	else if (tree->node_type == NODE_BG)
 		return (run_bg_connector((t_connector *)tree));
+	else if (tree->node_type == NODE_REDIR)
+		run_redirection((t_redir *)tree, 1);
 }
