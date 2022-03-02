@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:12:41 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/02 00:25:01 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/02 17:43:30 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,57 @@ void	run_cmdlist(t_cmdlist *cmdlist)
 	exec_cmd(argv[0], argv);
 }
 
+void	run_logical_connector(t_connector *connector, int node_type)
+{
+	executor(connector->lcmdtree);
+	if (node_type == NODE_AND)
+	{
+		if (WIFEXITED(g_global.status) && WEXITSTATUS(g_global.status) == 0)
+			executor(connector->rcmdtree);
+	}
+	else
+	{
+		if (WIFEXITED(g_global.status) && WEXITSTATUS(g_global.status) != 0)
+			executor(connector->rcmdtree);
+	}
+}
+
+void	run_subshell(t_subsh *subshell)
+{
+	pid_t	pid;
+
+	pid = ft_fork();
+	if (pid == -1)
+		return ;
+	if (pid == 0)
+	{
+		executor(subshell->cmdtree);
+		exit(get_status());
+	}
+	waitpid(pid, &g_global.status, 0);
+}
+
+void	run_bg_connector(t_connector *connector)
+{
+	pid_t	pid;
+
+	pid = ft_fork();
+	if (pid == -1)
+		return ;
+	if (pid == 0)
+	{
+		executor(connector->lcmdtree);
+		exit(get_status());
+	}
+	executor(connector->rcmdtree);
+}
+
+void	run_fg_connector(t_connector *connecter)
+{
+	executor(connecter->lcmdtree);
+	executor(connecter->rcmdtree);
+}
+
 void	executor(t_cmdtree *tree)
 {
 	if (!tree)
@@ -79,4 +130,12 @@ void	executor(t_cmdtree *tree)
 		return (run_cmdlist((t_cmdlist *)tree));
 	else if (tree->node_type == NODE_PIPE)
 		return (run_pipeline((t_connector *)tree));
+	else if (tree->node_type == NODE_AND || tree->node_type == NODE_OR)
+		return (run_logical_connector((t_connector *)tree, tree->node_type));
+	else if (tree->node_type == NODE_SUBSH)
+		return (run_subshell((t_subsh *)tree));
+	else if (tree->node_type == NODE_FG)
+		return (run_fg_connector((t_connector *)tree));
+	else if (tree->node_type == NODE_BG)
+		return (run_bg_connector((t_connector *)tree));
 }
