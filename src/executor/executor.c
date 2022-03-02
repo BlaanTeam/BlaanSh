@@ -67,6 +67,8 @@ void	run_cmdlist(t_cmdlist *cmdlist)
 {
 	char	**argv;
 
+	if (!cmdlist->cmdvec->len)
+		return ;
 	argv = list_export_array(cmdlist->cmdvec);
 	exec_cmd(argv[0], argv);
 }
