@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 15:41:26 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/02 20:02:51 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/02 21:06:03 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void display_tree(t_cmdtree *tree, int ident_level)
 	else if (tree->node_type == NODE_REDIR) {
 		t_redir *redir = (t_redir *)tree;
 		fprintf(stderr, "REDIR %d to `%s`\n", redir->io_src, redir->filename);
-		display_tree(((t_redir *)tree)->cmdtree, ident_level + 1);
+		display_tree(redir->cmdtree, ident_level + 1);
 	}
 	else if (tree->node_type == NODE_PIPE || tree->node_type == NODE_FG
 		|| tree->node_type == NODE_BG || tree->node_type == NODE_AND
@@ -120,5 +120,4 @@ void display_tree(t_cmdtree *tree, int ident_level)
 		display_tree(((t_connector *)tree)->lcmdtree, ident_level + 1);
 		display_tree(((t_connector *)tree)->rcmdtree, ident_level + 1);
 	}
-	
 }
