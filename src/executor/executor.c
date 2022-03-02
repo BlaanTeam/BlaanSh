@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 16:12:41 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/02 00:25:01 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/02 17:43:30 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,12 @@ void	run_bg_connector(t_connector *connector)
 	executor(connector->rcmdtree);
 }
 
+void	run_fg_connector(t_connector *connecter)
+{
+	executor(connecter->lcmdtree);
+	executor(connecter->rcmdtree);
+}
+
 void	executor(t_cmdtree *tree)
 {
 	if (!tree)
@@ -128,6 +134,8 @@ void	executor(t_cmdtree *tree)
 		return (run_logical_connector((t_connector *)tree, tree->node_type));
 	else if (tree->node_type == NODE_SUBSH)
 		return (run_subshell((t_subsh *)tree));
+	else if (tree->node_type == NODE_FG)
+		return (run_fg_connector((t_connector *)tree));
 	else if (tree->node_type == NODE_BG)
 		return (run_bg_connector((t_connector *)tree));
 }
