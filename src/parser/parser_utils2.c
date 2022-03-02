@@ -6,22 +6,37 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 18:56:47 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/01 16:47:56 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/02 15:45:45 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// typedef struct s_redir
-// {
-// 	int			node_type;
-// 	t_token		redir_type;
-// 	int			io_src;
-// 	int			io_dst;
-// 	int			oflag;
-// 	char		*filename;
-// 	t_cmdtree	*cmdtree;
-// }				t_redir;
+int	heredoc(char *delim)
+{
+	int		hfd[2];
+	int		nbytes;
+	char	buff[BUFSIZ + 1];
+
+	if (pipe(hfd) == -1)
+		return (-1);
+	write(1, "heredoc> ", 9);
+	nbytes = read(0, buff, BUFSIZ);
+	while (nbytes > 0)
+	{
+		buff[nbytes] = 0;
+		if ((nbytes - 1) && strncmp(buff, delim, nbytes - 1) == 0)
+		{
+			close(hfd[WRITE_END]);
+			return (hfd[READ_END]);
+		}
+		write(hfd[WRITE_END], buff, nbytes);
+		write(1, "heredoc> ", 9);
+		nbytes = read(0, buff, BUFSIZ);
+	}
+	close(hfd[WRITE_END]);
+	return (hfd[READ_END]);
+}
 
 int	fill_redir(t_redir *redir, t_token redir_type, char *file_delem)
 {
