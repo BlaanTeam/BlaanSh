@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 15:41:26 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/02 17:04:50 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/02 20:02:51 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,17 @@ const char *token_names[] = {
 	"DLESS",
 	"GREAT",
 	"DGREAT",
+};
+
+const char *type[] = {
+	"CMDLST",
+	"SUBSH",
+	"PIPE",
+	"AND",
+	"OR",
+	"FG",
+	"BG",
+	"REDIR"
 };
 
 // todo: display_astree
@@ -84,27 +95,30 @@ void display_tree(t_cmdtree *tree, int ident_level)
 	}
 	if (tree->node_type == NODE_CMDLST)
 	{
-		t_cmdlist *cpy = (t_cmdlist *) tree;
-		fprintf(stderr, "├── EXEC: %s\n", cpy->cmdvec->top->val);
+		fprintf(stderr, "├── CMDLIST:");
+		t_node	*lst = ((t_cmdlist *)tree)->cmdvec->top;
+		while (lst) {
+			fprintf(stderr, " %s", lst->val);
+			lst = lst->next;
+		}
+		fprintf(stderr, "\n");
 	}
-	else if (tree->node_type == NODE_PIPE)
+	else if (tree->node_type == NODE_SUBSH) {
+		fprintf(stderr, "├── SUBSH\n");
+		display_tree(((t_subsh *)tree)->cmdtree, ident_level + 1);
+	}
+	else if (tree->node_type == NODE_REDIR) {
+		t_redir *redir = (t_redir *)tree;
+		fprintf(stderr, "REDIR %d to `%s`\n", redir->io_src, redir->filename);
+		display_tree(((t_redir *)tree)->cmdtree, ident_level + 1);
+	}
+	else if (tree->node_type == NODE_PIPE || tree->node_type == NODE_FG
+		|| tree->node_type == NODE_BG || tree->node_type == NODE_AND
+		|| tree->node_type == NODE_OR)
 	{
-		fprintf(stderr, "├── PIPE:\n");
+		fprintf(stderr, "├── %s\n", type[tree->node_type]);
 		display_tree(((t_connector *)tree)->lcmdtree, ident_level + 1);
 		display_tree(((t_connector *)tree)->rcmdtree, ident_level + 1);
 	}
-	else if (tree->node_type == NODE_FG)
-	{
-		fprintf(stderr, "├── FG:\n");
-		display_tree(((t_connector *)tree)->lcmdtree, ident_level + 1);
-		display_tree(((t_connector *)tree)->rcmdtree, ident_level + 1);	
-	}
-	else if (tree->node_type == NODE_BG)
-	{
-		fprintf(stderr, "├── BG:\n");
-		display_tree(((t_connector *)tree)->lcmdtree, ident_level + 1);
-		display_tree(((t_connector *)tree)->rcmdtree, ident_level + 1);	
-	}
-	else
-	 return ;
+	
 }
