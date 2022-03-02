@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/02 00:42:31 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/02 16:51:37 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,6 @@ void	executor(t_cmdtree *tree);
 void	display_tokens(t_node *top);
 void	display_venv(t_venv *venv);
 void	display_env(char **env);
+void	display_tree(t_cmdtree *tree, int ident_level);
 
 #endif

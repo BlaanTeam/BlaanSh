@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 15:41:26 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/28 15:51:33 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/02 17:04:50 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,39 @@ void	display_env(char **env)
 	i = -1;
 	while (env[++i])
 		printf("%s\n", env[i]);
+}
+
+// tree visualizer
+void display_tree(t_cmdtree *tree, int ident_level)
+{
+	if (tree == NULL)
+		return ;
+	for (int i = 0; i < ident_level; i++) {
+		fprintf(stderr, "├   ");
+	}
+	if (tree->node_type == NODE_CMDLST)
+	{
+		t_cmdlist *cpy = (t_cmdlist *) tree;
+		fprintf(stderr, "├── EXEC: %s\n", cpy->cmdvec->top->val);
+	}
+	else if (tree->node_type == NODE_PIPE)
+	{
+		fprintf(stderr, "├── PIPE:\n");
+		display_tree(((t_connector *)tree)->lcmdtree, ident_level + 1);
+		display_tree(((t_connector *)tree)->rcmdtree, ident_level + 1);
+	}
+	else if (tree->node_type == NODE_FG)
+	{
+		fprintf(stderr, "├── FG:\n");
+		display_tree(((t_connector *)tree)->lcmdtree, ident_level + 1);
+		display_tree(((t_connector *)tree)->rcmdtree, ident_level + 1);	
+	}
+	else if (tree->node_type == NODE_BG)
+	{
+		fprintf(stderr, "├── BG:\n");
+		display_tree(((t_connector *)tree)->lcmdtree, ident_level + 1);
+		display_tree(((t_connector *)tree)->rcmdtree, ident_level + 1);	
+	}
+	else
+	 return ;
 }
