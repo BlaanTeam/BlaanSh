@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 18:56:26 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/02 16:55:55 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/02 17:53:24 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_cmdtree	*parse_cmdline(t_node **tokp)
 			ret = new_connector(NODE_FG, ret, NULL);
 		else
 			ret = new_connector(NODE_BG, ret, NULL);
-		if (current(*tokp) == ENDOFCMD)
+		if (current(*tokp) & (ENDOFCMD | CPAR))
 			return (ret);
 		((t_connector *)ret)->rcmdtree = parse_cmdline(tokp);
 		if (((t_connector *)ret)->rcmdtree == NULL)
