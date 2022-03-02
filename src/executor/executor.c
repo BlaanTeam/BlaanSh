@@ -101,6 +101,21 @@ void	run_subshell(t_subsh *subshell)
 	waitpid(pid, &g_global.status, 0);
 }
 
+void	run_bg_connector(t_connector *connector)
+{
+	pid_t	pid;
+
+	pid = ft_fork();
+	if (pid == -1)
+		return ;
+	if (pid == 0)
+	{
+		executor(connector->lcmdtree);
+		exit(get_status());
+	}
+	executor(connector->rcmdtree);
+}
+
 void	executor(t_cmdtree *tree)
 {
 	if (!tree)
@@ -113,4 +128,6 @@ void	executor(t_cmdtree *tree)
 		return (run_logical_connector((t_connector *)tree, tree->node_type));
 	else if (tree->node_type == NODE_SUBSH)
 		return (run_subshell((t_subsh *)tree));
+	else if (tree->node_type == NODE_BG)
+		return (run_bg_connector((t_connector *)tree));
 }
