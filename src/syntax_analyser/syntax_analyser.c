@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 16:24:15 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/01 19:49:33 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/02 17:44:04 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ bool	check_connectors(t_node *tokp)
 		fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", tokp->val);
 		return (false);
 	}
-	else if ((tok & (FG | BG)) && right->token == ENDOFCMD)
+	else if ((tok & (FG | BG)) && (right->token & (ENDOFCMD | CPAR)))
 		return (true);
 	else if (!(right->token & (STRING | OPAR | REDIRECT)))
 	{
@@ -142,7 +142,7 @@ bool	check_parentheses(t_node *tokp)
 	}
 	else if (tok == CPAR)
 	{
-		if (!(left->token & (STRING | CPAR)))
+		if (!(left->token & (STRING | CPAR | BG | FG)))
 		{
 			fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", tokp->val);
 			return (false);
