@@ -32,6 +32,8 @@ FILES =	minishell.c \
 		executor/ft_execvp.c \
 		executor/exec_utils.c \
 		executor/executor.c \
+		executor/executor_utils1.c \
+		executor/executor_utils2.c \
 		utils/display_utils.c \
 		parser/astree_constructors.c \
 		parser/parser_helpers.c \

@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/02 16:51:37 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/03 00:46:26 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # include "libft.h"
 # include "lexer.h"
 # include "parser.h"
+# include "executor.h"
 
 # define E_GLOBAL 0x1
 # define E_LOCAL 0x2
@@ -111,10 +112,6 @@ void	echo(char **av);
 void	ft_exit(char **av);
 int		check_option(char *cmd, char *arg);
 
-// execution utils
-int		ft_execvp(char *file, char **argv);
-void	exec_cmd(char *cmd, char **argv);
-void	executor(t_cmdtree *tree);
 
 // display utils (for debugging)
 void	display_tokens(t_node *top);
