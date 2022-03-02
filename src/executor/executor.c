@@ -71,6 +71,21 @@ void	run_cmdlist(t_cmdlist *cmdlist)
 	exec_cmd(argv[0], argv);
 }
 
+void	run_logical_connector(t_connector *connector, int node_type)
+{
+	executor(connector->lcmdtree);
+	if (node_type == NODE_AND)
+	{
+		if (WIFEXITED(g_global.status) && WEXITSTATUS(g_global.status) == 0)
+			executor(connector->rcmdtree);
+	}
+	else
+	{
+		if (WIFEXITED(g_global.status) && WEXITSTATUS(g_global.status) != 0)
+			executor(connector->rcmdtree);
+	}
+}
+
 void	executor(t_cmdtree *tree)
 {
 	if (!tree)
@@ -79,4 +94,6 @@ void	executor(t_cmdtree *tree)
 		return (run_cmdlist((t_cmdlist *)tree));
 	else if (tree->node_type == NODE_PIPE)
 		return (run_pipeline((t_connector *)tree));
+	else if (tree->node_type == NODE_AND || tree->node_type == NODE_OR)
+		return (run_logical_connector((t_connector *)tree, tree->node_type));
 }
