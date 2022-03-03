@@ -1,15 +1,16 @@
 #
-# Names 
+# Macros 
 #
+
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror 
+SRC = src/
 INCLUDE = include/
 HEADER = minishell.h executor.h parser.h lexer.h
 HEADER := $(addprefix $(INCLUDE), $(HEADER))
-SRC = src/
-FILES =	minishell.c \
-		utils/termios_utils.c \
+
+UTILS_FILES = utils/termios_utils.c \
 		utils/error_utils.c \
 		utils/env_utils1.c \
 		utils/env_utils2.c \
@@ -17,35 +18,53 @@ FILES =	minishell.c \
 		utils/global_utils1.c \
 		utils/global_utils2.c \
 		utils/global_utils3.c \
-		tokenizer/tokenizer.c \
-		tokenizer/lexer.c \
-		tokenizer/list_constructor_utils.c \
-		tokenizer/list_destructor_utils.c \
-		syntax_analyser/syntax_analyser.c \
-		expander/expander.c \
-		builtins/cd_cmd.c \
+		utils/display_utils.c
+
+BUILTINS_FILES = builtins/cd_cmd.c \
 		builtins/pwd_cmd.c \
 		builtins/echo_cmd.c \
 		builtins/exit_cmd.c \
 		builtins/unset_cmd.c \
 		builtins/env_cmd.c \
-		builtins/export_cmd.c \
-		executor/ft_execvp.c \
+		builtins/export_cmd.c
+
+TOKENZIER_FILES = tokenizer/tokenizer.c \
+		tokenizer/lexer.c \
+		tokenizer/list_constructor_utils.c \
+		tokenizer/list_destructor_utils.c
+
+EXECUTOR_FILES = executor/ft_execvp.c \
 		executor/exec_utils.c \
 		executor/executor.c \
 		executor/executor_utils1.c \
-		executor/executor_utils2.c \
-		utils/display_utils.c \
-		parser/astree_constructors.c \
+		executor/executor_utils2.c
+
+PARSER_FILES = parser/astree_constructors.c \
 		parser/parser_helpers.c \
 		parser/parser_utils1.c \
 		parser/parser_utils2.c \
-		parser/parser.c
+		parser/parser.c \
+		syntax_analyser/syntax_analyser.c
+
+EXPANDER_FILES = expander/expander.c
+
+FILES =	minishell.c \
+	$(UTILS_FILES) \
+	$(BUILTINS_FILES) \
+	$(TOKENZIER_FILES) \
+	$(EXECUTOR_FILES) \
+	$(PARSER_FILES) \
+	$(EXPANDER_FILES) \
+		
 OBJS = $(FILES:%.c=%.o)
 OBJS := $(addprefix $(SRC), $(OBJS))
+
 RL_DIR = $(addprefix $(shell brew --prefix readline), /)
+
 LIBFT_PATH = libft/
 LIBFT = $(addprefix $(LIBFT_PATH), libft.a)
+
+
 LIBGC_PATH = libgc/
 LIBGC = $(addprefix $(LIBGC_PATH), libgc.a)
 
@@ -65,9 +84,11 @@ $(NAME): $(LIBFT) $(LIBGC)
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $^ -o $@ -lreadline -L$(addprefix $(RL_DIR), lib)
 
-# libft and libgc
+# libft
 $(LIBFT): $(addprefix $(LIBFT_PATH), libft.h)
 	make -C $(LIBFT_PATH) all clean
+
+# libgc
 $(LIBGC): $(addprefix $(LIBGC_PATH), include/gc.h)
 	make -C $(LIBGC_PATH) all clean
 
