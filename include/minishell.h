@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/03 00:46:26 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/03 20:07:32 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ void	export(char **av, t_venv **venv);
 void	echo(char **av);
 void	ft_exit(char **av);
 int		check_option(char *cmd, char *arg);
-
 
 // display utils (for debugging)
 void	display_tokens(t_node *top);
