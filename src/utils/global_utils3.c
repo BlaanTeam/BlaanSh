@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 23:42:02 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/02 01:22:42 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/03 20:37:58 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,14 @@ pid_t	ft_fork(void)
 	if (pid == -1)
 		return (_error("fork", strerror(errno), NULL, 1), -1);
 	return (pid);
+}
+
+int	ft_pipe(int fildes[2])
+{
+	int	ret;
+
+	ret = pipe(fildes);
+	if (ret == -1)
+		_error("pipe", strerror(errno), NULL, 1);
+	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/03 20:07:32 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/03 20:38:10 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int		get_status(void);
 void	close_pipe(int fds[2]);
 void	ft_dup2(int dest, int src);
 pid_t	ft_fork(void);
+int		ft_pipe(int fildes[2]);
 void	check_status(void);
 
 // termios utils
