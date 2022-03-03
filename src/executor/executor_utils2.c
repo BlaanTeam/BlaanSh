@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 00:48:59 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/03 00:51:37 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/03 20:31:20 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,16 @@ void	run_subshell(t_subsh *subshell)
 	waitpid(pid, &g_global.status, 0);
 }
 
+static void	redirection_exec(t_redir *redir)
+{
+	t_redir	*tmp;
+
+	tmp = redir;
+	while (tmp->cmdtree && tmp->cmdtree->node_type == NODE_REDIR)
+		tmp = (t_redir *)tmp->cmdtree;
+	executor(tmp->cmdtree);
+}
+
 int	run_redirection(t_redir	*redir, int exec)
 {
 	int	open_;
@@ -52,13 +62,10 @@ int	run_redirection(t_redir	*redir, int exec)
 			return (set_status(1), 0);
 		else if (redir->io_dst == -1)
 			return (_error(redir->filename, strerror(errno), NULL, 1), 0);
-		(dup2(redir->io_dst, redir->io_src), close(redir->io_dst));
+		ft_dup2(redir->io_dst, redir->io_src);
+		close(redir->io_dst);
 		if (exec)
-		{
-			while (redir->cmdtree && redir->cmdtree->node_type == NODE_REDIR)
-				redir = (t_redir *)redir->cmdtree;
-			executor(redir->cmdtree);
-		}
+			redirection_exec(redir);
 	}
 	else
 		return (set_status(1), 0);
