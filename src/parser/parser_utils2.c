@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 18:56:47 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/03 00:57:57 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/03 20:39:32 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	heredoc(char *delim)
 	int		nbytes;
 	char	buff[PIPE_BUF + 1];
 
-	if (!delim || pipe(hfd) == -1)
+	if (!delim || ft_pipe(hfd) == -1)
 		return (-1);
 	write(1, "heredoc> ", 9);
 	nbytes = read(0, buff, PIPE_BUF);

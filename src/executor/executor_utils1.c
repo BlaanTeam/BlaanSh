@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 00:45:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/03 00:50:00 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/03 20:39:22 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	run_pipeline(t_connector *connector)
 	int	pids[2];
 	int	fds[2];
 
-	if (pipe(fds) == -1)
-		return (perror("pipe"));
+	if (ft_pipe(fds) == -1)
+		return ;
 	if (run_pipe(connector, fds, LEFT_SIDE) == -1)
 		return ;
 	if (run_pipe(connector, fds, RIGHT_SIDE) == -1)
