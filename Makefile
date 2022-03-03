@@ -5,7 +5,8 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror 
 INCLUDE = include/
-HEADER = $(addprefix $(INCLUDE), minishell.h)
+HEADER = minishell.h executor.h parser.h lexer.h
+HEADER := $(addprefix $(INCLUDE), $(HEADER))
 SRC = src/
 FILES =	minishell.c \
 		utils/termios_utils.c \
