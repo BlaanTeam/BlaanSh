@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 15:41:26 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/04 21:20:55 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/04 23:06:53 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void display_tree_(t_cmdtree *tree, int ident_level)
 		t_node	*lst = ((t_cmdlist *)tree)->cmdvec->top;
 		while (lst) {
 			if (lst->token != GROUP)
-				fprintf(stderr, " <%s: %s> ", lst->val, token_names[(int)log2(lst->token)]);
+				fprintf(stderr, " <%s: %s> ", token_names[(int)log2(lst->token)], lst->val);
 			else
 			{
 				t_node *cpy = lst->val_grp->top;
@@ -147,7 +147,7 @@ void display_tree_(t_cmdtree *tree, int ident_level)
 			fprintf(stderr, "}>");
 		}
 		fprintf(stderr, "\n");
-		display_tree_(redir->cmdtree, ident_level + 1);
+		display_tree_(redir->cmdtree, ident_level);
 	}
 	else if (tree->node_type == NODE_PIPE || tree->node_type == NODE_FG
 		|| tree->node_type == NODE_BG || tree->node_type == NODE_AND
