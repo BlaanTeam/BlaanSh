@@ -24,6 +24,20 @@ static void	interrput_handler(int sig)
 	set_status(1);
 }
 
+int	get_tty_fd(void)
+{
+	int	fileno;
+
+	if (!g_global.ttyname)
+		return (-1);
+	fileno = open(g_global.ttyname, O_RDONLY);
+	if (fileno == -1)
+		return (fileno);
+	else if (!isatty(fileno))
+		return (-1);
+	return (fileno);
+}
+
 void	term_init(void)
 {
 	struct termios	new_term;
