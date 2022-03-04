@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/03 20:38:10 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/03 23:43:26 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_global {
 	char	*program_name;
 	int		status;
 	bool	is_running;
+	char	*ttyname;
 }				t_global;
 
 // declare global variable
@@ -87,6 +88,9 @@ void	check_status(void);
 // termios utils
 void	term_init(void);
 void	term_restore(void);
+void	load_ttyname(void);
+void	save_io(int io[2]);
+void	reset_io(int io[2]);
 
 // env utils
 t_venv	*venv_init(char **env);
