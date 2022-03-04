@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 21:06:04 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/03 00:01:25 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/04 01:38:02 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	exec_cmd(char *cmd, char **argv)
 		return ;
 	else if (pid == 0)
 	{
-		term_restore(); // TODO: fix termios logic
+		term_restore();
 		ft_execvp(cmd, argv);
 		_error(cmd, strerror(errno), NULL, 1);
 		gc_clean(&g_global.gc, GC_DESTROY_SELF);
