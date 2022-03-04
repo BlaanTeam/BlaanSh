@@ -23,7 +23,7 @@ The base syntax used in the [syntax_analyser.c](/src/syntax_analyser/syntax_anal
 	- right: [WSPACE] STRING
 
 * PARENTHESES MATCHING AND QUOTING:
-	- inside each pair parentheses sould not be an empthy command
+	- inside each pair parentheses should not be an empthy command
 	- every open parentheses has to have a matching closing parentheses
 	- every single/double quote have to be closed
 ```
