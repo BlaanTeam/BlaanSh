@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 16:42:41 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/04 19:01:26 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/04 20:22:20 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,15 @@ char	*single_quote(t_list *tokens, char *line)
 
 char	*double_quote(t_list *tokens, char *line)
 {
-	int		len;
+	int	len;
 
 	push_back(tokens, DQUOTE, gc_filter(ft_chardup('\"'), GC_TMP));
+	if (*line == '\"')
+	{	
+		push_back(tokens, WORD, gc_filter(ft_strdup(""), GC_TMP));
+		push_back(tokens, DQUOTE, gc_filter(ft_chardup('\"'), GC_TMP));
+		return (line + 1);
+	}
 	len = 0;
 	while (line[len] && line[len] != '\n' && line[len] != '\"')
 	{
@@ -66,7 +72,8 @@ char	*double_quote(t_list *tokens, char *line)
 		else
 			len++;
 	}
-	push_back(tokens, WORD, gc_filter(ft_strndup(line, len + 1), GC_TMP));
+	if (len)
+		push_back(tokens, WORD, gc_filter(ft_strndup(line, len + 1), GC_TMP));
 	if (line[len] == '\"')
 	{
 		push_back(tokens, DQUOTE, gc_filter(ft_chardup('\"'), GC_TMP));
