@@ -198,6 +198,31 @@ t_list	*make_groups(t_list *tokens)
 	return (tokens);
 }
 
+t_node	*handle_redirects(t_node *node)
+{
+	t_node	*right;
+
+	right = get_right(node);
+	if (node->token & DLESS)
+	{
+		if (right->token == GROUP)
+		{
+			right->val = right->val_grp->top->val;
+			del_front(right->val_grp);
+			while (right->val_grp->len)
+			{
+				right->val = gc_filter(
+					ft_strjoin(right->val, right->val_grp->top->val), GC_TMP);
+				del_front(right->val_grp);
+			}
+		}
+		right->token = WORD;
+	}
+	else if (right->token & WILDC)
+		right->token = WORD;
+	return (right);
+}
+
 t_list	*expander(t_list *tokens)
 {
 	t_node	*top;
