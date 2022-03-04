@@ -110,6 +110,34 @@ t_node	*expand_wildcards(t_list *tokens, t_node *node)
 	}
 }
 
+// exec expand:
+// navigate tokens
+// if current is GROUP
+// {
+// 	make empthy <str>
+// 	navigate GROUP
+// 		if is VAR expand it
+// 		concat with <str>
+// }
+void	concat_group(t_node *node)
+{
+	t_node	*top;
+
+	top = node->val_grp->top;
+	if (top->token != WORD)
+		return ;
+	node->val = top->val;
+	top = top->next;
+	while (top)
+	{
+		if (!(top->token & (WORD | WILDC | TILDE)))
+			return ;
+		node->val = gc_filter(ft_strjoin(node->val, top->val), GC_TMP);
+		top = top->next;
+	}
+	node->token = WORD;
+}
+
 t_list	*concat_words(t_list *tokens)
 {
 	t_node	*top;
