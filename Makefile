@@ -19,6 +19,7 @@ UTILS_FILES = utils/io_utils1.c \
 		utils/global_utils1.c \
 		utils/global_utils2.c \
 		utils/global_utils3.c \
+		utils/global_utils4.c \
 		utils/display_utils.c
 
 BUILTINS_FILES = builtins/cd_cmd.c \
