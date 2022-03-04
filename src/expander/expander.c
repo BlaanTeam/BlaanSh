@@ -114,12 +114,22 @@ t_node	*handle_redirect(t_node *node)
 {
 	t_node	*right;
 
-	right = get_right(node);
-	if (node->token & DLESS)
-		right->token = WORD;
-	else if (right->token &WILDC)
-		right->token = WORD;
-	return (right);
+
+t_list	*delete_quotes(t_list *tokens)
+{
+	t_node	*top;
+	t_node	*next;
+
+	next = NULL;
+	top = tokens->top;
+	while (top && top->token != ENDOFCMD)
+	{
+		next = top->next;
+		if (top->token & (DQUOTE | SQUOTE))
+			next = del_node(tokens, top)->next;
+		top = next;
+	}
+	return (tokens);
 }
 
 t_list	*make_groups(t_list *tokens)
