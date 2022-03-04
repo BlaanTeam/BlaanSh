@@ -28,7 +28,7 @@ The base syntax used in the [syntax_analyser.c](/src/syntax_analyser/syntax_anal
 	- every single/double quote have to be closed
 ```
 
-## Grammer
+## Grammar
 The grammar in [Extended Backus–Naur](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form) form:
 ```
 <cmdline>	::= <block>
