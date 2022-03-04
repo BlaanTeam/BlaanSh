@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 19:42:58 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/28 15:24:33 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/04 17:29:36 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ typedef enum e_token
 	DLESS = 1 << 18,
 	GREAT = 1 << 19,
 	DGREAT = 1 << 20,
-	STRING = (WORD | TILDE | WILDC | \
+	GROUP = 1 << 21,
+	STRING = (GROUP | WORD | TILDE | WILDC | \
 	VAR | SQUOTE | DQUOTE),
 	REDIRECT = (LESS | DLESS | GREAT | DGREAT),
 	CONNECTOR = (AND | OR | PIPE | FG | BG)
@@ -49,6 +50,7 @@ typedef struct s_node
 {
 	t_token			token;
 	char			*val;
+	struct s_list	*val_grp;
 	struct s_node	*next;
 	struct s_node	*prev;
 }				t_node;
