@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/03 23:43:26 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/05 00:49:27 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ bool	is_identifier(char *identifier);
 bool	is_numeric(char *str);
 void	exit_with_cleanup(void);
 bool	is_option(char *str);
-void	set_program_name(char *path);
+char	*get_basename(char *path);
 void	set_status(int status);
 int		get_status(void);
 void	close_pipe(int fds[2]);
