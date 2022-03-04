@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 18:56:47 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/03 20:39:32 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/04 18:44:47 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,25 +15,19 @@
 int	heredoc(char *delim)
 {
 	int		hfd[2];
-	int		nbytes;
-	char	buff[PIPE_BUF + 1];
-
+	char	*buff;
+	
 	if (!delim || ft_pipe(hfd) == -1)
 		return (-1);
-	write(1, "heredoc> ", 9);
-	nbytes = read(0, buff, PIPE_BUF);
-	while (nbytes > 0)
+	while (true)
 	{
-		buff[nbytes] = 0;
-		if ((nbytes - 1) && ft_memcmp(delim, buff, ft_strlen(delim)) == 0 && \
-		buff[ft_strlen(delim)] == '\n')
-			return (close(hfd[WRITE_END]), hfd[READ_END]);
-		write(hfd[WRITE_END], buff, nbytes);
-		write(1, "heredoc> ", 9);
-		nbytes = read(0, buff, PIPE_BUF);
+		buff = readline("> ");
+		if (!buff || ft_memcmp(delim, buff, ft_strlen(delim) + 1) == 0)
+			break;
+		gc_append(g_global.gc, buff, GC_TMP);
+		write(hfd[WRITE_END], buff, ft_strlen(buff));
+		write(hfd[WRITE_END], "\n", 1);
 	}
-	if (nbytes < 0)
-		return (close_pipe(hfd), -1);
 	return (close(hfd[WRITE_END]), hfd[READ_END]);
 }
 
@@ -53,8 +47,6 @@ int	fill_redir(t_redir *redir, t_token redir_type, char *file_delem)
 	}
 	else if (redir_type == DLESS)
 		redir->io_dst = heredoc(file_delem);
-	if (redir->io_dst == -1)
-		ft_putstr_fd("\n", STDOUT_FILENO);
 	return (1);
 }
 
