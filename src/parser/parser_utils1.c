@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 18:56:26 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/02 17:53:24 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/04 22:25:35 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,10 @@ t_cmdtree	*parse_cmdlist(t_node **tokp)
 	ret = parse_redir(ret, tokp);
 	if (!ret)
 		return (NULL);
-	while (current(*tokp) == WORD)
+	while (current(*tokp) & (WORD | VAR | GROUP))
 	{
-		push_back(cmdlist->cmdvec, WORD, (*tokp)->val);
+		push_back(cmdlist->cmdvec, (*tokp)->token, (*tokp)->val);
+		cmdlist->cmdvec->bottom->val_grp = (*tokp)->val_grp;
 		scan(tokp);
 		ret = parse_redir(ret, tokp);
 		if (!ret)
