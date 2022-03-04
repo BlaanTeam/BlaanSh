@@ -96,7 +96,6 @@ t_node	*expand_wildcards(t_list *tokens, t_node *node)
 					node = del_node(tokens, node)->next;
 			}
 			insert_node(tokens, new_node(WORD, item->d_name), node->prev);
-			insert_node(tokens, new_node(WSPACE, NULL), node->prev);
 			matches_found++;
 		}
 		item = readdir(dirp);
