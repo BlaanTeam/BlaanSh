@@ -89,4 +89,8 @@ void	save_io(int io[2])
 		_error("dup", strerror(errno), NULL, 1);
 }
 
+void	reset_io(int io[2])
+{
+	if (dup2(io[0], STDIN_FILENO) == -1 || dup2(io[1], STDOUT_FILENO) == -1)
+		_error("dup2", strerror(errno), NULL, 1);
 }
