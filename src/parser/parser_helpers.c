@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 18:57:47 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/01 18:28:19 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/04 22:22:35 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,6 @@
 t_token	current(t_node *tokp)
 {
 	return (tokp->token);
-}
-
-// Peek: see next token
-t_token	peek(t_node	*tokp)
-{
-	return (tokp->next->token);
 }
 
 // Scan: scan current token
@@ -42,14 +36,5 @@ int	accept(t_node **tokp, t_token tok)
 		scan(tokp);
 		return (1);
 	}
-	return (0);
-}
-
-// Expect: if @expected is not accepted print error
-int	expect(t_node **tokp, t_token expected)
-{
-	if (accept(tokp, expected))
-		return (1);
-	_error("expect", "unexpected token", NULL, 2);
 	return (0);
 }
