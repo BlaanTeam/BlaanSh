@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 13:35:44 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/01 23:45:47 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/04 19:48:15 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,22 +223,29 @@ t_node	*handle_redirects(t_node *node)
 	return (right);
 }
 
+/*
+tests:
+<< $PATH
+<< *$PATH"--HELLO--"
+"M"*"~"/Desktop
+ls -la HELLO$PATH
+*/
+
 t_list	*expander(t_list *tokens)
 {
 	t_node	*top;
 	t_node	*next;
 
+	tokens = delete_quotes(tokens);
+	tokens = make_groups(tokens);
+	tokens = concat_words(tokens);
 	next = NULL;
 	top = tokens->top;
 	while (top && top->token != ENDOFCMD)
 	{
 		next = top->next;
-		if (top->token & (DQUOTE | SQUOTE))
-			next = del_node(tokens, top)->next;
-		else if (top->token & REDIRECT)
-			next = handle_redirect(top);
-		else if (top->token & VAR)
-			next = expand_var(tokens, top);
+		if (top->token & REDIRECT)
+			next = handle_redirects(top);
 		else if (top->token & TILDE)
 			next = expand_tilde(top);
 		else if (top->token & WILDC)
@@ -247,5 +254,5 @@ t_list	*expander(t_list *tokens)
 			next = top->next;
 		top = next;
 	}
-	return (update_tokens(tokens));
+	return (tokens);
 }
