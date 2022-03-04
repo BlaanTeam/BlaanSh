@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 17:53:48 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/03 20:00:13 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/04 19:25:57 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_getcwd(void)
 	errno = 0;
 	if (!getcwd(path, PATH_MAX))
 		set_status(1);
-	return (gc_filter(ft_strdup(path), GC_TMP));
+	return (gc_filter(ft_strdup(path), GC_ALL));
 }
 
 /**

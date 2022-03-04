@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 23:42:02 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/03 20:37:58 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/04 18:14:42 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,8 @@ void	ft_dup2(int dest, int src)
 
 void	check_status(void)
 {
-	if (WIFSIGNALED(g_global.status))
-	{
-		ft_putstr_fd(strsignal(WTERMSIG(g_global.status)), STDOUT_FILENO); // TODO: remove in production
-		ft_putstr_fd("\n", STDOUT_FILENO);
-	}
+	if (WIFSIGNALED(g_global.status) && WTERMSIG(g_global.status) != SIGPIPE)
+		ft_putstr_fd("\n", STDERR_FILENO);
 }
 
 pid_t	ft_fork(void)
