@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/11 16:24:15 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/02 17:44:04 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/04 18:52:16 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,11 +170,11 @@ bool	check_redirections(t_node *tokp)
 		fprintf(stderr, "minishell: syntax error near unexpected token `%s'\n", right->val);
 		return (false);
 	}
-	else if (right->token == VAR && tok != DLESS && (!getvenv(right->val) || !*getvenv(right->val)))
-	{
-		fprintf(stderr, "minishell: $%s: ambiguous redirect\n", right->val);
-		return (false);
-	}
+	// else if (right->token == VAR && tok != DLESS && (!getvenv(right->val) || !*getvenv(right->val)))
+	// {
+	// 	fprintf(stderr, "minishell: $%s: ambiguous redirect\n", right->val);
+	// 	return (false);
+	// }
 	return (true);
 }
 
