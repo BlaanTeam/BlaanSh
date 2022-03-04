@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 16:41:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/03 23:43:26 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/04 21:01:52 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,6 @@ int		check_option(char *cmd, char *arg);
 void	display_tokens(t_node *top);
 void	display_venv(t_venv *venv);
 void	display_env(char **env);
-void	display_tree(t_cmdtree *tree, int ident_level);
+void	display_tree(t_cmdtree *tree);
 
 #endif
