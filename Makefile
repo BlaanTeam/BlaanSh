@@ -10,7 +10,8 @@ INCLUDE = include/
 HEADER = minishell.h executor.h parser.h lexer.h
 HEADER := $(addprefix $(INCLUDE), $(HEADER))
 
-UTILS_FILES = utils/termios_utils.c \
+UTILS_FILES = utils/io_utils1.c \
+		utils/io_utils2.c \
 		utils/error_utils.c \
 		utils/env_utils1.c \
 		utils/env_utils2.c \

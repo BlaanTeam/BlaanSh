@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   termios_utils.c                                    :+:      :+:    :+:   */
+/*   io_utils1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 20:19:43 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/04 01:06:09 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/04 20:29:57 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,35 +70,4 @@ void	term_restore(void)
 	old_term.c_lflag |= ECHOCTL;
 	if (tcsetattr(fileno, TCSANOW, &old_term) != 0)
 		return (_error("tcsetattr", strerror(errno), NULL, 1));
-}
-
-void	load_ttyname(void)
-{
-	int		io[3];
-	int		i;
-
-	io[0] = STDIN_FILENO;
-	io[1] = STDOUT_FILENO;
-	io[2] = STDERR_FILENO;
-	i = -1;
-	while (++i < 3)
-	{
-		g_global.ttyname = ttyname(io[i]);
-		if (g_global.ttyname)
-			return ;
-	}
-}
-
-void	save_io(int io[2])
-{
-	io[0] = dup(STDIN_FILENO);
-	io[1] = dup(STDOUT_FILENO);
-	if (io[0] == -1 || io[1] == -1)
-		_error("dup", strerror(errno), NULL, 1);
-}
-
-void	reset_io(int io[2])
-{
-	if (dup2(io[0], STDIN_FILENO) == -1 || dup2(io[1], STDOUT_FILENO) == -1)
-		_error("dup2", strerror(errno), NULL, 1);
 }
