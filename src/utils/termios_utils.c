@@ -64,6 +64,21 @@ void	term_restore(void)
 	if (tcgetattr(STDIN_FILENO, &old_term) != 0)
 		exit_with_code(EXIT_FAILURE, "tcgetattr", false);
 	old_term.c_lflag |= ECHOCTL;
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &old_term) != 0)
-		exit_with_code(EXIT_FAILURE, "tcsetattr", false);
+void	load_ttyname(void)
+{
+	int		io[3];
+	int		i;
+
+	io[0] = STDIN_FILENO;
+	io[1] = STDOUT_FILENO;
+	io[2] = STDERR_FILENO;
+	i = -1;
+	while (++i < 3)
+	{
+		g_global.ttyname = ttyname(io[i]);
+		if (g_global.ttyname)
+			return ;
+	}
+}
+
 }
