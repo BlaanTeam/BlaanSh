@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 20:20:51 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/28 22:31:35 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/04 20:31:36 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	_error(char *title, char *msg, char *extra, int status)
 	if (extra)
 	{
 		ft_putstr_fd(": ", STDERR_FILENO);
-		ft_putstr_fd(extra, STDERR_FILENO);	
+		ft_putstr_fd(extra, STDERR_FILENO);
 	}
 	ft_putstr_fd("\n", STDERR_FILENO);
 	set_status(status);
