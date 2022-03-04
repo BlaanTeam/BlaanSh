@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 16:49:07 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/01 20:34:03 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/04 22:19:51 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_cmdtree	*new_connector(int node_type, t_cmdtree *left, t_cmdtree *right)
 {
 	t_connector	*connector;
 
-	connector  = gc_filter(malloc(sizeof(t_connector)), GC_TMP);
+	connector = gc_filter(malloc(sizeof(t_connector)), GC_TMP);
 	connector->node_type = node_type;
 	connector->lcmdtree = left;
 	connector->rcmdtree = right;
@@ -57,5 +57,6 @@ t_cmdtree	*new_redir(t_cmdtree *cmdtree)
 	redir = gc_filter(malloc(sizeof(t_redir)), GC_TMP);
 	redir->node_type = NODE_REDIR;
 	redir->cmdtree = cmdtree;
+	redir->filenode = NULL;
 	return ((t_cmdtree *)redir);
 }
