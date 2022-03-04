@@ -81,4 +81,12 @@ void	load_ttyname(void)
 	}
 }
 
+void	save_io(int io[2])
+{
+	io[0] = dup(STDIN_FILENO);
+	io[1] = dup(STDOUT_FILENO);
+	if (io[0] == -1 || io[1] == -1)
+		_error("dup", strerror(errno), NULL, 1);
+}
+
 }
