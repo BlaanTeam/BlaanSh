@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 20:19:43 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/28 22:40:39 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/04 01:06:09 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	interrput_handler(int sig)
 	(void)sig;
 	if (g_global.is_running)
 		return ;
-	ft_putstr_fd("\n", STDOUT_FILENO);	
+	ft_putstr_fd("\n", STDOUT_FILENO);
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
@@ -41,29 +41,37 @@ int	get_tty_fd(void)
 void	term_init(void)
 {
 	struct termios	new_term;
+	int				fileno;
 
 	if (signal(SIGINT, interrput_handler) == SIG_ERR || \
 		signal(SIGQUIT, SIG_IGN) == SIG_ERR || \
 		signal(SIGTSTP, SIG_IGN) == SIG_ERR)
-		exit_with_code(EXIT_FAILURE, "signal", false);
-	if (tcgetattr(STDIN_FILENO, &new_term) != 0)
-		exit_with_code(EXIT_FAILURE, "tcgetattr", false);
+		_error("signal", strerror(errno), NULL, 1);
+	fileno = get_tty_fd();
+	if (tcgetattr(fileno, &new_term) != 0)
+		return (_error("tcgetattr", strerror(errno), NULL, 1));
 	new_term.c_lflag &= ~(ECHOCTL);
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &new_term) != 0)
-		exit_with_code(EXIT_FAILURE, "tcsetattr", false);
+	if (tcsetattr(fileno, TCSANOW, &new_term) != 0)
+		return (_error("tcsetattr", strerror(errno), NULL, 1));
 }
 
 void	term_restore(void)
 {
 	struct termios	old_term;
+	int				fileno;
 
 	if (signal(SIGINT, SIG_DFL) == SIG_ERR || \
 		signal(SIGQUIT, SIG_DFL) == SIG_ERR || \
 		signal(SIGTSTP, SIG_DFL) == SIG_ERR)
-		exit_with_code(EXIT_FAILURE, "signal", false);
-	if (tcgetattr(STDIN_FILENO, &old_term) != 0)
-		exit_with_code(EXIT_FAILURE, "tcgetattr", false);
+		_error("signal", strerror(errno), NULL, 1);
+	fileno = get_tty_fd();
+	if (tcgetattr(fileno, &old_term) != 0)
+		return (_error("tcgetattr", strerror(errno), NULL, 1));
 	old_term.c_lflag |= ECHOCTL;
+	if (tcsetattr(fileno, TCSANOW, &old_term) != 0)
+		return (_error("tcsetattr", strerror(errno), NULL, 1));
+}
+
 void	load_ttyname(void)
 {
 	int		io[3];
