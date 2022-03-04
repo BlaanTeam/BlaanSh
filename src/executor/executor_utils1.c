@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 00:45:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/03 20:39:22 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/04 18:18:23 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ pid_t	run_pipe(t_connector *connector, int fds[2], int side)
 		ft_dup2(fds[end], fileno);
 		close_pipe(fds);
 		executor(cmdtree);
-		check_status();
 		exit(get_status());
 	}
 	return (pid);
@@ -48,9 +47,11 @@ void	run_pipeline(t_connector *connector)
 
 	if (ft_pipe(fds) == -1)
 		return ;
-	if (run_pipe(connector, fds, LEFT_SIDE) == -1)
+	pids[0] = run_pipe(connector, fds, LEFT_SIDE);
+	if (pids[0] == -1)
 		return ;
-	if (run_pipe(connector, fds, RIGHT_SIDE) == -1)
+	pids[1] = run_pipe(connector, fds, RIGHT_SIDE);
+	if (pids[1] == -1)
 		return ;
 	close_pipe(fds);
 	if (wait(&status) == pids[1])
