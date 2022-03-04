@@ -110,10 +110,19 @@ t_node	*expand_wildcards(t_list *tokens, t_node *node)
 	}
 }
 
-t_node	*handle_redirect(t_node *node)
+t_list	*concat_words(t_list *tokens)
 {
-	t_node	*right;
+	t_node	*top;
 
+	top = tokens->top;
+	while (top && top->token != ENDOFCMD)
+	{
+		if (top->token == GROUP)
+			concat_group(top);
+		top = top->next;
+	}
+	return (tokens);
+}
 
 t_list	*delete_quotes(t_list *tokens)
 {
