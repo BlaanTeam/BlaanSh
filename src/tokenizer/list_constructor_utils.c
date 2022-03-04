@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 14:09:45 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/24 17:32:55 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/04 17:18:05 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_node	*new_node(t_token token, char *val)
 	new = (t_node *)gc_filter(malloc(sizeof(t_node)), GC_TMP);
 	new->token = token;
 	new->val = val;
+	new->val_grp = NULL;
 	new->next = NULL;
 	new->prev = NULL;
 	return (new);
