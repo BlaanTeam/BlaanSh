@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 13:35:44 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/04 21:16:10 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/05 00:23:10 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,15 +110,6 @@ t_node	*expand_wildcards(t_list *tokens, t_node *node)
 	}
 }
 
-// exec expand:
-// navigate tokens
-// if current is GROUP
-// {
-// 	make empthy <str>
-// 	navigate GROUP
-// 		if is VAR expand it
-// 		concat with <str>
-// }
 void	concat_group(t_node *node)
 {
 	t_node	*top;
@@ -224,14 +215,6 @@ t_node	*handle_redirects(t_node *node)
 		right->token = WORD;
 	return (right);
 }
-
-/*
-tests:
-<< $PATH
-<< *$PATH"--HELLO--"
-"M"*"~"/Desktop
-ls -la HELLO$PATH
-*/
 
 t_list	*expander(t_list *tokens)
 {
