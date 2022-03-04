@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/26 17:08:16 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/01 20:19:06 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/04 21:11:45 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ typedef struct s_redir
 	int			io_src;
 	int			io_dst;
 	int			oflag;
-	char		*filename;
+	t_node		*filenode;
 	t_cmdtree	*cmdtree;
 }				t_redir;
 
