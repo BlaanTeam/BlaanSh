@@ -123,22 +123,25 @@ t_node	*handle_redirect(t_node *node)
 	return (right);
 }
 
-/**
- * Concatinate connected words
- * Delete WSPACE tokens
- */
-t_list	*update_tokens(t_list *tokens)
+t_list	*make_groups(t_list *tokens)
 {
 	t_node	*top;
 
 	top = tokens->top;
 	while (top && top->token != ENDOFCMD)
 	{
-		if (top->token & WORD)
+		if (top->token & STRING)
 		{
-			while (top->next->token & WORD)
+			while (top->next->token & STRING)
 			{
-				top->val = gc_filter(ft_strjoin(top->val, top->next->val), GC_TMP);
+				if (top->token != GROUP)
+				{
+					top->val_grp = new_list();
+					push_back(top->val_grp, top->token, top->val);
+					top->token = GROUP;
+					continue ;
+				}
+				push_back(top->val_grp, top->next->token, top->next->val);
 				del_node(tokens, top->next);
 			}
 		}
