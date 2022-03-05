@@ -30,8 +30,9 @@ BUILTINS_FILES = builtins/cd_cmd.c \
 		builtins/env_cmd.c \
 		builtins/export_cmd.c
 
-TOKENZIER_FILES = tokenizer/tokenizer.c \
-		tokenizer/lexer.c \
+TOKENZIER_FILES = tokenizer/lexer.c \
+		tokenizer/tokenizer.c \
+		tokenizer/tokenizer_utils.c \
 		tokenizer/list_constructor_utils.c \
 		tokenizer/list_destructor_utils.c
 
