@@ -47,6 +47,30 @@ static void	redirection_exec(t_redir *redir)
 	executor(tmp->cmdtree);
 }
 
+int	get_io_dst(t_redir	*redir)
+{
+	t_node	*filenode;
+	char	*filename;
+	int		io_dst;
+
+	filenode = redir->filenode;
+	if (filenode->token == WORD)
+		filename = filenode->val;
+	else if (filenode->token == GROUP)
+		filename = expand_group(filenode->val_grp);
+	else
+	{
+		filename = getvenv(filenode->val + 1);
+		if (!filename || !*filename)
+			return (_error(filenode->val, "ambiguous redirect", NULL, 1),
+				-1);
+	}
+	io_dst = open(filename, redir->oflag, FILE_PERM);
+	if (io_dst == -1)
+		return (_error(filename, strerror(errno), NULL, 1), -1);
+	return (io_dst);
+}
+
 int	run_redirection(t_redir	*redir, int exec)
 {
 	int	open_;
