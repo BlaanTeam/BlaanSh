@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 00:48:59 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/03 20:31:20 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/05 01:02:06 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,17 @@ int	get_io_dst(t_redir	*redir)
 
 int	run_redirection(t_redir	*redir, int exec)
 {
-	int	open_;
+	int		open_;
 
 	open_ = 1;
 	if (redir->cmdtree && redir->cmdtree->node_type == NODE_REDIR)
 		open_ = run_redirection((t_redir *)redir->cmdtree, 0);
 	if (open_)
 	{
-		if (!(redir->redir_type & DLESS))
-			redir->io_dst = open(redir->filename, redir->oflag, FILE_PERM);
-		if (redir->io_dst == -1 && redir->redir_type & DLESS)
+		if (redir->redir_type != DLESS)
+			redir->io_dst = get_io_dst(redir);
+		if (redir->io_dst == -1)
 			return (set_status(1), 0);
-		else if (redir->io_dst == -1)
-			return (_error(redir->filename, strerror(errno), NULL, 1), 0);
 		ft_dup2(redir->io_dst, redir->io_src);
 		close(redir->io_dst);
 		if (exec)
