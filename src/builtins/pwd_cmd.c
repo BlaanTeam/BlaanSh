@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/09 15:20:06 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/28 22:39:22 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/05 20:29:21 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static void	print_pwd(void)
 {
-	ft_putendl_fd(ft_getcwd(), STDOUT_FILENO);
+	ft_putstr_fd(ft_getcwd(), STDOUT_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
 	set_status(0);
 }
 
