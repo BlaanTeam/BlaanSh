@@ -6,11 +6,11 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 16:32:25 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/05 16:34:44 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/05 16:48:06 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minshell.h"
+#include "minishell.h"
 
 char	*expand_group(t_list *group)
 {
