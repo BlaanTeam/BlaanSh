@@ -6,53 +6,63 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 00:07:28 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/05 00:22:58 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/05 17:07:53 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-/*
-tests:
-<< $PATH
-<< *$PATH"--HELLO--"
-"M"*"~"/Desktop
-ls -la HELLO$PATH
 
-execution notes:
-- in redirects:
-	- access filenode
-	if WORD:
-		- open file
-	if VAR:
-		- getvenv (ambiguous errro if NULL or empthy)
-	if GROUP:
-		- run expand_group()
-		- if 
-		- open file
-		
-*/
-
-char	*expand_group(t_list *group)
+t_node	*expand_tilde(t_node *node)
 {
-	char	*ret;
-	char	*tmp;
-	t_node	*top;
+	char	*home;
 
-	ret = group->top->val;
-	del_front(group);
-	while (group->len)
+	home = getvenv("HOME");
+	if (home)
+		node->val = gc_filter(ft_strjoin(home, node->val + 1), GC_TMP);
+	node->token = WORD;
+	return (node->next);
+}
+
+t_list	*delete_quotes(t_list *tokens)
+{
+	t_node	*top;
+	t_node	*next;
+
+	next = NULL;
+	top = tokens->top;
+	while (top && top->token != ENDOFCMD)
 	{
-		if (group->top->token == VAR)
-			tmp = getvenv(group->top->val);
-		else
-			tmp = group->top->val;
-		if (!top || !*tmp)
-		{
-			del_front(group);
-			continue ;
-		}
-		ret = gc_filter(ft_strjoin(ret, tmp), GC_TMP);
-		del_front(group);
+		next = top->next;
+		if (top->token & (DQUOTE | SQUOTE))
+			next = del_node(tokens, top)->next;
+		top = next;
 	}
-	return (ret);
+	return (tokens);
+}
+
+t_node	*handle_redirects(t_node *node)
+{
+	t_node	*right;
+
+	right = get_right(node);
+	if (right->token & ~STRING)
+		return (node->next);
+	if (node->token & DLESS)
+	{
+		if (right->token == GROUP)
+		{
+			right->val = right->val_grp->top->val;
+			del_front(right->val_grp);
+			while (right->val_grp->len)
+			{
+				right->val = gc_filter(ft_strjoin(right->val,
+							right->val_grp->top->val), GC_TMP);
+				del_front(right->val_grp);
+			}
+		}
+		right->token = WORD;
+	}
+	else if (right->token & WILDC)
+		right->token = WORD;
+	return (right);
 }
