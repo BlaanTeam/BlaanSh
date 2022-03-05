@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 15:41:26 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/04 23:06:53 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/05 21:10:25 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,17 +86,6 @@ void	display_venv(t_venv *venv)
 		venv = venv->next;
 	}
 	fprintf(stderr, "-----------------END venv variables-----------------\n");
-}
-
-void	display_env(char **env)
-{
-	int	i;
-
-	if (!env)
-		return ;
-	i = -1;
-	while (env[++i])
-		fprintf(stderr, "%s\n", env[i]);
 }
 
 // tree visualizer

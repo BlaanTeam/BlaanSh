@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/05 01:22:28 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/28 15:48:08 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/05 21:03:41 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,14 @@ t_venv	*venv_find(t_venv *venv_head, char *key)
 		venv_head = venv_head->next;
 	}
 	return (NULL);
+}
+
+void	display_env(char **env)
+{
+	while (*env)
+	{
+		ft_putstr_fd(*env, STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		env++;
+	}
 }
