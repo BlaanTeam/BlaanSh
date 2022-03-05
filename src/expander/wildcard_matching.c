@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/05 17:01:02 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/05 17:06:32 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/05 19:36:35 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,10 @@ t_node	*expand_wildcards(t_list *tokens, t_node *node)
 	item = readdir(dirp);
 	while (item)
 	{
-		if ((pattern[0] == '.' || item->d_name[0] != '.') && match(item->d_name, pattern))
+		if (match(item->d_name, pattern))
 		{
 			if (matches_found == 0)
-			{
 				node = del_node(tokens, node)->next;
-				if (node->token == WSPACE)
-					node = del_node(tokens, node)->next;
-			}
 			insert_node(tokens, new_node(WORD, item->d_name), node->prev);
 			matches_found++;
 		}
@@ -92,9 +88,6 @@ t_node	*expand_wildcards(t_list *tokens, t_node *node)
 	closedir(dirp);
 	if (matches_found)
 		return (node);
-	else
-	{
-		node->token = WORD;
-		return (node->next);
-	}
+	node->token = WORD;
+	return (node->next);
 }
