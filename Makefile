@@ -48,7 +48,10 @@ PARSER_FILES = parser/astree_constructors.c \
 		parser/parser.c \
 		syntax_analyser/syntax_analyser.c
 
-EXPANDER_FILES = expander/expander.c
+EXPANDER_FILES = expander/expander.c \
+		expander/expander_utils1.c \
+		expander/expander_utils2.c \
+		expander/wildcard_matching.c
 
 FILES =	minishell.c \
 	$(UTILS_FILES) \

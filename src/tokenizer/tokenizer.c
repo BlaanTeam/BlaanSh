@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/02 16:42:41 by omoussao          #+#    #+#             */
-/*   Updated: 2022/02/28 15:21:59 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/04 20:22:20 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 char	*dollar(t_list *tokens, char *line)
 {
 	int	len;
-		
-	if (ft_isdigit(*line) || *line == '?' || *line == '$')
+
+	if (ft_isdigit(line[1]) || line[1] == '?' || line[1] == '$')
 	{
-		push_back(tokens, VAR, gc_filter(ft_chardup(*line), GC_TMP));
-		return (line + 1);
+		push_back(tokens, VAR, gc_filter(ft_strndup(line, 3), GC_TMP));
+		return (line + 2);
 	}
 	len = 0;
-	while (line[len] && (ft_isalnum(line[len]) || line[len] == '_'))
+	while (line[len + 1] && (ft_isalnum(line[len + 1]) || line[len + 1] == '_'))
 		len++;
 	if (len)
-		push_back(tokens, VAR, gc_filter(ft_strndup(line, len + 1), GC_TMP));
+		push_back(tokens, VAR, gc_filter(ft_strndup(line, len + 2), GC_TMP));
 	else
-		push_back(tokens, WORD, gc_filter(ft_chardup('$'), GC_TMP));
-	return (line + len);
+		push_back(tokens, WORD, gc_filter(ft_strndup(line, 2), GC_TMP));
+	return (line + len + 1);
 }
 
 char	*single_quote(t_list *tokens, char *line)
@@ -50,9 +50,15 @@ char	*single_quote(t_list *tokens, char *line)
 
 char	*double_quote(t_list *tokens, char *line)
 {
-	int		len;
+	int	len;
 
 	push_back(tokens, DQUOTE, gc_filter(ft_chardup('\"'), GC_TMP));
+	if (*line == '\"')
+	{	
+		push_back(tokens, WORD, gc_filter(ft_strdup(""), GC_TMP));
+		push_back(tokens, DQUOTE, gc_filter(ft_chardup('\"'), GC_TMP));
+		return (line + 1);
+	}
 	len = 0;
 	while (line[len] && line[len] != '\n' && line[len] != '\"')
 	{
@@ -60,13 +66,14 @@ char	*double_quote(t_list *tokens, char *line)
 		{
 			if (len)
 				push_back(tokens, WORD, gc_filter(ft_strndup(line, len + 1), GC_TMP));
-			line = dollar(tokens, line + len + 1);
+			line = dollar(tokens, line + len);
 			len = 0;
 		}
 		else
 			len++;
 	}
-	push_back(tokens, WORD, gc_filter(ft_strndup(line, len + 1), GC_TMP));
+	if (len)
+		push_back(tokens, WORD, gc_filter(ft_strndup(line, len + 1), GC_TMP));
 	if (line[len] == '\"')
 	{
 		push_back(tokens, DQUOTE, gc_filter(ft_chardup('\"'), GC_TMP));
@@ -164,7 +171,7 @@ t_list	*tokenizer(char *cmdline)
 		else if (*cmdline == '\"')
 			cmdline = double_quote(tokens, cmdline + 1);
 		else if (*cmdline == '$')
-			cmdline = dollar(tokens, cmdline + 1);
+			cmdline = dollar(tokens, cmdline);
 		else if (*cmdline && ft_strchr("|&<>;", *cmdline))
 			cmdline = lookahead_state(tokens, cmdline);
 		else if (*cmdline == '(' || *cmdline == ')')
