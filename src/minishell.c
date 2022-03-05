@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 22:13:08 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/05 00:46:15 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/05 20:34:56 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,17 @@ static void	global_setup(int ac, char **av, char **env)
 int	main(int ac, char **av, char **env)
 {
 	int			io[2];
+	char		*prompt;
 	char		*cmdline;
 	t_cmdtree	*tree;
 
 	global_setup(ac, av, env);
 	save_io(io);
+	prompt = gc_filter(ft_strjoin(get_basename(av[0]), "-1.0$ "), GC_ALL);
 	while (true)
 	{
 		term_init();
-		cmdline = readline("minishell$ ");
+		cmdline = readline(prompt);
 		if (!cmdline)
 			break ;
 		gc_append(g_global.gc, cmdline, GC_TMP);
