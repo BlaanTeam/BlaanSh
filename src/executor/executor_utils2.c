@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 00:48:59 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/03 20:31:20 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/05 17:01:24 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ void	run_subshell(t_subsh *subshell)
 	if (pid == 0)
 	{
 		executor(subshell->cmdtree);
+		gc_clean(&g_global.gc, GC_DESTROY_SELF);
 		exit(get_status());
 	}
-	waitpid(pid, &g_global.status, 0);
+	waitpid(pid, &g_global.status, WUNTRACED);
 }
 
 static void	redirection_exec(t_redir *redir)

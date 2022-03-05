@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 21:06:04 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/04 01:38:02 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/05 16:39:44 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,6 @@ void	exec_cmd(char *cmd, char **argv)
 			exit(126);
 		exit(1);
 	}
-	waitpid(pid, &g_global.status, 0);
+	waitpid(pid, &g_global.status, WUNTRACED);
 	check_status();
 }
