@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 00:45:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/04 18:18:23 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/05 17:03:45 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ pid_t	run_pipe(t_connector *connector, int fds[2], int side)
 		ft_dup2(fds[end], fileno);
 		close_pipe(fds);
 		executor(cmdtree);
+		gc_clean(&g_global.gc, GC_DESTROY_SELF);
 		exit(get_status());
 	}
 	return (pid);
@@ -85,6 +86,7 @@ void	run_bg_connector(t_connector *connector)
 	if (pid == 0)
 	{
 		executor(connector->lcmdtree);
+		gc_clean(&g_global.gc, GC_DESTROY_SELF);
 		exit(get_status());
 	}
 	executor(connector->rcmdtree);
