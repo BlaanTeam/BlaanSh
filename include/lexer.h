@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 19:42:58 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/04 17:29:36 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/05 16:15:46 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ t_list	*tokenizer(char *line);
 bool	validate_syntax(t_list *tokens);
 t_list	*expander(t_list *tokens);
 
+// lexer helpers
 t_node	*get_right(t_node *tokp);
 t_node	*get_left(t_node *tokp);
 
@@ -88,6 +89,5 @@ t_node	*del_front(t_list *list);
 t_node	*del_back(t_list *list);
 t_node	*del_node(t_list *list, t_node *node);
 void	list_clear(t_list *list);
-char	**list_export_array(t_list *list);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
+/*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 00:41:48 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/03 20:06:06 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/05 16:15:31 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,9 @@ void	run_subshell(t_subsh *subshell);
 void	run_bg_connector(t_connector *connector);
 void	run_fg_connector(t_connector *connecter);
 int		run_redirection(t_redir	*redir, int exec);
+
+// expander utils used during execution
+char	*expand_group(t_list *group);
+char	**list_export_array(t_list *list);
 
 #endif
