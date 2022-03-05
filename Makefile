@@ -35,11 +35,11 @@ TOKENZIER_FILES = tokenizer/tokenizer.c \
 		tokenizer/list_constructor_utils.c \
 		tokenizer/list_destructor_utils.c
 
-# EXECUTOR_FILES = executor/ft_execvp.c \
-# 		executor/exec_utils.c \
-# 		executor/executor.c \
-# 		executor/executor_utils1.c \
-# 		executor/executor_utils2.c
+EXECUTOR_FILES = executor/ft_execvp.c \
+		executor/exec_utils.c \
+		executor/executor.c \
+		executor/executor_utils1.c \
+		executor/executor_utils2.c
 
 PARSER_FILES = parser/astree_constructors.c \
 		parser/parser_helpers.c \
@@ -48,7 +48,9 @@ PARSER_FILES = parser/astree_constructors.c \
 		parser/parser.c \
 		syntax_analyser/syntax_analyser.c
 
-EXPANDER_FILES = expander/expander.c
+EXPANDER_FILES = expander/expander.c \
+		expander/expander_utils1.c \
+		expander/expander_utils2.c
 
 FILES =	minishell.c \
 	$(UTILS_FILES) \
