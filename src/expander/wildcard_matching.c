@@ -12,20 +12,29 @@
 
 #include "minishell.h"
 
-bool match(char *name, char *pattern)
+bool	**dp_init(char *pattern, int n, int m)
 {
-	int		n = ft_strlen(name);
-	int		m = ft_strlen(pattern);
-	bool	T[n + 1][m + 1];
+	bool	**table;
+	int		i;
 
-	T[0][0] = true;
-	for (int i = 1; i < n + 1; i++) {
-		T[i][0] = false;
+	table = gc_filter(malloc((n + 1) * sizeof(bool *)), GC_TMP);
+	i = 0;
+	while (i < n + 1)
+		table[i++] = gc_filter(malloc((m + 1) * sizeof(bool)), GC_TMP);
+	table[0][0] = true;
+	i = 1;
+	while (i < n + 1)
+		table[i++][0] = false;
+	i = 1;
+	while (i < m + 1)
+	{
+		table[0][i] = false;
+		if (pattern[i - 1] == '*')
+			table[0][i] = table[0][i - 1];
+		i++;
 	}
-	for (int j = 1; j < m + 1; j++) {
-		T[0][j] = false;
-		if (pattern[j - 1] == '*') T[0][j] = T[0][j - 1];
-	}
+	return (table);
+}
 	for (int i = 1; i < n + 1; i++) {
 		for (int j = 1; j < m + 1; j++) {
 			if (name[i - 1] == pattern[j - 1] || pattern[j - 1] == '?') {
