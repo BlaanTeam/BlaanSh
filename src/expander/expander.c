@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/17 13:35:44 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/05 00:23:10 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/05 16:43:38 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ t_node	*handle_redirects(t_node *node)
 	t_node	*right;
 
 	right = get_right(node);
-	if (right->token == ENDOFCMD)
+	if (right->token & ~STRING)
 		return (node->next);
 	if (node->token & DLESS)
 	{
