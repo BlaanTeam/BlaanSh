@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 23:42:02 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/05 00:48:51 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/05 16:36:06 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,22 @@ void	set_status(int status)
 
 int	get_status(void)
 {
-	int	sig;
-
 	if (WIFSIGNALED(g_global.status))
-	{
-		sig = WTERMSIG(g_global.status);
-		return (128 + sig);
-	}
-	return (WEXITSTATUS(g_global.status));
+		return (128 + WTERMSIG(g_global.status));
+	else if (WIFSTOPPED(g_global.status))
+		return (128 + WSTOPSIG(g_global.status));
+	else if (WIFEXITED(g_global.status))
+		return (WEXITSTATUS(g_global.status));
+	return (1);
 }
 
 void	check_status(void)
 {
-	if (WIFSIGNALED(g_global.status) && WTERMSIG(g_global.status) != SIGPIPE)
-		ft_putstr_fd("\n", STDERR_FILENO);
+	if (WIFSIGNALED(g_global.status) || WIFSTOPPED(g_global.status))
+	{
+		if (WTERMSIG(g_global.status) != SIGPIPE)
+			ft_putstr_fd("\n", STDERR_FILENO);
+	}
 }
 
 void	close_pipe(int fds[2])
