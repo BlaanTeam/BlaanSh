@@ -45,8 +45,10 @@ PARSER_FILES = parser/astree_constructors.c \
 		parser/parser_helpers.c \
 		parser/parser_utils1.c \
 		parser/parser_utils2.c \
-		parser/parser.c \
-		syntax_analyser/syntax_analyser.c
+		parser/parser.c
+
+SYNTAX_UTILS = syntax_analyser/syntax_analyser.c \
+		syntax_analyser/syntax_utils.c
 
 EXPANDER_FILES = expander/expander.c \
 		expander/expander_utils1.c \
@@ -57,9 +59,10 @@ FILES =	minishell.c \
 	$(UTILS_FILES) \
 	$(BUILTINS_FILES) \
 	$(TOKENZIER_FILES) \
-	$(EXECUTOR_FILES) \
-	$(PARSER_FILES) \
+	$(SYNTAX_UTILS) \
 	$(EXPANDER_FILES) \
+	$(PARSER_FILES) \
+	$(EXECUTOR_FILES) \
 		
 OBJS = $(FILES:%.c=%.o)
 OBJS := $(addprefix $(SRC), $(OBJS))
