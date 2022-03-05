@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/03 00:41:48 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/05 16:15:31 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/05 17:57:09 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # define WRITE_END	1
 # define LEFT_SIDE	1
 # define RIGHT_SIDE	2
-# define FILE_PERM  (S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH)
+# define FILE_PERM	0644
 
 // execution utils
 int		ft_execvp(char *file, char **argv);

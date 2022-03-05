@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/24 19:42:58 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/05 17:20:12 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/05 19:57:13 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,13 @@
 
 # include "minishell.h"
 
-// tokens
+// Error macros
+# define UNEXPECTED_TOK	"syntax error near unexpected token"
+# define UNEXPECTED_EOF "unexpected EOF while looking for matching"
+# define UNCLOSED_SQ	"unclosed single quotes"
+# define UNCLOSED_DQ	"unclosed double quotes"
+
+// Tokens
 typedef enum e_token
 {
 	CMDBEGIN = 1 << 0,
@@ -75,6 +81,12 @@ t_list	*expander(t_list *tokens);
 // lexer helpers
 t_node	*get_right(t_node *tokp);
 t_node	*get_left(t_node *tokp);
+bool	check_unexpected(t_node *tokp);
+
+// tokenizer utils
+char	*dollar(t_list *tokens, char *line);
+char	*single_quote(t_list *tokens, char *line);
+char	*double_quote(t_list *tokens, char *line);
 
 // expander utils
 t_node	*expand_wildcards(t_list *tokens, t_node *node);
