@@ -35,20 +35,32 @@ bool	**dp_init(char *pattern, int n, int m)
 	}
 	return (table);
 }
-	for (int i = 1; i < n + 1; i++) {
-		for (int j = 1; j < m + 1; j++) {
-			if (name[i - 1] == pattern[j - 1] || pattern[j - 1] == '?') {
-				T[i][j] = T[i - 1][j - 1];
-			}
-			else if (pattern[j - 1] == '*') {
-				T[i][j] = T[i - 1][j] || T[i][j - 1];
-			}
-			else {
-				T[i][j] = false;
-			}
+
+bool	match(char *name, char *pattern)
+{
+	int		n;
+	int		m;
+	int		i;
+	int		j;
+	bool	**table;
+
+	n = ft_strlen(name);
+	m = ft_strlen(pattern);
+	table = dp_init(pattern, n, m);
+	i = 0;
+	while (++i < n + 1)
+	{
+		j = 0;
+		while (++j < m + 1)
+		{
+			table[i][j] = false;
+			if (name[i - 1] == pattern[j - 1] || pattern[j - 1] == '?')
+				table[i][j] = table[i - 1][j - 1];
+			else if (pattern[j - 1] == '*')
+				table[i][j] = (table[i - 1][j] || table[i][j - 1]);
 		}
 	}
-	return T[n][m];
+	return ((pattern[0] == '.' || name[0] != '.') && table[n][m]);
 }
 
 t_node	*expand_wildcards(t_list *tokens, t_node *node)
