@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 22:13:08 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/04 01:47:28 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/05 00:46:15 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static void	global_setup(int ac, char **av, char **env)
 	if (!g_global.gc)
 		exit_with_code(EXIT_FAILURE, "malloc", false);
 	load_ttyname();
-	set_program_name(av[0]);
 	g_global.venv = venv_init(env);
+	g_global.program_name = av[0];
 }
 
 int	main(int ac, char **av, char **env)

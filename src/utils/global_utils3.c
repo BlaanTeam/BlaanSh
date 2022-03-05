@@ -6,21 +6,23 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/12 23:42:02 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/04 20:34:31 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/05 00:48:51 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	set_program_name(char *path)
+char	*get_basename(char *path)
 {
 	int	len;
 
+	if (!path)
+		return ("minishell");
 	len = ft_strlen(path);
 	while (len && path[len] != '/')
 		len--;
 	path = path + len + 1;
-	g_global.program_name = path;
+	return (path);
 }
 
 void	set_status(int status)
