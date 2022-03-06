@@ -6,7 +6,7 @@
 /*   By: omoussao <omoussao@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 18:56:47 by omoussao          #+#    #+#             */
-/*   Updated: 2022/03/04 22:20:19 by omoussao         ###   ########.fr       */
+/*   Updated: 2022/03/06 16:26:19 by omoussao         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,16 @@
 int	heredoc(char *delim)
 {
 	int		hfd[2];
+	int		len;
 	char	*buff;
 
 	if (!delim || ft_pipe(hfd) == -1)
 		return (-1);
+	len = ft_strlen(delim);
 	while (true)
 	{
 		buff = readline("> ");
-		if (!buff || ft_memcmp(delim, buff, ft_strlen(delim) + 1) == 0)
+		if (!buff || ft_memcmp(delim, buff, len + 1) == 0)
 			break ;
 		gc_append(g_global.gc, buff, GC_TMP);
 		write(hfd[WRITE_END], buff, ft_strlen(buff));
