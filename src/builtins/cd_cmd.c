@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/06 20:05:02 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/04 16:50:08 by asabani          ###   ########.fr       */
+/*   Updated: 2022/03/06 16:23:18 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static void	change_dir(char *next_path, t_venv **venv)
 		_error("cd", next_path, strerror(errno), 1);
 	else
 	{
+		ft_getcwd();
 		if ((ft_memcmp(next_path, ".", 2) == 0 || \
 		ft_memcmp(next_path, "..", 3) == 0) && errno == ENOENT)
 			return (_error("cd", "error retrieving current directory: \
