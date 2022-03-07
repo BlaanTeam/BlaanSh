@@ -112,11 +112,11 @@ The shell (or BlaanSh) grammar written in [Extended Backus–Naur form](https://
 <cmdlist>	::= <redir>+			(* at least one redirect - without WORDs *)
 		| <redir> {<arg> <redir>}+	(* at least one WORD - zero or more <redir> in any place *)
 
-<redir>		::= {("<" | "<<" | ">" | ">>") <filename>}
+<redir>		::= {("<" | "<<" | ">" | ">>") <filename>}	(* a delimiter in case of heredoc *)
 
-<arg>		::= WORD
+<arg>		::= token WORD | token VAR | token GROUP
 
-<filename>	::= WORD
+<filename>	::= token WORD | token VAR | token GROUP
 ```
 
 The [parser](/src/parser) scans the list token by token, if it fails at some point (which rarely happens because of the syntax analyser phase) it outputs an error, and returns NULL pointer. Otherwise it returns a pointer to the generated abstract syntax tree.\
