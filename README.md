@@ -93,8 +93,7 @@ if (!validate_syntax(tokens))
 tokens = expander(tokens);
 ```
 # Parser
-The parsing algorithm used in this project is a [recursive descent parser](https://en.wikipedia.org/wiki/Recursive_descent_parser#:~:text=In%20computer%20science%2C%20a%20recursive,the%20nonterminals%20of%20the%20grammar.).\
-Its job is to navigate through the list of tokens produced by the lexer function, and recursively validate each rule defined in the [grammar](#grammar) that it recognizes.
+The parsing algorithm used in this project is a [recursive descent parser](https://en.wikipedia.org/wiki/Recursive_descent_parser#:~:text=In%20computer%20science%2C%20a%20recursive,the%20nonterminals%20of%20the%20grammar.). Its job is to navigate through the list of tokens produced by the lexer function, and recursively validate each rule defined in the [grammar](#grammar) that it recognizes.
 
 ## Grammar
 The shell (or BlaanSh) grammar written in [Extended Backus–Naur form](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form):
