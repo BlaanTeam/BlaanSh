@@ -37,7 +37,7 @@ $> cd / ; (cd bin && ./ls -G .); pwd # The current working directory is still `/
 ### Built-in Commands
 ```bash
 echo	# Write arguments to the standard output.
-cd		# Change the shell working directory.
+cd	# Change the shell working directory.
 pwd 	# Print the name of the current working directory.
 export 	# Set export attribute for shell variables.
 unset 	# Unset values and attributes of shell variables.
@@ -148,7 +148,7 @@ The [executor](/src/executor/executor.c#L15)'s job is to recursively walk the sy
 // executes the whole tree by calling one of the runners depending on the node_type.
 void	executor(t_cmdtree *tree);
 
-// NODE_PIPE runner: it creates a pipe, and executes te left and the right trees.
+// NODE_PIPE runner: it creates a pipe, and executes the left and the right trees.
 void	run_pipeline(t_connector *connector);
 
 // runs NODE_CMDLIST type: converts the `t_list *cmdvec` element into a char ** array and executes the array in a child process by calling execve.
@@ -160,7 +160,7 @@ void	run_logical_connector(t_connector *connector, int node_type);
 // NODE_SUBSH runner: it executes the subtree in a child process and waits for it
 void	run_subshell(t_subsh *subshell);
 
-// NODE_BG runner: it executes the left subtree in the background (forking without waiting for the child) and executes the right tree right away (if it exists)
+// NODE_BG runner: it executes the left subtree in the background (forking without waiting for the child) and executes the right tree immediately (if it exists)
 void	run_bg_connector(t_connector *connector);
 
 // NODE_FG runner: it runs the left command tree, after its execution is finished, it executes the right tree (if it exists)
