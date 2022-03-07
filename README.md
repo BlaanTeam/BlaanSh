@@ -169,3 +169,9 @@ void	run_fg_connector(t_connector *connecter);
 // NODE_REDIR runner: it implements the redirection logic and then executes the subtree
 int		run_redirection(t_redir	*redir, int exec);
 ```
+# Resources
+- [Shell knowledge](https://www.youtube.com/playlist?list=PLFAC320731F539902)
+- [CS61 Section 7 (Sell)](https://cs61.seas.harvard.edu/site/2019/Section7/), [CS61 Section 8 (Pipes)](https://cs61.seas.harvard.edu/site/2019/Section8/)
+- [Recursive Descent Parsing](https://en.wikipedia.org/wiki/Recursive_descent_parser#:~:text=In%20computer%20science%2C%20a%20recursive,the%20nonterminals%20of%20the%20grammar.)
+- [Learn BNF Grammar](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form)
+- [XV6's Shell Code Explained - A great source of inspiration](https://www.youtube.com/playlist?list=PLbtzT1TYeoMhF4hcpEiCsOeN13zqrzBJq)
