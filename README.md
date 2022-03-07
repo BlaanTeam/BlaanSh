@@ -58,9 +58,6 @@ The [lexer](https://en.wikipedia.org/wiki/Lexical_analysis#:~:text=A%20program%2
 	- [Expander](/src/expander/expander.c#L15): If the syntax analyser does not produce any error, the list is then passed to an expander which removes quotes and whitespaces, and expands the tilde and the wildcard patterns to their values. Variable expansion is done during execution.
 
 ### Syntax Rules
-
-<sub>
-
 ````
 - UNEXPECTED TOKENS:
 	- `;;' (this token is always unrecognized in bash and zsh shells)
@@ -85,7 +82,6 @@ The [lexer](https://en.wikipedia.org/wiki/Lexical_analysis#:~:text=A%20program%2
 	- every open parentheses has to have a matching closing parentheses.
 	- every single/double quote have to be closed.
 ````
-</sub>
 
 ```c
 // inside the lexer function
