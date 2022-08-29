@@ -6,7 +6,7 @@
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/10 01:03:58 by asabani           #+#    #+#             */
-/*   Updated: 2022/02/28 22:36:47 by asabani          ###   ########.fr       */
+/*   Updated: 2022/08/29 16:22:37 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static bool	is_valid_option(char *str)
 	int	i;
 
 	i = 0;
-	if (str[i] && str[i] == '-')
+	if (str[i] && str[i] == '-' && str[i+1] != '\0')
 	{
 		while (str[++i])
 			if (str[i] != 'n')
