@@ -62,12 +62,12 @@ static int	get_io_dst(t_redir *redir)
 	{
 		filename = getvenv(filenode->val + 1);
 		if (!filename || !*filename)
-			return (_error(filenode->val, "ambiguous redirect", NULL, 1),
+			return (shell_error(filenode->val, "ambiguous redirect", NULL, 1),
 				-1);
 	}
 	io_dst = open(filename, redir->oflag, FILE_PERM);
 	if (io_dst == -1)
-		return (_error(filename, strerror(errno), NULL, 1), -1);
+		return (shell_error(filename, strerror(errno), NULL, 1), -1);
 	return (io_dst);
 }
 

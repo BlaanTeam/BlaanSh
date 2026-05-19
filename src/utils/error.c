@@ -28,7 +28,7 @@ void	alloc_error(void)
 	exit_with_code(EXIT_FAILURE, "malloc", false);
 }
 
-void	_error(char *title, char *msg, char *extra, int status)
+void	shell_error(char *title, char *msg, char *extra, int status)
 {
 	ft_putstr_fd(get_basename(g_global.program_name), STDERR_FILENO);
 	ft_putstr_fd(": ", STDERR_FILENO);

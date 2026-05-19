@@ -55,7 +55,7 @@ void	exec_cmd(char *cmd, char **argv)
 	{
 		term_restore();
 		ft_execvp(cmd, argv);
-		_error(cmd, strerror(errno), NULL, 1);
+		shell_error(cmd, strerror(errno), NULL, 1);
 		if (errno == ENOENT)
 			child_exit(127);
 		if (errno == EACCES)

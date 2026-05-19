@@ -96,13 +96,13 @@ void	export(char **av, t_venv **venv)
 	while (av[++i])
 	{
 		if (is_option(av[i]) && check)
-			return (_error("export", av[i], "invalid option", 2));
+			return (shell_error("export", av[i], "invalid option", 2));
 		else if (is_identifier(av[i]))
 			declare(venv, E_GLOBAL | E_EMPTY, av[i], 0);
 		else if (is_assignment(av[i], &mode))
 			declare(venv, E_GLOBAL, av[i], mode);
 		else
-			_error("export", av[i], "not a valid identifier", 1);
+			shell_error("export", av[i], "not a valid identifier", 1);
 		check = false;
 	}
 }

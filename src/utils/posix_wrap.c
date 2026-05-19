@@ -24,7 +24,7 @@ pid_t	ft_fork(void)
 
 	pid = fork();
 	if (pid == -1)
-		return (_error("fork", strerror(errno), NULL, 1), -1);
+		return (shell_error("fork", strerror(errno), NULL, 1), -1);
 	return (pid);
 }
 
@@ -34,6 +34,6 @@ int	ft_pipe(int fildes[2])
 
 	ret = pipe(fildes);
 	if (ret == -1)
-		_error("pipe", strerror(errno), NULL, 1);
+		shell_error("pipe", strerror(errno), NULL, 1);
 	return (ret);
 }

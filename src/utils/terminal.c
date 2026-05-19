@@ -46,16 +46,16 @@ void	term_init(void)
 	if (signal(SIGINT, interrput_handler) == SIG_ERR || \
 		signal(SIGQUIT, SIG_IGN) == SIG_ERR || \
 		signal(SIGTSTP, SIG_IGN) == SIG_ERR)
-		_error("signal", strerror(errno), NULL, 1);
+		shell_error("signal", strerror(errno), NULL, 1);
 	fileno = get_tty_fd();
 	if (fileno == -1)
 		return ;
 	if (tcgetattr(fileno, &new_term) != 0)
 		return (close(fileno),
-			_error("tcgetattr", strerror(errno), NULL, 1));
+			shell_error("tcgetattr", strerror(errno), NULL, 1));
 	new_term.c_lflag &= ~(ECHOCTL);
 	if (tcsetattr(fileno, TCSANOW, &new_term) != 0)
-		_error("tcsetattr", strerror(errno), NULL, 1);
+		shell_error("tcsetattr", strerror(errno), NULL, 1);
 	close(fileno);
 }
 
@@ -67,15 +67,15 @@ void	term_restore(void)
 	if (signal(SIGINT, SIG_DFL) == SIG_ERR || \
 		signal(SIGQUIT, SIG_DFL) == SIG_ERR || \
 		signal(SIGTSTP, SIG_DFL) == SIG_ERR)
-		_error("signal", strerror(errno), NULL, 1);
+		shell_error("signal", strerror(errno), NULL, 1);
 	fileno = get_tty_fd();
 	if (fileno == -1)
 		return ;
 	if (tcgetattr(fileno, &old_term) != 0)
 		return (close(fileno),
-			_error("tcgetattr", strerror(errno), NULL, 1));
+			shell_error("tcgetattr", strerror(errno), NULL, 1));
 	old_term.c_lflag |= ECHOCTL;
 	if (tcsetattr(fileno, TCSANOW, &old_term) != 0)
-		_error("tcsetattr", strerror(errno), NULL, 1);
+		shell_error("tcsetattr", strerror(errno), NULL, 1);
 	close(fileno);
 }

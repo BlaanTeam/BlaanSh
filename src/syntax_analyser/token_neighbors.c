@@ -38,6 +38,6 @@ bool	check_unexpected(t_node *tokp)
 
 	tok = tokp->token;
 	if (tok & DSEMI)
-		return (_error(UNEXPECTED_TOK, tokp->val, NULL, 2), false);
+		return (shell_error(UNEXPECTED_TOK, tokp->val, NULL, 2), false);
 	return (true);
 }

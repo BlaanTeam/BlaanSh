@@ -20,9 +20,9 @@ void	unset(char **av, t_venv **venv)
 	while (av[++i])
 	{
 		if (is_option(av[i]))
-			return (_error("unset", av[i], "invalid option", 2));
+			return (shell_error("unset", av[i], "invalid option", 2));
 		else if (!is_identifier(av[i]))
-			return (_error("unset", av[i], "not a valid identifier", 1));
+			return (shell_error("unset", av[i], "not a valid identifier", 1));
 		venv_remove(venv, av[i]);
 	}
 	set_status(0);

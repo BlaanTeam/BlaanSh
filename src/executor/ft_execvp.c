@@ -51,13 +51,13 @@ int	ft_execvp(char *file, char **argv)
 	argv[0] = find_path(file, getvenv("PATH"));
 	if (!argv[0])
 	{
-		_error(file, "command not found", NULL, 1);
+		shell_error(file, "command not found", NULL, 1);
 		child_exit(127);
 	}
 	stat(argv[0], &stat_);
 	if (S_ISDIR(stat_.st_mode))
 	{
-		_error(file, strerror(EISDIR), NULL, 1);
+		shell_error(file, strerror(EISDIR), NULL, 1);
 		child_exit(126);
 	}
 	env = venv_export_array(g_global.venv);

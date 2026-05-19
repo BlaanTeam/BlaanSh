@@ -134,7 +134,7 @@ char	*getvenv(char *key);
 // error utils
 void	exit_with_code(int status, char *msg, bool silently);
 void	alloc_error(void);
-void	_error(char *title, char *msg, char *extra, int status);
+void	shell_error(char *title, char *msg, char *extra, int status);
 
 // builtin commands
 void	cd(char **av, t_venv **venv);

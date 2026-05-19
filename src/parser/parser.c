@@ -25,7 +25,7 @@ t_cmdtree	*parser(t_lexer *tokens)
 	if (!syntax_tree
 		|| (tokp && current(tokp) != ENDOFCMD))
 	{
-		_error("parser", "syntax error!", NULL, 2);
+		shell_error("parser", "syntax error!", NULL, 2);
 		return (NULL);
 	}
 	return (syntax_tree);

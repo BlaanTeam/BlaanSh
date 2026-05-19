@@ -24,11 +24,11 @@ bool	check_connectors(t_node *tokp)
 	left = get_left(tokp);
 	right = get_right(tokp);
 	if (!(left->token & (STRING | CPAR)))
-		return (_error(UNEXPECTED_TOK, tokp->val, NULL, 2), false);
+		return (shell_error(UNEXPECTED_TOK, tokp->val, NULL, 2), false);
 	else if ((tok & (FG | BG)) && (right->token & (ENDOFCMD | CPAR)))
 		return (true);
 	else if (!(right->token & (STRING | OPAR | REDIRECT)))
-		return (_error(UNEXPECTED_TOK, right->val, NULL, 2), false);
+		return (shell_error(UNEXPECTED_TOK, right->val, NULL, 2), false);
 	return (true);
 }
 
@@ -46,16 +46,16 @@ bool	check_parentheses(t_node *tokp)
 	if (tok == OPAR)
 	{
 		if (!(left->token & (CMDBEGIN | CONNECTOR | OPAR)))
-			return (_error(UNEXPECTED_TOK, tokp->val, NULL, 2), false);
+			return (shell_error(UNEXPECTED_TOK, tokp->val, NULL, 2), false);
 		else if (!(right->token & (STRING | OPAR | REDIRECT)))
-			return (_error(UNEXPECTED_TOK, right->val, NULL, 2), false);
+			return (shell_error(UNEXPECTED_TOK, right->val, NULL, 2), false);
 	}
 	else if (tok == CPAR)
 	{
 		if (!(left->token & (STRING | CPAR | BG | FG)))
-			return (_error(UNEXPECTED_TOK, tokp->val, NULL, 2), false);
+			return (shell_error(UNEXPECTED_TOK, tokp->val, NULL, 2), false);
 		else if (!(right->token & (ENDOFCMD | CONNECTOR | CPAR | REDIRECT)))
-			return (_error(UNEXPECTED_TOK, right->val, NULL, 2), false);
+			return (shell_error(UNEXPECTED_TOK, right->val, NULL, 2), false);
 	}
 	return (true);
 }
@@ -70,7 +70,7 @@ bool	check_redirections(t_node *tokp)
 		return (true);
 	right = get_right(tokp);
 	if (!(right->token & STRING))
-		return (_error(UNEXPECTED_TOK, right->val, NULL, 2), false);
+		return (shell_error(UNEXPECTED_TOK, right->val, NULL, 2), false);
 	return (true);
 }
 
@@ -91,15 +91,15 @@ bool	check_matching_quotes_parentheses(t_list *tokens)
 		quotes[0] += (top->token == SQUOTE);
 		quotes[1] += (top->token == DQUOTE);
 		if (par_matching < 0)
-			return (_error(UNEXPECTED_TOK, ")", NULL, 2), false);
+			return (shell_error(UNEXPECTED_TOK, ")", NULL, 2), false);
 		top = top->next;
 	}
 	if (par_matching)
-		return (_error(UNEXPECTED_EOF, ")", NULL, 2), false);
+		return (shell_error(UNEXPECTED_EOF, ")", NULL, 2), false);
 	else if (quotes[0] & 1)
-		return (_error(UNCLOSED_SQ, NULL, NULL, 2), false);
+		return (shell_error(UNCLOSED_SQ, NULL, NULL, 2), false);
 	else if (quotes[1] & 1)
-		return (_error(UNCLOSED_DQ, NULL, NULL, 2), false);
+		return (shell_error(UNCLOSED_DQ, NULL, NULL, 2), false);
 	return (true);
 }
 

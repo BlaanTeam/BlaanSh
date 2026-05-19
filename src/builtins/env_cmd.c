@@ -15,7 +15,7 @@
 void	ft_env(char **av, t_venv **venv)
 {
 	if (av[0])
-		return (_error("env", "too many arguments", NULL, 2));
+		return (shell_error("env", "too many arguments", NULL, 2));
 	display_env(venv_export_array(*venv));
 	set_status(0);
 }
