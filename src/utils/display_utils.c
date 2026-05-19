@@ -96,10 +96,10 @@ void display_tree_(t_cmdtree *tree, int ident_level)
 	for (int i = 0; i < ident_level; i++) {
 		fprintf(stderr, "├   ");
 	}
-	if (tree->node_type == NODE_CMDLST)
+	if (tree->kind == NODE_CMDLST)
 	{
 		fprintf(stderr, "├── CMDLIST:");
-		t_node	*lst = ((t_cmdlist *)tree)->cmdvec->top;
+		t_node	*lst = tree->u.cmdlist.cmdvec->top;
 		while (lst) {
 			if (lst->token != GROUP)
 				fprintf(stderr, " <%s: %s> ", token_names[(int)log2(lst->token)], lst->val);
@@ -117,12 +117,12 @@ void display_tree_(t_cmdtree *tree, int ident_level)
 		}
 		fprintf(stderr, "\n");
 	}
-	else if (tree->node_type == NODE_SUBSH) {
+	else if (tree->kind == NODE_SUBSH) {
 		fprintf(stderr, "├── SUBSH\n");
-		display_tree_(((t_subsh *)tree)->cmdtree, ident_level + 1);
+		display_tree_(tree->u.subsh.cmdtree, ident_level + 1);
 	}
-	else if (tree->node_type == NODE_REDIR) {
-		t_redir *redir = (t_redir *)tree;
+	else if (tree->kind == NODE_REDIR) {
+		t_redir *redir = &tree->u.redir;
 		fprintf(stderr, "REDIR %d to ", redir->io_src);
 		if (redir->filenode->token & (WORD | VAR))
 			fprintf(stderr, "<%s: %s>", token_names[(int)log2(redir->filenode->token)], redir->filenode->val);
@@ -138,13 +138,13 @@ void display_tree_(t_cmdtree *tree, int ident_level)
 		fprintf(stderr, "\n");
 		display_tree_(redir->cmdtree, ident_level);
 	}
-	else if (tree->node_type == NODE_PIPE || tree->node_type == NODE_FG
-		|| tree->node_type == NODE_BG || tree->node_type == NODE_AND
-		|| tree->node_type == NODE_OR)
+	else if (tree->kind == NODE_PIPE || tree->kind == NODE_FG
+		|| tree->kind == NODE_BG || tree->kind == NODE_AND
+		|| tree->kind == NODE_OR)
 	{
-		fprintf(stderr, "├── %s\n", type[tree->node_type]);
-		display_tree_(((t_connector *)tree)->lcmdtree, ident_level + 1);
-		display_tree_(((t_connector *)tree)->rcmdtree, ident_level + 1);
+		fprintf(stderr, "├── %s\n", type[tree->kind]);
+		display_tree_(tree->u.conn.lcmdtree, ident_level + 1);
+		display_tree_(tree->u.conn.rcmdtree, ident_level + 1);
 	}
 }
 

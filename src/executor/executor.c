@@ -25,7 +25,7 @@ static void	exec_redirection(t_cmdtree *tree)
 
 	saved[0] = dup(STDIN_FILENO);
 	saved[1] = dup(STDOUT_FILENO);
-	run_redirection((t_redir *)tree, 1);
+	run_redirection(tree, 1);
 	if (saved[0] != -1)
 	{
 		dup2(saved[0], STDIN_FILENO);
@@ -42,18 +42,18 @@ void	executor(t_cmdtree *tree)
 {
 	if (!tree)
 		return ;
-	if (tree->node_type == NODE_CMDLST)
-		return (run_cmdlist((t_cmdlist *)tree));
-	else if (tree->node_type == NODE_PIPE)
-		return (run_pipeline((t_connector *)tree));
-	else if (tree->node_type == NODE_AND || tree->node_type == NODE_OR)
-		return (run_logical_connector((t_connector *)tree, tree->node_type));
-	else if (tree->node_type == NODE_SUBSH)
-		return (run_subshell((t_subsh *)tree));
-	else if (tree->node_type == NODE_FG)
-		return (run_fg_connector((t_connector *)tree));
-	else if (tree->node_type == NODE_BG)
-		return (run_bg_connector((t_connector *)tree));
-	else if (tree->node_type == NODE_REDIR)
+	if (tree->kind == NODE_CMDLST)
+		return (run_cmdlist(tree));
+	else if (tree->kind == NODE_PIPE)
+		return (run_pipeline(tree));
+	else if (tree->kind == NODE_AND || tree->kind == NODE_OR)
+		return (run_logical_connector(tree));
+	else if (tree->kind == NODE_SUBSH)
+		return (run_subshell(tree));
+	else if (tree->kind == NODE_FG)
+		return (run_fg_connector(tree));
+	else if (tree->kind == NODE_BG)
+		return (run_bg_connector(tree));
+	else if (tree->kind == NODE_REDIR)
 		exec_redirection(tree);
 }
