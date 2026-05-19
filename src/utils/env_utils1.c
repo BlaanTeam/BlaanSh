@@ -19,7 +19,7 @@ char	*getkey(char *var)
 	i = 0;
 	while (var[i] && (var[i] != '+' || var[i + 1] != '=') && var[i] != '=')
 		i++;
-	return (gc_filter(ft_strndup(var, i + 1), GC_ALL));
+	return (xstrndup_perm(var, i));
 }
 
 char	*getvalue(char *var)
@@ -34,14 +34,14 @@ char	*getvalue(char *var)
 	else if (var[i] == '+' && var[i + 1] != '=')
 		return (NULL);
 	i++;
-	return (gc_filter(ft_strdup(var + i), GC_ALL));
+	return (xstrdup_perm(var + i));
 }
 
 static t_venv	*venv_new_node(char *key, char *value, short eflag)
 {
 	t_venv	*venv_node;
 
-	venv_node = gc_filter(malloc(sizeof(t_venv)), GC_ALL);
+	venv_node = xalloc_perm(sizeof(t_venv));
 	venv_node->key = key;
 	venv_node->value = value;
 	venv_node->eflag = eflag;
@@ -90,8 +90,8 @@ t_venv	*venv_init(char **env)
 			continue ;
 		venv_insert(&venv_head, key, getenv(key), E_GLOBAL);
 	}
-	venv_insert(&venv_head, "SHLVL", \
-	gc_filter(ft_itoa(ft_atoi(shlvl) + 1), GC_ALL), E_GLOBAL);
+	venv_insert(&venv_head, "SHLVL",
+		xitoa_perm(ft_atoi(shlvl) + 1), E_GLOBAL);
 	venv_insert(&venv_head, "PWD", ft_getcwd(), E_GLOBAL);
 	if (errno == ENOENT)
 		perror("shell-init: error retrieving current directory: \

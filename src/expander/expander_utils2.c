@@ -25,7 +25,7 @@ void	concat_group(t_node *node)
 	{
 		if (!(top->token & (WORD | WILDC | TILDE)))
 			return ;
-		node->val = gc_filter(ft_strjoin(node->val, top->val), GC_TMP);
+		node->val = xstrjoin(node->val, top->val);
 		top = top->next;
 	}
 	node->token = WORD;
@@ -92,7 +92,7 @@ char	*expand_group(t_list *group)
 			del_front(group);
 			continue ;
 		}
-		ret = gc_filter(ft_strjoin(ret, tmp), GC_TMP);
+		ret = xstrjoin(ret, tmp);
 		del_front(group);
 	}
 	return (ret);
@@ -106,7 +106,7 @@ char	**list_export_array(t_list *list)
 
 	if (!list)
 		return (NULL);
-	arr = (char **)gc_filter(malloc(sizeof(char *) * (list->len + 1)), GC_TMP);
+	arr = xalloc(sizeof(char *) * (list->len + 1));
 	head = list->top;
 	i = 0;
 	while (head)

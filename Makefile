@@ -83,8 +83,8 @@ LIBFT_PATH = libft/
 LIBFT = $(addprefix $(LIBFT_PATH), libft.a)
 
 
-LIBGC_PATH = libgc/
-LIBGC = $(addprefix $(LIBGC_PATH), libgc.a)
+LIBARENA_PATH = libarena/
+LIBARENA = $(addprefix $(LIBARENA_PATH), libarena.a)
 
 #
 # Rules
@@ -98,7 +98,7 @@ debug: CFLAGS+=-g
 debug: clean $(NAME)
 
 # minishell
-$(NAME): $(LIBFT) $(LIBGC)
+$(NAME): $(LIBFT) $(LIBARENA)
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $^ -o $@ -lreadline -lm $(RL_LIB)
 
@@ -106,13 +106,13 @@ $(NAME): $(OBJS)
 $(LIBFT): $(addprefix $(LIBFT_PATH), libft.h)
 	make -C $(LIBFT_PATH) all clean
 
-# libgc
-$(LIBGC): $(addprefix $(LIBGC_PATH), include/gc.h)
-	make -C $(LIBGC_PATH) all clean
+# libarena
+$(LIBARENA): $(addprefix $(LIBARENA_PATH), include/arena.h)
+	make -C $(LIBARENA_PATH) all clean
 
 # object files
 %.o: %.c $(HEADER)
-	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDE) $(RL_INC) -I $(LIBFT_PATH) -I $(addprefix $(LIBGC_PATH), include)
+	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDE) $(RL_INC) -I $(LIBFT_PATH) -I $(addprefix $(LIBARENA_PATH), include)
 
 # tests
 test: $(NAME)
@@ -134,7 +134,7 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 	make -C $(LIBFT_PATH) fclean
-	make -C $(LIBGC_PATH) fclean
+	make -C $(LIBARENA_PATH) fclean
 
 # remake
 re: fclean all

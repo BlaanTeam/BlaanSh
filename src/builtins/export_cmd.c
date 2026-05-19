@@ -68,8 +68,7 @@ static void	declare(t_venv **venv, short eflag, char *var, int mode)
 	if (venv_node)
 	{
 		if (mode & APPEND_MODE)
-			venv_node->value = \
-			gc_filter(ft_strjoin(venv_node->value, value), GC_ALL);
+			venv_node->value = xstrjoin_perm(venv_node->value, value);
 		else if (mode & ASSIGN_MODE)
 		{
 			venv_node->value = value;

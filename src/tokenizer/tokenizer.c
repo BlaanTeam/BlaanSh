@@ -31,7 +31,7 @@ char	*parentheses(t_list *tokens, char *line)
 
 	c = *line;
 	token = (c == '(') * OPAR + (c == ')') * CPAR;
-	push_back(tokens, token, gc_filter(ft_chardup(c), GC_TMP));
+	push_back(tokens, token, xchardup(c));
 	return (line + 1);
 }
 
@@ -56,11 +56,11 @@ char	*lookahead_state(t_list *tokens, char *line)
 	line += len;
 	while (len > 1)
 	{
-		push_back(tokens, token2, gc_filter(ft_strndup(val2, 3), GC_TMP));
+		push_back(tokens, token2, xstrndup(val2, 2));
 		len -= 2;
 	}
 	if (len)
-		push_back(tokens, token1, gc_filter(ft_chardup(c), GC_TMP));
+		push_back(tokens, token1, xchardup(c));
 	return (line);
 }
 
@@ -74,7 +74,7 @@ char	*normal_state(t_list *tokens, char *line)
 		len++;
 	if (len)
 	{
-		word = gc_filter(ft_strndup(line, len + 1), GC_TMP);
+		word = xstrndup(line, len);
 		if (word[0] == '~' && (!word[1] || word[1] == '/'))
 			push_back(tokens, TILDE, word);
 		else if (ft_strchr(word, '/') || !(ft_strchr(word, '*') || \
@@ -109,6 +109,6 @@ t_list	*tokenizer(char *cmdline)
 		else
 			cmdline = normal_state(tokens, cmdline);
 	}
-	push_back(tokens, ENDOFCMD, gc_filter(ft_strdup("newline"), GC_TMP));
+	push_back(tokens, ENDOFCMD, xstrdup("newline"));
 	return (tokens);
 }

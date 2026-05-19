@@ -24,11 +24,16 @@ int	heredoc(char *delim)
 	while (true)
 	{
 		buff = readline("> ");
-		if (!buff || ft_memcmp(delim, buff, len + 1) == 0)
+		if (!buff)
 			break ;
-		gc_append(g_global.gc, buff, GC_TMP);
+		if (ft_memcmp(delim, buff, len + 1) == 0)
+		{
+			free(buff);
+			break ;
+		}
 		write(hfd[WRITE_END], buff, ft_strlen(buff));
 		write(hfd[WRITE_END], "\n", 1);
+		free(buff);
 	}
 	return (close(hfd[WRITE_END]), hfd[READ_END]);
 }

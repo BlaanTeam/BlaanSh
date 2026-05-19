@@ -56,12 +56,11 @@ void	exec_cmd(char *cmd, char **argv)
 		term_restore();
 		ft_execvp(cmd, argv);
 		_error(cmd, strerror(errno), NULL, 1);
-		gc_clean(&g_global.gc, GC_DESTROY_SELF);
 		if (errno == ENOENT)
-			exit(127);
+			child_exit(127);
 		if (errno == EACCES)
-			exit(126);
-		exit(1);
+			child_exit(126);
+		child_exit(1);
 	}
 	waitpid(pid, &g_global.status, WUNTRACED);
 	check_status();

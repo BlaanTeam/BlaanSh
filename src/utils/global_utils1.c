@@ -19,7 +19,7 @@ char	*ft_getcwd(void)
 	errno = 0;
 	if (!getcwd(path, PATH_MAX))
 		set_status(1);
-	return (gc_filter(ft_strdup(path), GC_ALL));
+	return (xstrdup_perm(path));
 }
 
 /**
@@ -66,7 +66,8 @@ bool	is_numeric(char *str)
 void	exit_with_cleanup(void)
 {
 	term_restore();
-	gc_clean(&g_global.gc, GC_DESTROY_SELF);
+	arena_destroy(&g_global.tmp);
+	arena_destroy(&g_global.perm);
 	rl_clear_history();
 	exit(EXIT_SUCCESS);
 }

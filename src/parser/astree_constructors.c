@@ -16,7 +16,7 @@ static t_cmdtree	*alloc_cmdtree(t_node_kind kind)
 {
 	t_cmdtree	*node;
 
-	node = gc_filter(malloc(sizeof(t_cmdtree)), GC_TMP);
+	node = xalloc(sizeof(t_cmdtree));
 	node->kind = kind;
 	return (node);
 }

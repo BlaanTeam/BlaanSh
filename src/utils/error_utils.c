@@ -16,7 +16,8 @@ void	exit_with_code(int status, char *msg, bool silently)
 {
 	if (!silently)
 		perror(msg);
-	gc_clean(&g_global.gc, GC_DESTROY_SELF);
+	arena_destroy(&g_global.tmp);
+	arena_destroy(&g_global.perm);
 	rl_clear_history();
 	exit(status);
 }

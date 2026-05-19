@@ -34,7 +34,7 @@
 # include "readline/history.h"
 
 // Local header files
-# include "gc.h"
+# include "arena.h"
 # include "libft.h"
 # include "lexer.h"
 # include "parser.h"
@@ -54,8 +54,20 @@ typedef struct s_venv
 	struct s_venv	*next;
 }	t_venv;
 
+/*
+ * Memory model: two arenas instead of a mark-and-sweep gc.
+ *   perm — lives for the whole process: env vars, prompt, anything that
+ *          survives across commands.
+ *   tmp  — reset at the end of every readline cycle: tokens, AST nodes,
+ *          expansions, argv arrays, intermediate strings.
+ *
+ * arena_destroy on both at exit ⇒ every byte allocated by the shell is
+ * accounted for. There is no per-allocation tracking and no way to free
+ * one pointer; that's by design.
+ */
 typedef struct s_global {
-	t_gc	*gc;
+	t_arena	tmp;
+	t_arena	perm;
 	t_venv	*venv;
 	char	*program_name;
 	int		status;
@@ -66,12 +78,29 @@ typedef struct s_global {
 // declare global variable
 extern t_global	g_global;
 
+// Arena shortcuts — these wrap the two global arenas so call sites don't
+// have to spell out &g_global.tmp every time. The `_perm` variants target
+// the long-lived arena (used for env vars / prompt); everything else goes
+// into the per-command-line arena that gets reset on each iteration.
+void	*xalloc(size_t n);
+void	*xalloc_perm(size_t n);
+char	*xstrdup(const char *s);
+char	*xstrdup_perm(const char *s);
+char	*xstrndup(const char *s, size_t n);
+char	*xstrndup_perm(const char *s, size_t n);
+char	*xstrjoin(const char *a, const char *b);
+char	*xstrjoin_perm(const char *a, const char *b);
+char	*xchardup(char c);
+char	*xitoa(int n);
+char	*xitoa_perm(int n);
+
+// Tear down the arenas and exit. Used by forked children so they don't
+// look like they're leaking the parent's allocations.
+void	child_exit(int status);
+
 // global utils
-void	*gc_filter(void *ptr, t_gc_flag append_flag);
-void	*ft_malloc(size_t len);
 char	*ft_getcwd(void);
-char	*ft_strndup(char *str, int n);
-char	*ft_chardup(char c);
+bool	is_identifier(char *identifier);
 bool	is_identifier(char *identifier);
 bool	is_numeric(char *str);
 void	exit_with_cleanup(void);

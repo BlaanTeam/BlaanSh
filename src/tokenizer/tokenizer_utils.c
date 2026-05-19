@@ -18,7 +18,7 @@ char	*dollar(t_list *tokens, char *line)
 
 	if (ft_isdigit(line[1]) || line[1] == '?' || line[1] == '$')
 	{
-		push_back(tokens, VAR, gc_filter(ft_strndup(line, 3), GC_TMP));
+		push_back(tokens, VAR, xstrndup(line, 2));
 		return (line + 2);
 	}
 	len = 0;
@@ -26,9 +26,9 @@ char	*dollar(t_list *tokens, char *line)
 	line[len + 1] == '_'))
 		len++;
 	if (len)
-		push_back(tokens, VAR, gc_filter(ft_strndup(line, len + 2), GC_TMP));
+		push_back(tokens, VAR, xstrndup(line, len + 1));
 	else
-		push_back(tokens, WORD, gc_filter(ft_strndup(line, 2), GC_TMP));
+		push_back(tokens, WORD, xstrndup(line, 1));
 	return (line + len + 1);
 }
 
@@ -36,14 +36,14 @@ char	*single_quote(t_list *tokens, char *line)
 {
 	int	len;
 
-	push_back(tokens, SQUOTE, gc_filter(ft_chardup('\''), GC_TMP));
+	push_back(tokens, SQUOTE, xchardup('\''));
 	len = 0;
 	while (line[len] && line[len] != '\n' && line[len] != '\'')
 		len++;
-	push_back(tokens, WORD, gc_filter(ft_strndup(line, len + 1), GC_TMP));
+	push_back(tokens, WORD, xstrndup(line, len));
 	if (line[len] == '\'')
 	{
-		push_back(tokens, SQUOTE, gc_filter(ft_chardup('\''), GC_TMP));
+		push_back(tokens, SQUOTE, xchardup('\''));
 		len++;
 	}
 	return (line + len);
@@ -51,11 +51,11 @@ char	*single_quote(t_list *tokens, char *line)
 
 bool	emppthy_dquotes(t_list *tokens, char **line)
 {
-	push_back(tokens, DQUOTE, gc_filter(ft_chardup('\"'), GC_TMP));
+	push_back(tokens, DQUOTE, xchardup('\"'));
 	if (**line == '\"')
 	{
-		push_back(tokens, WORD, gc_filter(ft_strdup(""), GC_TMP));
-		push_back(tokens, DQUOTE, gc_filter(ft_chardup('\"'), GC_TMP));
+		push_back(tokens, WORD, xstrdup(""));
+		push_back(tokens, DQUOTE, xchardup('\"'));
 		(*line) += 1;
 		return (1);
 	}
@@ -74,8 +74,7 @@ char	*double_quote(t_list *tokens, char *line)
 		if (line[len] == '$')
 		{
 			if (len)
-				push_back(tokens, WORD, gc_filter(ft_strndup(line, len + 1), \
-				GC_TMP));
+				push_back(tokens, WORD, xstrndup(line, len));
 			line = dollar(tokens, line + len);
 			len = 0;
 		}
@@ -83,8 +82,8 @@ char	*double_quote(t_list *tokens, char *line)
 			len++;
 	}
 	if (len)
-		push_back(tokens, WORD, gc_filter(ft_strndup(line, len + 1), GC_TMP));
+		push_back(tokens, WORD, xstrndup(line, len));
 	if (line[len] == '\"')
-		push_back(tokens, DQUOTE, gc_filter(ft_chardup('\"'), GC_TMP));
+		push_back(tokens, DQUOTE, xchardup('\"'));
 	return (line + len + (line[len] == '\"'));
 }

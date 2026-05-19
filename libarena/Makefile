@@ -1,9 +1,9 @@
-NAME = libgc.a
+NAME = libarena.a
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 SRC = src
 INCLUDE = include
-CFILES = gc.c
+CFILES = arena.c
 OBJ = $(CFILES:%.c=$(SRC)/%.o)
 
 all : $(NAME)
@@ -11,7 +11,7 @@ all : $(NAME)
 $(NAME) : $(OBJ)
 	ar rcs $@ $^
 
-$(SRC)/%.o : $(SRC)/%.c $(INCLUDE)/gc.h
+$(SRC)/%.o : $(SRC)/%.c $(INCLUDE)/arena.h
 	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDE)
 
 clean :
@@ -21,3 +21,5 @@ fclean : clean
 	rm -f $(NAME)
 
 re : fclean all
+
+.PHONY: all clean fclean re

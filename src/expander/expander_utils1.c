@@ -18,7 +18,7 @@ t_node	*expand_tilde(t_node *node)
 
 	home = getvenv("HOME");
 	if (home)
-		node->val = gc_filter(ft_strjoin(home, node->val + 1), GC_TMP);
+		node->val = xstrjoin(home, node->val + 1);
 	node->token = WORD;
 	return (node->next);
 }
@@ -55,8 +55,8 @@ t_node	*handle_redirects(t_node *node)
 			del_front(right->val_grp);
 			while (right->val_grp->len)
 			{
-				right->val = gc_filter(ft_strjoin(right->val,
-							right->val_grp->top->val), GC_TMP);
+				right->val = xstrjoin(right->val,
+						right->val_grp->top->val);
 				del_front(right->val_grp);
 			}
 		}

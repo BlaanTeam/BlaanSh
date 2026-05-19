@@ -16,7 +16,7 @@ t_list	*new_list(void)
 {
 	t_list	*list;
 
-	list = (t_list *)gc_filter(malloc(sizeof(t_list)), GC_TMP);
+	list = xalloc(sizeof(t_list));
 	list->len = 0;
 	list->top = NULL;
 	list->bottom = NULL;
@@ -27,7 +27,7 @@ t_node	*new_node(t_token token, char *val)
 {
 	t_node	*new;
 
-	new = (t_node *)gc_filter(malloc(sizeof(t_node)), GC_TMP);
+	new = xalloc(sizeof(t_node));
 	new->token = token;
 	new->val = val;
 	new->val_grp = NULL;

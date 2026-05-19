@@ -32,8 +32,7 @@ void	run_subshell(t_cmdtree *tree)
 	if (pid == 0)
 	{
 		executor(tree->u.subsh.cmdtree);
-		gc_clean(&g_global.gc, GC_DESTROY_SELF);
-		exit(get_status());
+		child_exit(get_status());
 	}
 	waitpid(pid, &g_global.status, WUNTRACED);
 }

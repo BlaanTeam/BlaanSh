@@ -12,36 +12,78 @@
 
 #include "minishell.h"
 
-void	*gc_filter(void *ptr, t_gc_flag append_flag)
+/*
+ * Thin wrappers around libarena that target the two global arenas. They
+ * abort the process on OOM (consistent with the previous gc_filter
+ * behavior) so call sites don't need a NULL check on every allocation.
+ */
+static void	*oom_check(void *p)
 {
-	if (!ptr)
+	if (!p)
 		exit_with_code(EXIT_FAILURE, "malloc", false);
-	if (!gc_append(g_global.gc, ptr, append_flag))
-		exit_with_code(EXIT_FAILURE, "malloc", false);
-	return (ptr);
+	return (p);
 }
 
-char	*ft_strndup(char *str, int n)
+void	*xalloc(size_t n)
 {
-	char	*ret;
-
-	ret = (char *)malloc(n);
-	if (!ret)
-		return (NULL);
-	ft_strlcpy(ret, str, n);
-	return (ret);
+	return (oom_check(arena_alloc(&g_global.tmp, n)));
 }
 
-char	*ft_chardup(char c)
+void	*xalloc_perm(size_t n)
 {
-	char	*ret;
+	return (oom_check(arena_alloc(&g_global.perm, n)));
+}
 
-	ret = (char *)malloc(2);
-	if (!ret)
-		return (NULL);
-	ret[0] = c;
-	ret[1] = 0;
-	return (ret);
+char	*xstrdup(const char *s)
+{
+	return (oom_check(arena_strdup(&g_global.tmp, s)));
+}
+
+char	*xstrdup_perm(const char *s)
+{
+	return (oom_check(arena_strdup(&g_global.perm, s)));
+}
+
+char	*xstrndup(const char *s, size_t n)
+{
+	return (oom_check(arena_strndup(&g_global.tmp, s, n)));
+}
+
+char	*xstrndup_perm(const char *s, size_t n)
+{
+	return (oom_check(arena_strndup(&g_global.perm, s, n)));
+}
+
+char	*xstrjoin(const char *a, const char *b)
+{
+	return (oom_check(arena_strjoin(&g_global.tmp, a, b)));
+}
+
+char	*xstrjoin_perm(const char *a, const char *b)
+{
+	return (oom_check(arena_strjoin(&g_global.perm, a, b)));
+}
+
+char	*xchardup(char c)
+{
+	return (oom_check(arena_chardup(&g_global.tmp, c)));
+}
+
+char	*xitoa(int n)
+{
+	return (oom_check(arena_itoa(&g_global.tmp, n)));
+}
+
+char	*xitoa_perm(int n)
+{
+	return (oom_check(arena_itoa(&g_global.perm, n)));
+}
+
+void	child_exit(int status)
+{
+	arena_destroy(&g_global.tmp);
+	arena_destroy(&g_global.perm);
+	exit(status);
 }
 
 bool	is_option(char *str)
