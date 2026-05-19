@@ -39,11 +39,4 @@ jobs:
 
       - name: Fuzz parser
         timeout-minutes: 3
-        env:
-          VERBOSE: "1"
-        run: |
-          echo "uname: $(uname -a)"
-          echo "bash:  $(bash --version | head -1)"
-          echo "timeout: $(command -v timeout) $(timeout --version 2>&1 | head -1)"
-          # Run fewer iters with verbose tracing so we can see where it hangs.
-          make fuzz FUZZ_ITER=20 FUZZ_LINES=10 FUZZ_LINELEN=40
+        run: make fuzz FUZZ_ITER=150 FUZZ_LINES=40 FUZZ_LINELEN=100
