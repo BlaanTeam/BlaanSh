@@ -1,39 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   global_utils4.c                                    :+:      :+:    :+:   */
+/*   token_neighbors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/04 20:32:47 by asabani           #+#    #+#             */
-/*   Updated: 2022/03/04 20:35:47 by asabani          ###   ########.fr       */
+/*   Created: 2022/03/05 18:27:12 by asabani           #+#    #+#             */
+/*   Updated: 2022/03/05 18:30:39 by asabani          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_dup2(int dest, int src)
+t_node	*get_right(t_node *tokp)
 {
-	close(src);
-	dup2(dest, src);
+	t_node	*right;
+
+	right = tokp->next;
+	while (right->token == WSPACE)
+		right = right->next;
+	return (right);
 }
 
-pid_t	ft_fork(void)
+t_node	*get_left(t_node *tokp)
 {
-	pid_t	pid;
+	t_node	*left;
 
-	pid = fork();
-	if (pid == -1)
-		return (_error("fork", strerror(errno), NULL, 1), -1);
-	return (pid);
+	left = tokp->prev;
+	while (left->token == WSPACE)
+		left = left->prev;
+	return (left);
 }
 
-int	ft_pipe(int fildes[2])
+bool	check_unexpected(t_node *tokp)
 {
-	int	ret;
+	t_token	tok;
 
-	ret = pipe(fildes);
-	if (ret == -1)
-		_error("pipe", strerror(errno), NULL, 1);
-	return (ret);
+	tok = tokp->token;
+	if (tok & DSEMI)
+		return (_error(UNEXPECTED_TOK, tokp->val, NULL, 2), false);
+	return (true);
 }
