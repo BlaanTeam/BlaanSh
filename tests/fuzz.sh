@@ -38,7 +38,11 @@ ALPHABET="${ALPHABET}-"
 gen_input() {
 	local lines=$1
 	local maxlen=$2
-	LC_ALL=C tr -dc "$ALPHABET" < /dev/urandom \
+	# Read a bounded number of raw bytes from /dev/urandom up front so the
+	# pipeline can't stall on slow readers / weird SIGPIPE behavior.
+	local raw_bytes=$((lines * maxlen * 4))
+	head -c "$raw_bytes" /dev/urandom \
+		| LC_ALL=C tr -dc "$ALPHABET" \
 		| fold -w "$maxlen" \
 		| head -n "$lines"
 	printf 'exit\n'
@@ -62,7 +66,12 @@ fi
 
 run_one() {
 	local input=$1
-	env -i PATH=/nonexistent HOME="$SANDBOX" TERM=dumb \
+	# Override only PATH/HOME/TERM rather than env -i. On the GitHub
+	# Linux runner the env -i form (or something readline does when
+	# certain env vars are stripped) caused the first iteration to hang
+	# indefinitely; preserving the rest of the environment is fine since
+	# PATH=/nonexistent still keeps commands from resolving.
+	PATH=/nonexistent HOME="$SANDBOX" TERM=dumb \
 		"${TIMEOUT_CMD[@]}" "$MS_PATH" < "$input" > /dev/null 2>&1
 }
 
