@@ -10,17 +10,17 @@ INCLUDE = include/
 HEADER = minishell.h executor.h parser.h lexer.h
 HEADER := $(addprefix $(INCLUDE), $(HEADER))
 
-UTILS_FILES = utils/io_utils1.c \
-		utils/io_utils2.c \
-		utils/error_utils.c \
-		utils/env_utils1.c \
-		utils/env_utils2.c \
-		utils/env_utils3.c \
-		utils/global_utils1.c \
-		utils/global_utils2.c \
-		utils/global_utils3.c \
-		utils/global_utils4.c \
-		utils/display_utils.c
+UTILS_FILES = utils/terminal.c \
+		utils/io_redir.c \
+		utils/error.c \
+		utils/env_init.c \
+		utils/env_export.c \
+		utils/env_lookup.c \
+		utils/runtime.c \
+		utils/xalloc.c \
+		utils/status.c \
+		utils/posix_wrap.c \
+		utils/debug_print.c
 
 BUILTINS_FILES = builtins/cd_cmd.c \
 		builtins/pwd_cmd.c \
@@ -30,41 +30,41 @@ BUILTINS_FILES = builtins/cd_cmd.c \
 		builtins/env_cmd.c \
 		builtins/export_cmd.c
 
-TOKENZIER_FILES = tokenizer/lexer.c \
+TOKENIZER_FILES = tokenizer/lexer.c \
 		tokenizer/tokenizer.c \
-		tokenizer/tokenizer_utils.c \
-		tokenizer/list_constructor_utils.c \
-		tokenizer/list_destructor_utils.c
+		tokenizer/tokenizer_quotes.c \
+		tokenizer/list_create.c \
+		tokenizer/list_delete.c
 
 EXECUTOR_FILES = executor/ft_execvp.c \
-		executor/exec_utils.c \
+		executor/exec_command.c \
 		executor/executor.c \
-		executor/executor_utils1.c \
-		executor/executor_utils2.c
+		executor/run_connectors.c \
+		executor/run_commands.c
 
 PARSER_FILES = parser/astree_constructors.c \
 		parser/parser_helpers.c \
-		parser/parser_utils1.c \
-		parser/parser_utils2.c \
+		parser/grammar.c \
+		parser/parse_redir.c \
 		parser/parser.c
 
-SYNTAX_UTILS = syntax_analyser/syntax_analyser.c \
-		syntax_analyser/syntax_utils.c
+SYNTAX_FILES = syntax_analyser/syntax_analyser.c \
+		syntax_analyser/token_neighbors.c
 
 EXPANDER_FILES = expander/expander.c \
-		expander/expander_utils1.c \
-		expander/expander_utils2.c \
+		expander/expand_tokens.c \
+		expander/expand_groups.c \
 		expander/wildcard_matching.c
 
 FILES =	minishell.c \
 	$(UTILS_FILES) \
 	$(BUILTINS_FILES) \
-	$(TOKENZIER_FILES) \
-	$(SYNTAX_UTILS) \
+	$(TOKENIZER_FILES) \
+	$(SYNTAX_FILES) \
 	$(EXPANDER_FILES) \
 	$(PARSER_FILES) \
 	$(EXECUTOR_FILES) \
-		
+
 OBJS = $(FILES:%.c=%.o)
 OBJS := $(addprefix $(SRC), $(OBJS))
 
@@ -83,8 +83,8 @@ LIBFT_PATH = libft/
 LIBFT = $(addprefix $(LIBFT_PATH), libft.a)
 
 
-LIBGC_PATH = libgc/
-LIBGC = $(addprefix $(LIBGC_PATH), libgc.a)
+LIBARENA_PATH = libarena/
+LIBARENA = $(addprefix $(LIBARENA_PATH), libarena.a)
 
 #
 # Rules
@@ -98,7 +98,7 @@ debug: CFLAGS+=-g
 debug: clean $(NAME)
 
 # minishell
-$(NAME): $(LIBFT) $(LIBGC)
+$(NAME): $(LIBFT) $(LIBARENA)
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $^ -o $@ -lreadline -lm $(RL_LIB)
 
@@ -106,13 +106,13 @@ $(NAME): $(OBJS)
 $(LIBFT): $(addprefix $(LIBFT_PATH), libft.h)
 	make -C $(LIBFT_PATH) all clean
 
-# libgc
-$(LIBGC): $(addprefix $(LIBGC_PATH), include/gc.h)
-	make -C $(LIBGC_PATH) all clean
+# libarena
+$(LIBARENA): $(addprefix $(LIBARENA_PATH), include/arena.h)
+	make -C $(LIBARENA_PATH) all clean
 
 # object files
 %.o: %.c $(HEADER)
-	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDE) $(RL_INC) -I $(LIBFT_PATH) -I $(addprefix $(LIBGC_PATH), include)
+	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDE) $(RL_INC) -I $(LIBFT_PATH) -I $(addprefix $(LIBARENA_PATH), include)
 
 # tests
 test: $(NAME)
@@ -126,6 +126,10 @@ FUZZ_ITER ?= 100
 FUZZ_LINES ?= 30
 FUZZ_LINELEN ?= 80
 
+# leak check (valgrind on Linux, leaks on macOS)
+leak-check: $(NAME)
+	bash tests/leak_check.sh
+
 # clean
 clean:
 	rm -f $(OBJS)
@@ -134,9 +138,9 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 	make -C $(LIBFT_PATH) fclean
-	make -C $(LIBGC_PATH) fclean
+	make -C $(LIBARENA_PATH) fclean
 
 # remake
 re: fclean all
 
-.PHONY: all debug test fuzz clean fclean re
+.PHONY: all debug test fuzz leak-check clean fclean re

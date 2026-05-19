@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils3.c                                       :+:      :+:    :+:   */
+/*   env_lookup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -41,7 +41,7 @@ char	*getvenv(char *key)
 	if (!key)
 		return (NULL);
 	if (ft_memcmp(key, "?", 2) == 0)
-		return (gc_filter(ft_itoa(get_status()), GC_TMP));
+		return (xitoa(get_status()));
 	else if (ft_memcmp(key, "0", 2) == 0)
 		return (g_global.program_name);
 	node = venv_find(g_global.venv, key);

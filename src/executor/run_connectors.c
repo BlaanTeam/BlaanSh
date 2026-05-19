@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor_utils1.c                                  :+:      :+:    :+:   */
+/*   run_connectors.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -34,8 +34,7 @@ pid_t	run_pipe(t_cmdtree *tree, int fds[2], int side)
 		ft_dup2(fds[end], fileno);
 		close_pipe(fds);
 		executor(child);
-		gc_clean(&g_global.gc, GC_DESTROY_SELF);
-		exit(get_status());
+		child_exit(get_status());
 	}
 	return (pid);
 }
@@ -86,8 +85,7 @@ void	run_bg_connector(t_cmdtree *tree)
 	if (pid == 0)
 	{
 		executor(tree->u.conn.lcmdtree);
-		gc_clean(&g_global.gc, GC_DESTROY_SELF);
-		exit(get_status());
+		child_exit(get_status());
 	}
 	executor(tree->u.conn.rcmdtree);
 }

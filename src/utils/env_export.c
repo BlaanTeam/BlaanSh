@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_utils2.c                                       :+:      :+:    :+:   */
+/*   env_export.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asabani <asabani@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -35,13 +35,13 @@ char	**venv_export_array(t_venv	*venv_head)
 
 	i = 0;
 	len = venv_count(venv_head);
-	env = gc_filter(malloc(sizeof(char *) * (len + 1)), GC_TMP);
+	env = xalloc(sizeof(char *) * (len + 1));
 	while (venv_head && i < len)
-	{	
+	{
 		if (!(venv_head->eflag & E_EMPTY))
 		{
-			str = gc_filter(ft_strjoin(venv_head->key, "="), GC_TMP);
-			str = gc_filter(ft_strjoin(str, venv_head->value), GC_TMP);
+			str = xstrjoin(venv_head->key, "=");
+			str = xstrjoin(str, venv_head->value);
 			env[len - i++ - 1] = str;
 		}
 		venv_head = venv_head->next;

@@ -17,10 +17,10 @@ bool	**dp_init(char *pattern, int n, int m)
 	bool	**table;
 	int		i;
 
-	table = gc_filter(malloc((n + 1) * sizeof(bool *)), GC_TMP);
+	table = xalloc((n + 1) * sizeof(bool *));
 	i = 0;
 	while (i < n + 1)
-		table[i++] = gc_filter(malloc((m + 1) * sizeof(bool)), GC_TMP);
+		table[i++] = xalloc((m + 1) * sizeof(bool));
 	table[0][0] = true;
 	i = 1;
 	while (i < n + 1)
@@ -81,7 +81,7 @@ t_node	*expand_wildcards(t_list *tokens, t_node *node)
 			if (matches_found == 0)
 				node = del_node(tokens, node)->next;
 			insert_node(tokens, new_node(WORD,
-					gc_filter(ft_strdup(item->d_name), GC_TMP)), node->prev);
+					xstrdup(item->d_name)), node->prev);
 			matches_found++;
 		}
 		item = readdir(dirp);
