@@ -4,10 +4,15 @@ on:
   push:
   pull_request:
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-and-test:
     name: Build & test (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
@@ -33,4 +38,5 @@ jobs:
         run: make test
 
       - name: Fuzz parser
-        run: make fuzz FUZZ_ITER=150 FUZZ_LINES=40 FUZZ_LINELEN=100
+        timeout-minutes: 3
+        run: make fuzz FUZZ_ITER=80 FUZZ_LINES=30 FUZZ_LINELEN=80

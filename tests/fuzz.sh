@@ -44,28 +44,26 @@ gen_input() {
 	printf 'exit\n'
 }
 
-# Portable timeout: spawn the binary, race against a sleep-then-kill watcher.
-# Returns the binary's wait status (128+signo if killed).
-run_with_timeout() {
-	local secs=$1
-	local input=$2
-	(
-		env -i PATH=/nonexistent HOME="$SANDBOX" TERM=dumb \
-			"$MS_PATH" < "$input" > /dev/null 2>&1 &
-		local pid=$!
-		(
-			sleep "$secs"
-			kill -TERM "$pid" 2>/dev/null
-			sleep 0.5
-			kill -KILL "$pid" 2>/dev/null
-		) >/dev/null 2>&1 &
-		local watcher=$!
-		wait "$pid" 2>/dev/null
-		local rc=$?
-		kill "$watcher" 2>/dev/null
-		wait "$watcher" 2>/dev/null
-		exit "$rc"
-	)
+# Prefer the coreutils `timeout` binary: it's reliable across platforms and
+# always present on Linux. macOS may ship `gtimeout` (from coreutils) or
+# nothing — in that case we fall back to a perl alarm wrapper.
+if command -v timeout >/dev/null 2>&1; then
+	TIMEOUT_CMD=(timeout --kill-after=1 "$TIMEOUT_S")
+elif command -v gtimeout >/dev/null 2>&1; then
+	TIMEOUT_CMD=(gtimeout --kill-after=1 "$TIMEOUT_S")
+elif command -v perl >/dev/null 2>&1; then
+	# perl alarm: SIGALRM kills the child after $TIMEOUT_S seconds.
+	# Exit code on alarm is 142 (128 + SIGALRM).
+	TIMEOUT_CMD=(perl -e 'alarm shift @ARGV; exec @ARGV or die' "$TIMEOUT_S")
+else
+	printf 'error: no usable timeout command (need timeout, gtimeout, or perl)\n' >&2
+	exit 1
+fi
+
+run_one() {
+	local input=$1
+	env -i PATH=/nonexistent HOME="$SANDBOX" TERM=dumb \
+		"${TIMEOUT_CMD[@]}" "$MS_PATH" < "$input" > /dev/null 2>&1
 }
 
 TOTAL=0
@@ -80,7 +78,7 @@ for i in $(seq 1 "$ITERATIONS"); do
 	INPUT="$SANDBOX/inp_$i.txt"
 	gen_input "$LINES_PER_RUN" "$LINE_LEN" > "$INPUT"
 
-	run_with_timeout "$TIMEOUT_S" "$INPUT"
+	run_one "$INPUT"
 	rc=$?
 	TOTAL=$((TOTAL + 1))
 
@@ -95,8 +93,8 @@ for i in $(seq 1 "$ITERATIONS"); do
 			cat "$INPUT"
 			printf -- '\n-----------------\n'
 			;;
-		137|143)
-			# Killed by our watcher (SIGKILL / SIGTERM)
+		124|137|142|143)
+			# 124 = `timeout` fired; 137 KILL; 142 SIGALRM (perl path); 143 TERM
 			TIMEOUTS=$((TIMEOUTS + 1))
 			;;
 	esac
