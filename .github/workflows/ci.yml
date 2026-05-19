@@ -31,3 +31,6 @@ jobs:
 
       - name: Run tests
         run: make test
+
+      - name: Fuzz parser
+        run: make fuzz FUZZ_ITER=150 FUZZ_LINES=40 FUZZ_LINELEN=100

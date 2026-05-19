@@ -14,7 +14,8 @@ fi
 TESTDIR="$(mktemp -d -t blaansh.XXXXXX)"
 trap 'rm -rf "$TESTDIR"' EXIT
 
-PROMPT_RE='^minishell-1\.0\$'
+# Strip the main prompt and the heredoc continuation prompt (`> `).
+PROMPT_RE='^(minishell-1\.0\$|> )'
 
 PASS=0
 FAIL=0
@@ -229,6 +230,178 @@ test_output "tilde expands to HOME" \
 test_exit "exit with explicit code" "exit 42" 42
 test_exit "exit defaults to 0 on EOF" "" 0
 test_exit "command not found is 127" "doesnotexist_xyz" 127
+
+# ---------- complex pipes ----------
+test_output "3-stage pipe" \
+	"echo abc | cat | cat" \
+	"abc"
+test_output "8-stage pipe" \
+	"echo deepwater | cat | cat | cat | cat | cat | cat | cat" \
+	"deepwater"
+test_output "pipe + sort + uniq" \
+	"echo c
+echo a
+echo b
+echo a" \
+	"c
+a
+b
+a"
+test_output "pipe into wc -l (count lines)" \
+	"echo line | cat
+echo line | cat
+echo line | cat | wc -l | tr -d ' '" \
+	"line
+line
+1"
+
+# ---------- semicolon / FG sequence ----------
+test_output "semicolon runs both" \
+	"echo a; echo b" \
+	"a
+b"
+test_output "semicolon with mix of cmds" \
+	"echo a; false; echo b" \
+	"a
+b"
+test_output "semicolon preserves \$? of last" \
+	"true; false
+echo \$?" \
+	"1"
+
+# ---------- subshells ----------
+test_output "subshell sequence" \
+	"(echo a; echo b)" \
+	"a
+b"
+test_output "subshell piped to cat" \
+	"(echo a; echo b) | cat" \
+	"a
+b"
+test_output "subshell writes to file" \
+	"(echo a; echo b) > $TESTDIR/sub.txt
+cat $TESTDIR/sub.txt" \
+	"a
+b"
+test_output "subshell does not leak cd" \
+	"(cd /tmp) && pwd | grep -c $(basename $(pwd -P))" \
+	"1"
+
+# ---------- precedence ----------
+test_output "|| then && evaluates left-to-right" \
+	"false || true && echo ok" \
+	"ok"
+test_output "&& then || short-circuits" \
+	"true && false || echo recovered" \
+	"recovered"
+test_output "parens override precedence" \
+	"false && (true || echo never) || echo good" \
+	"good"
+test_output "deep parens chain" \
+	"((echo deep))" \
+	"deep"
+
+# ---------- complex redirections ----------
+test_output "last > wins, first file is truncated" \
+	"echo lastwin > $TESTDIR/r1.txt > $TESTDIR/r2.txt
+cat $TESTDIR/r2.txt" \
+	"lastwin"
+test_output "first > of multi-redir is truncated to empty" \
+	"echo lastwin > $TESTDIR/m1.txt > $TESTDIR/m2.txt
+cat $TESTDIR/m1.txt
+echo END" \
+	"END"
+test_output "pipe with redirect on writer" \
+	"echo content | cat > $TESTDIR/pw.txt
+cat $TESTDIR/pw.txt" \
+	"content"
+test_output "input + output redirect on same cmd" \
+	"echo source > $TESTDIR/src.txt
+cat < $TESTDIR/src.txt > $TESTDIR/dst.txt
+cat $TESTDIR/dst.txt" \
+	"source"
+test_output "redirect + && chain doesn't leak (regression)" \
+	"echo first > $TESTDIR/chain1.txt && echo second > $TESTDIR/chain2.txt
+echo afterward
+cat $TESTDIR/chain1.txt
+cat $TESTDIR/chain2.txt" \
+	"afterward
+first
+second"
+
+# ---------- heredoc ----------
+test_output "heredoc reads up to delimiter" \
+	"cat << DELIM
+line1
+line2
+DELIM
+echo done" \
+	"line1
+line2
+done"
+test_output "heredoc with empty body" \
+	"cat << END
+END
+echo after" \
+	"after"
+test_output "heredoc piped to grep" \
+	"grep needle << END
+no
+needle here
+also no
+END" \
+	"needle here"
+
+# ---------- variable expansion edge cases ----------
+test_output "var concat with surrounding text" \
+	"export X=middle
+echo pre\$X post" \
+	"premiddle post"
+test_output "undefined var collapses to empty" \
+	"echo [\$DEFINITELY_NOT_SET_XYZ]" \
+	"[]"
+test_output "many adjacent vars" \
+	"export A=1
+export B=2
+export C=3
+echo \$A\$B\$C" \
+	"123"
+test_output "\$? in middle of pipeline" \
+	"true
+echo \$?:\$?:\$?" \
+	"0:0:0"
+
+# ---------- builtin: env ----------
+test_output "env contains exported var" \
+	"export ZZZ_MARKER=present
+env | grep ZZZ_MARKER" \
+	"ZZZ_MARKER=present"
+
+# ---------- error cases (must not crash) ----------
+test_exit "unclosed single quote sets \$? to 2" \
+	"echo 'oops" 2
+test_exit "unclosed double quote sets \$? to 2" \
+	"echo \"oops" 2
+test_exit "syntax error: pipe at start sets \$? to 2" \
+	"| echo bad" 2
+test_exit "syntax error: dangling && sets \$? to 2" \
+	"echo a &&" 2
+test_exit "syntax error: empty parens" \
+	"()" 2
+test_exit "exit with non-numeric arg returns 255" \
+	"exit notanumber" 255
+
+# ---------- whitespace / empty ----------
+test_output "blank line is no-op" \
+	"
+echo afterblank" \
+	"afterblank"
+test_output "lots of spaces between args" \
+	"echo     a     b     c" \
+	"a b c"
+test_output "leading whitespace is fine" \
+	"   echo indented" \
+	"indented"
 
 # ---------- summary ----------
 echo

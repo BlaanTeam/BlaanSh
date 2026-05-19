@@ -118,6 +118,14 @@ $(LIBGC): $(addprefix $(LIBGC_PATH), include/gc.h)
 test: $(NAME)
 	bash tests/run_tests.sh
 
+# parser fuzz (override via FUZZ_ITER / FUZZ_LINES / FUZZ_LINELEN)
+fuzz: $(NAME)
+	ITERATIONS=$(FUZZ_ITER) LINES_PER_RUN=$(FUZZ_LINES) LINE_LEN=$(FUZZ_LINELEN) \
+		bash tests/fuzz.sh
+FUZZ_ITER ?= 100
+FUZZ_LINES ?= 30
+FUZZ_LINELEN ?= 80
+
 # clean
 clean:
 	rm -f $(OBJS)
@@ -131,4 +139,4 @@ fclean: clean
 # remake
 re: fclean all
 
-.PHONY: all debug test clean fclean re
+.PHONY: all debug test fuzz clean fclean re
