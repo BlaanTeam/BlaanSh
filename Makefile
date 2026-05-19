@@ -100,7 +100,7 @@ debug: clean $(NAME)
 # minishell
 $(NAME): $(LIBFT) $(LIBGC)
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@ -lreadline $(RL_LIB)
+	$(CC) $(CFLAGS) $^ -o $@ -lreadline -lm $(RL_LIB)
 
 # libft
 $(LIBFT): $(addprefix $(LIBFT_PATH), libft.h)
