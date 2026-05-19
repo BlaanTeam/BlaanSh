@@ -68,7 +68,16 @@ FILES =	minishell.c \
 OBJS = $(FILES:%.c=%.o)
 OBJS := $(addprefix $(SRC), $(OBJS))
 
-RL_DIR = $(addprefix $(shell brew --prefix readline), /)
+# readline: on macOS use the Homebrew prefix, on Linux rely on system paths
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+	RL_PREFIX := $(shell brew --prefix readline 2>/dev/null)
+	RL_INC := -I$(RL_PREFIX)/include
+	RL_LIB := -L$(RL_PREFIX)/lib
+else
+	RL_INC :=
+	RL_LIB :=
+endif
 
 LIBFT_PATH = libft/
 LIBFT = $(addprefix $(LIBFT_PATH), libft.a)
@@ -91,7 +100,7 @@ debug: clean $(NAME)
 # minishell
 $(NAME): $(LIBFT) $(LIBGC)
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $^ -o $@ -lreadline -L$(addprefix $(RL_DIR), lib)
+	$(CC) $(CFLAGS) $^ -o $@ -lreadline $(RL_LIB)
 
 # libft
 $(LIBFT): $(addprefix $(LIBFT_PATH), libft.h)
@@ -103,7 +112,11 @@ $(LIBGC): $(addprefix $(LIBGC_PATH), include/gc.h)
 
 # object files
 %.o: %.c $(HEADER)
-	$(CC) $(CFLAGS) -c $< -o $@  -I $(INCLUDE) -I $(addprefix $(RL_DIR), include) -I $(LIBFT_PATH) -I $(addprefix $(LIBGC_PATH), include)
+	$(CC) $(CFLAGS) -c $< -o $@ -I $(INCLUDE) $(RL_INC) -I $(LIBFT_PATH) -I $(addprefix $(LIBGC_PATH), include)
+
+# tests
+test: $(NAME)
+	bash tests/run_tests.sh
 
 # clean
 clean:
@@ -117,3 +130,5 @@ fclean: clean
 
 # remake
 re: fclean all
+
+.PHONY: all debug test clean fclean re
