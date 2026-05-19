@@ -33,7 +33,7 @@ int	heredoc(char *delim)
 	return (close(hfd[WRITE_END]), hfd[READ_END]);
 }
 
-int	fill_redir(t_redir *redir, t_token redir_type, t_node *filenode)
+static int	fill_redir(t_redir *redir, t_token redir_type, t_node *filenode)
 {
 	if (redir_type == DLESS && filenode->token != WORD)
 		return (0);
@@ -69,7 +69,7 @@ t_cmdtree	*parse_redir(t_cmdtree *cmdtree, t_node **tokp)
 		if (!(current(*tokp) & (WORD | VAR | GROUP)))
 			return (NULL);
 		ret = new_redir(ret);
-		if (!fill_redir((t_redir *)ret, redir_type, *tokp))
+		if (!fill_redir(&ret->u.redir, redir_type, *tokp))
 			return (NULL);
 		scan(tokp);
 	}

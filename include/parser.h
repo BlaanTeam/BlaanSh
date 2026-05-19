@@ -15,50 +15,57 @@
 
 # include "minishell.h"
 
-/* Possible values of node_type */
-# define NODE_CMDLST	0
-# define NODE_SUBSH		1
-# define NODE_PIPE		2
-# define NODE_AND		3
-# define NODE_OR		4
-# define NODE_FG		5
-# define NODE_BG		6
-# define NODE_REDIR		7
-
-typedef struct s_cmdtree
+typedef enum e_node_kind
 {
-	int	node_type;
-}				t_cmdtree;
+	NODE_CMDLST = 0,
+	NODE_SUBSH,
+	NODE_PIPE,
+	NODE_AND,
+	NODE_OR,
+	NODE_FG,
+	NODE_BG,
+	NODE_REDIR,
+}	t_node_kind;
+
+typedef struct s_cmdtree	t_cmdtree;
 
 typedef struct s_subsh
 {
-	int			node_type;
 	t_cmdtree	*cmdtree;
-}				t_subsh;
+}	t_subsh;
 
 typedef struct s_connector
 {
-	int			node_type;
 	t_cmdtree	*lcmdtree;
 	t_cmdtree	*rcmdtree;
-}				t_connector;
+}	t_connector;
 
 typedef struct s_cmdlist
 {
-	int		node_type;
 	t_list	*cmdvec;
-}				t_cmdlist;
+}	t_cmdlist;
 
 typedef struct s_redir
 {
-	int			node_type;
 	t_token		redir_type;
 	int			io_src;
 	int			io_dst;
 	int			oflag;
 	t_node		*filenode;
 	t_cmdtree	*cmdtree;
-}				t_redir;
+}	t_redir;
+
+struct s_cmdtree
+{
+	t_node_kind	kind;
+	union
+	{
+		t_subsh		subsh;
+		t_connector	conn;
+		t_cmdlist	cmdlist;
+		t_redir		redir;
+	}	u;
+};
 
 // Parser
 t_cmdtree	*parser(t_lexer *tokens);
@@ -77,7 +84,8 @@ int			accept(t_node **tokp, t_token tok);
 
 // Constructors
 t_cmdtree	*new_subsh(t_cmdtree *cmdtree);
-t_cmdtree	*new_connector(int node_type, t_cmdtree *left, t_cmdtree *right);
+t_cmdtree	*new_connector(t_node_kind kind,
+				t_cmdtree *left, t_cmdtree *right);
 t_cmdtree	*new_cmdlist(void);
 t_cmdtree	*new_redir(t_cmdtree *cmdtree);
 

@@ -12,51 +12,52 @@
 
 #include "minishell.h"
 
-// Subshell node constructor
+static t_cmdtree	*alloc_cmdtree(t_node_kind kind)
+{
+	t_cmdtree	*node;
+
+	node = gc_filter(malloc(sizeof(t_cmdtree)), GC_TMP);
+	node->kind = kind;
+	return (node);
+}
+
 t_cmdtree	*new_subsh(t_cmdtree *subtree)
 {
-	t_subsh	*subshell;
+	t_cmdtree	*node;
 
-	subshell = gc_filter(malloc(sizeof(t_subsh)), GC_TMP);
-	subshell->node_type = NODE_SUBSH;
-	subshell->cmdtree = subtree;
-	return ((t_cmdtree *)subshell);
+	node = alloc_cmdtree(NODE_SUBSH);
+	node->u.subsh.cmdtree = subtree;
+	return (node);
 }
 
-// Connector node constructor
-// Connector might be: AND, OR, PIPE, FG, BG
-t_cmdtree	*new_connector(int node_type, t_cmdtree *left, t_cmdtree *right)
+// Connector covers PIPE / AND / OR / FG / BG — same shape, different kind.
+t_cmdtree	*new_connector(t_node_kind kind,
+	t_cmdtree *left, t_cmdtree *right)
 {
-	t_connector	*connector;
+	t_cmdtree	*node;
 
-	connector = gc_filter(malloc(sizeof(t_connector)), GC_TMP);
-	connector->node_type = node_type;
-	connector->lcmdtree = left;
-	connector->rcmdtree = right;
-	return ((t_cmdtree *)connector);
+	node = alloc_cmdtree(kind);
+	node->u.conn.lcmdtree = left;
+	node->u.conn.rcmdtree = right;
+	return (node);
 }
 
-// Command list node constructor
 t_cmdtree	*new_cmdlist(void)
 {
-	t_cmdlist	*cmdlist;
+	t_cmdtree	*node;
 
-	cmdlist = gc_filter(malloc(sizeof(t_cmdlist)), GC_TMP);
-	cmdlist->node_type = NODE_CMDLST;
-	cmdlist->cmdvec = new_list();
-	return ((t_cmdtree *)cmdlist);
+	node = alloc_cmdtree(NODE_CMDLST);
+	node->u.cmdlist.cmdvec = new_list();
+	return (node);
 }
 
-// Redirect node constructor
-// Fill only node_type, and cmdtree pointer
-// Other data will depend on parse_redir
+// Redirect node — parse_redir fills in redir_type / io_src / oflag / filenode.
 t_cmdtree	*new_redir(t_cmdtree *cmdtree)
 {
-	t_redir	*redir;
+	t_cmdtree	*node;
 
-	redir = gc_filter(malloc(sizeof(t_redir)), GC_TMP);
-	redir->node_type = NODE_REDIR;
-	redir->cmdtree = cmdtree;
-	redir->filenode = NULL;
-	return ((t_cmdtree *)redir);
+	node = alloc_cmdtree(NODE_REDIR);
+	node->u.redir.cmdtree = cmdtree;
+	node->u.redir.filenode = NULL;
+	return (node);
 }

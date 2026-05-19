@@ -12,17 +12,17 @@
 
 #include "minishell.h"
 
-void	run_cmdlist(t_cmdlist *cmdlist)
+void	run_cmdlist(t_cmdtree *tree)
 {
 	char	**argv;
 
-	if (!cmdlist->cmdvec->len)
+	if (!tree->u.cmdlist.cmdvec->len)
 		return ;
-	argv = list_export_array(cmdlist->cmdvec);
+	argv = list_export_array(tree->u.cmdlist.cmdvec);
 	exec_cmd(argv[0], argv);
 }
 
-void	run_subshell(t_subsh *subshell)
+void	run_subshell(t_cmdtree *tree)
 {
 	pid_t	pid;
 
@@ -31,24 +31,24 @@ void	run_subshell(t_subsh *subshell)
 		return ;
 	if (pid == 0)
 	{
-		executor(subshell->cmdtree);
+		executor(tree->u.subsh.cmdtree);
 		gc_clean(&g_global.gc, GC_DESTROY_SELF);
 		exit(get_status());
 	}
 	waitpid(pid, &g_global.status, WUNTRACED);
 }
 
-static void	redirection_exec(t_redir *redir)
+static void	redirection_exec(t_cmdtree *tree)
 {
-	t_redir	*tmp;
+	t_cmdtree	*inner;
 
-	tmp = redir;
-	while (tmp->cmdtree && tmp->cmdtree->node_type == NODE_REDIR)
-		tmp = (t_redir *)tmp->cmdtree;
-	executor(tmp->cmdtree);
+	inner = tree->u.redir.cmdtree;
+	while (inner && inner->kind == NODE_REDIR)
+		inner = inner->u.redir.cmdtree;
+	executor(inner);
 }
 
-int	get_io_dst(t_redir	*redir)
+static int	get_io_dst(t_redir *redir)
 {
 	t_node	*filenode;
 	char	*filename;
@@ -72,13 +72,15 @@ int	get_io_dst(t_redir	*redir)
 	return (io_dst);
 }
 
-int	run_redirection(t_redir	*redir, int exec)
+int	run_redirection(t_cmdtree *tree, int exec)
 {
+	t_redir	*redir;
 	int		open_;
 
+	redir = &tree->u.redir;
 	open_ = 1;
-	if (redir->cmdtree && redir->cmdtree->node_type == NODE_REDIR)
-		open_ = run_redirection((t_redir *)redir->cmdtree, 0);
+	if (redir->cmdtree && redir->cmdtree->kind == NODE_REDIR)
+		open_ = run_redirection(redir->cmdtree, 0);
 	if (open_)
 	{
 		if (redir->redir_type != DLESS)
@@ -88,7 +90,7 @@ int	run_redirection(t_redir	*redir, int exec)
 		ft_dup2(redir->io_dst, redir->io_src);
 		close(redir->io_dst);
 		if (exec)
-			redirection_exec(redir);
+			redirection_exec(tree);
 	}
 	else
 		return (set_status(1), 0);

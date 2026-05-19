@@ -12,35 +12,35 @@
 
 #include "minishell.h"
 
-pid_t	run_pipe(t_connector *connector, int fds[2], int side)
+pid_t	run_pipe(t_cmdtree *tree, int fds[2], int side)
 {
 	pid_t		pid;
 	int			end;
 	int			fileno;
-	t_cmdtree	*cmdtree;
+	t_cmdtree	*child;
 
 	end = WRITE_END;
 	fileno = STDOUT_FILENO;
-	cmdtree = connector->lcmdtree;
+	child = tree->u.conn.lcmdtree;
 	if (side & RIGHT_SIDE)
 	{
 		end = READ_END;
 		fileno = STDIN_FILENO;
-		cmdtree = connector->rcmdtree;
+		child = tree->u.conn.rcmdtree;
 	}
 	pid = ft_fork();
 	if (pid == 0)
 	{
 		ft_dup2(fds[end], fileno);
 		close_pipe(fds);
-		executor(cmdtree);
+		executor(child);
 		gc_clean(&g_global.gc, GC_DESTROY_SELF);
 		exit(get_status());
 	}
 	return (pid);
 }
 
-void	run_pipeline(t_connector *connector)
+void	run_pipeline(t_cmdtree *tree)
 {
 	int	status;
 	int	pids[2];
@@ -48,10 +48,10 @@ void	run_pipeline(t_connector *connector)
 
 	if (ft_pipe(fds) == -1)
 		return ;
-	pids[0] = run_pipe(connector, fds, LEFT_SIDE);
+	pids[0] = run_pipe(tree, fds, LEFT_SIDE);
 	if (pids[0] == -1)
 		return ;
-	pids[1] = run_pipe(connector, fds, RIGHT_SIDE);
+	pids[1] = run_pipe(tree, fds, RIGHT_SIDE);
 	if (pids[1] == -1)
 		return ;
 	close_pipe(fds);
@@ -61,22 +61,22 @@ void	run_pipeline(t_connector *connector)
 		g_global.status = status;
 }
 
-void	run_logical_connector(t_connector *connector, int node_type)
+void	run_logical_connector(t_cmdtree *tree)
 {
-	executor(connector->lcmdtree);
-	if (node_type == NODE_AND)
+	executor(tree->u.conn.lcmdtree);
+	if (tree->kind == NODE_AND)
 	{
 		if (WIFEXITED(g_global.status) && WEXITSTATUS(g_global.status) == 0)
-			executor(connector->rcmdtree);
+			executor(tree->u.conn.rcmdtree);
 	}
 	else
 	{
 		if (WIFEXITED(g_global.status) && WEXITSTATUS(g_global.status) != 0)
-			executor(connector->rcmdtree);
+			executor(tree->u.conn.rcmdtree);
 	}
 }
 
-void	run_bg_connector(t_connector *connector)
+void	run_bg_connector(t_cmdtree *tree)
 {
 	pid_t	pid;
 
@@ -85,15 +85,15 @@ void	run_bg_connector(t_connector *connector)
 		return ;
 	if (pid == 0)
 	{
-		executor(connector->lcmdtree);
+		executor(tree->u.conn.lcmdtree);
 		gc_clean(&g_global.gc, GC_DESTROY_SELF);
 		exit(get_status());
 	}
-	executor(connector->rcmdtree);
+	executor(tree->u.conn.rcmdtree);
 }
 
-void	run_fg_connector(t_connector *connecter)
+void	run_fg_connector(t_cmdtree *tree)
 {
-	executor(connecter->lcmdtree);
-	executor(connecter->rcmdtree);
+	executor(tree->u.conn.lcmdtree);
+	executor(tree->u.conn.rcmdtree);
 }

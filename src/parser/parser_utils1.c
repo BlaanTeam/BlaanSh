@@ -31,8 +31,8 @@ t_cmdtree	*parse_cmdline(t_node **tokp)
 			ret = new_connector(NODE_BG, ret, NULL);
 		if (current(*tokp) & (ENDOFCMD | CPAR))
 			return (ret);
-		((t_connector *)ret)->rcmdtree = parse_cmdline(tokp);
-		if (((t_connector *)ret)->rcmdtree == NULL)
+		ret->u.conn.rcmdtree = parse_cmdline(tokp);
+		if (ret->u.conn.rcmdtree == NULL)
 			return (NULL);
 	}
 	return (ret);
@@ -54,8 +54,8 @@ t_cmdtree	*parse_block(t_node **tokp)
 			ret = new_connector(NODE_AND, ret, NULL);
 		else
 			ret = new_connector(NODE_OR, ret, NULL);
-		((t_connector *)ret)->rcmdtree = parse_pipeline(tokp);
-		if (((t_connector *)ret)->rcmdtree == NULL)
+		ret->u.conn.rcmdtree = parse_pipeline(tokp);
+		if (ret->u.conn.rcmdtree == NULL)
 			return (NULL);
 	}
 	return (ret);
@@ -74,8 +74,8 @@ t_cmdtree	*parse_pipeline(t_node **tokp)
 	while (accept(tokp, PIPE))
 	{
 		ret = new_connector(NODE_PIPE, ret, NULL);
-		((t_connector *)ret)->rcmdtree = parse_command(tokp);
-		if (((t_connector *)ret)->rcmdtree == NULL)
+		ret->u.conn.rcmdtree = parse_command(tokp);
+		if (ret->u.conn.rcmdtree == NULL)
 			return (NULL);
 	}
 	return (ret);
@@ -92,8 +92,8 @@ t_cmdtree	*parse_command(t_node **tokp)
 	if (accept(tokp, OPAR))
 	{
 		ret = new_subsh(NULL);
-		((t_subsh *)ret)->cmdtree = parse_cmdline(tokp);
-		if (((t_subsh *)ret)->cmdtree == NULL || !accept(tokp, CPAR))
+		ret->u.subsh.cmdtree = parse_cmdline(tokp);
+		if (ret->u.subsh.cmdtree == NULL || !accept(tokp, CPAR))
 			return (NULL);
 		return (parse_redir(ret, tokp));
 	}
@@ -102,28 +102,33 @@ t_cmdtree	*parse_command(t_node **tokp)
 
 // <cmdlist> ::=  <redir>+
 //           |    <redir> {<arg> <redir>}+
+//
+// `cmdlist_node` keeps a handle on the original NODE_CMDLST node so we can
+// push args into its cmdvec — `ret` may have been wrapped in NODE_REDIR by
+// parse_redir.
 t_cmdtree	*parse_cmdlist(t_node **tokp)
 {
 	t_cmdtree	*ret;
-	t_cmdlist	*cmdlist;
+	t_cmdtree	*cmdlist_node;
+	t_list		*cmdvec;
 
 	if (current(*tokp) == ENDOFCMD)
 		return (NULL);
-	ret = new_cmdlist();
-	cmdlist = (t_cmdlist *)ret;
-	ret = parse_redir(ret, tokp);
+	cmdlist_node = new_cmdlist();
+	cmdvec = cmdlist_node->u.cmdlist.cmdvec;
+	ret = parse_redir(cmdlist_node, tokp);
 	if (!ret)
 		return (NULL);
 	while (current(*tokp) & (WORD | VAR | GROUP))
 	{
-		push_back(cmdlist->cmdvec, (*tokp)->token, (*tokp)->val);
-		cmdlist->cmdvec->bottom->val_grp = (*tokp)->val_grp;
+		push_back(cmdvec, (*tokp)->token, (*tokp)->val);
+		cmdvec->bottom->val_grp = (*tokp)->val_grp;
 		scan(tokp);
 		ret = parse_redir(ret, tokp);
 		if (!ret)
 			return (NULL);
 	}
-	if (ret == (t_cmdtree *)cmdlist && !cmdlist->cmdvec->len)
+	if (ret == cmdlist_node && !cmdvec->len)
 		ret = NULL;
 	return (ret);
 }
