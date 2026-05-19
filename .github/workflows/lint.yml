@@ -1,0 +1,70 @@
+name: Lint
+
+on:
+  push:
+  pull_request:
+
+concurrency:
+  group: lint-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cpp-linter:
+    name: clang-tidy
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # fetch-depth 2 so cpp-linter can diff against the previous commit
+          # when files-changed-only is used
+          fetch-depth: 2
+
+      - name: Install build deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libreadline-dev bear clang-tidy
+
+      - name: Generate compile_commands.json
+        # bear wraps `make` and records each compiler invocation into
+        # compile_commands.json — clang-tidy then knows exact -I flags
+        # per translation unit.
+        run: |
+          make fclean
+          bear -- make
+
+      - name: Run clang-tidy
+        uses: cpp-linter/cpp-linter-action@v2
+        id: linter
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Skip clang-format — this codebase uses 42-school style
+          # (tabs, BSD-ish braces) which doesn't match any built-in
+          # clang-format preset.
+          style: ''
+          # High-signal C-focused checks. The disabled bugprone-*
+          # exclusions are noisy for this codebase's interface idioms.
+          tidy-checks: >-
+            bugprone-*,
+            cert-*,
+            clang-analyzer-*,
+            -clang-analyzer-cplusplus*,
+            -bugprone-easily-swappable-parameters,
+            -bugprone-narrowing-conversions,
+            -bugprone-multi-level-implicit-pointer-conversion,
+            -bugprone-assignment-in-if-condition
+          # Only lint files touched in this push/PR. New code is held
+          # to the linter; legacy code is grandfathered until someone
+          # edits it.
+          files-changed-only: true
+          database: '.'
+          version: 18
+          step-summary: true
+          thread-comments: ${{ github.event_name == 'pull_request' && 'true' || 'false' }}
+
+      - name: Fail when changed files have lint errors
+        if: steps.linter.outputs.checks-failed > 0
+        run: |
+          echo "::error::clang-tidy reported issues on changed files (see annotations and step summary)"
+          exit 1
