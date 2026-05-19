@@ -25,6 +25,7 @@ static void	global_setup(int ac, char **av, char **env)
 	load_ttyname();
 	g_global.venv = venv_init(env);
 	g_global.program_name = av[0];
+	completion_init();
 }
 
 int	main(int ac, char **av, char **env)
