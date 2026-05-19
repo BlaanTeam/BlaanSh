@@ -74,12 +74,17 @@ declare -a KEPT_INPUTS=()
 printf 'Fuzzing %s — %d iterations, %d lines each (timeout %ds)\n' \
 	"$MS_PATH" "$ITERATIONS" "$LINES_PER_RUN" "$TIMEOUT_S"
 
+VERBOSE="${VERBOSE:-0}"
+
 for i in $(seq 1 "$ITERATIONS"); do
 	INPUT="$SANDBOX/inp_$i.txt"
+	[ "$VERBOSE" = 1 ] && printf '  [%s] iter=%d gen\n' "$(date -u +%H:%M:%S)" "$i"
 	gen_input "$LINES_PER_RUN" "$LINE_LEN" > "$INPUT"
+	[ "$VERBOSE" = 1 ] && printf '  [%s] iter=%d run\n' "$(date -u +%H:%M:%S)" "$i"
 
 	run_one "$INPUT"
 	rc=$?
+	[ "$VERBOSE" = 1 ] && printf '  [%s] iter=%d done rc=%d\n' "$(date -u +%H:%M:%S)" "$i" "$rc"
 	TOTAL=$((TOTAL + 1))
 
 	case $rc in
