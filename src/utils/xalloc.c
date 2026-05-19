@@ -79,7 +79,7 @@ char	*xitoa_perm(int n)
 	return (oom_check(arena_itoa(&g_global.perm, n)));
 }
 
-void	child_exit(int status)
+_Noreturn void	child_exit(int status)
 {
 	arena_destroy(&g_global.tmp);
 	arena_destroy(&g_global.perm);

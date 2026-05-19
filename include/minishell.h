@@ -96,7 +96,7 @@ char	*xitoa_perm(int n);
 
 // Tear down the arenas and exit. Used by forked children so they don't
 // look like they're leaking the parent's allocations.
-void	child_exit(int status);
+_Noreturn void	child_exit(int status);
 
 // global utils
 char	*ft_getcwd(void);

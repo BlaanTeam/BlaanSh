@@ -17,7 +17,7 @@
 
 # include <stddef.h>
 
-# define ARENA_DEFAULT_CHUNK	(64 * 1024)
+# define ARENA_DEFAULT_CHUNK	((size_t)(64 * 1024))
 # define ARENA_ALIGN			16
 
 typedef struct s_arena_chunk

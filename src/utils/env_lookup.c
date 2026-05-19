@@ -12,26 +12,26 @@
 
 #include "minishell.h"
 
+/*
+ * Walk the list with a pointer-to-pointer so the head and middle cases
+ * collapse into the same code path — no separate prev tracking, and
+ * the analyzer can't claim `prev` is read uninitialized.
+ */
 bool	venv_remove(t_venv **venv_head, char *key)
 {
-	t_venv	*prev;
-	t_venv	*tmp;
+	size_t	keylen;
 
-	tmp = *venv_head;
-	if (tmp && ft_memcmp(tmp->key, key, ft_strlen(key) + 1) == 0)
+	keylen = ft_strlen(key) + 1;
+	while (*venv_head)
 	{
-		*venv_head = tmp->next;
-		return (true);
+		if (ft_memcmp((*venv_head)->key, key, keylen) == 0)
+		{
+			*venv_head = (*venv_head)->next;
+			return (true);
+		}
+		venv_head = &(*venv_head)->next;
 	}
-	while (tmp && ft_memcmp(tmp->key, key, ft_strlen(key) + 1) != 0)
-	{
-		prev = tmp;
-		tmp = tmp->next;
-	}
-	if (!tmp)
-		return (false);
-	prev->next = tmp->next;
-	return (true);
+	return (false);
 }
 
 char	*getvenv(char *key)

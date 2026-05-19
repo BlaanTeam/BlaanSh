@@ -20,11 +20,9 @@ t_list	*expander(t_list *tokens)
 	tokens = delete_quotes(tokens);
 	tokens = make_groups(tokens);
 	tokens = concat_words(tokens);
-	next = NULL;
 	top = tokens->top;
 	while (top && top->token != ENDOFCMD)
 	{
-		next = top->next;
 		if (top->token & REDIRECT)
 			next = handle_redirects(top);
 		else if (top->token & TILDE)

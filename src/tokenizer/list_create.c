@@ -72,18 +72,21 @@ t_node	*insert_node(t_list *list, t_node *new, t_node *prev)
 		return (NULL);
 	(list->len)++;
 	new->prev = prev;
-	new->next = prev->next;
-	if (!prev || !prev->next)
+	if (!prev)
 	{
-		if (prev == NULL)
-			list->top = new;
-		if (prev->next == NULL)
+		new->next = list->top;
+		if (list->top)
+			list->top->prev = new;
+		else
 			list->bottom = new;
+		list->top = new;
+		return (new);
 	}
-	else
-	{
+	new->next = prev->next;
+	if (prev->next)
 		prev->next->prev = new;
-		prev->next = new;
-	}
+	else
+		list->bottom = new;
+	prev->next = new;
 	return (new);
 }
