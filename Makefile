@@ -126,6 +126,10 @@ FUZZ_ITER ?= 100
 FUZZ_LINES ?= 30
 FUZZ_LINELEN ?= 80
 
+# leak check (valgrind on Linux, leaks on macOS)
+leak-check: $(NAME)
+	bash tests/leak_check.sh
+
 # clean
 clean:
 	rm -f $(OBJS)
@@ -139,4 +143,4 @@ fclean: clean
 # remake
 re: fclean all
 
-.PHONY: all debug test fuzz clean fclean re
+.PHONY: all debug test fuzz leak-check clean fclean re
