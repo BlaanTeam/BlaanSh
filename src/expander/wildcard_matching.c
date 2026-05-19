@@ -80,7 +80,8 @@ t_node	*expand_wildcards(t_list *tokens, t_node *node)
 		{
 			if (matches_found == 0)
 				node = del_node(tokens, node)->next;
-			insert_node(tokens, new_node(WORD, item->d_name), node->prev);
+			insert_node(tokens, new_node(WORD,
+					gc_filter(ft_strdup(item->d_name), GC_TMP)), node->prev);
 			matches_found++;
 		}
 		item = readdir(dirp);

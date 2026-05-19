@@ -48,11 +48,15 @@ void	term_init(void)
 		signal(SIGTSTP, SIG_IGN) == SIG_ERR)
 		_error("signal", strerror(errno), NULL, 1);
 	fileno = get_tty_fd();
+	if (fileno == -1)
+		return ;
 	if (tcgetattr(fileno, &new_term) != 0)
-		return (_error("tcgetattr", strerror(errno), NULL, 1));
+		return (close(fileno),
+			_error("tcgetattr", strerror(errno), NULL, 1));
 	new_term.c_lflag &= ~(ECHOCTL);
 	if (tcsetattr(fileno, TCSANOW, &new_term) != 0)
-		return (_error("tcsetattr", strerror(errno), NULL, 1));
+		_error("tcsetattr", strerror(errno), NULL, 1);
+	close(fileno);
 }
 
 void	term_restore(void)
@@ -65,9 +69,13 @@ void	term_restore(void)
 		signal(SIGTSTP, SIG_DFL) == SIG_ERR)
 		_error("signal", strerror(errno), NULL, 1);
 	fileno = get_tty_fd();
+	if (fileno == -1)
+		return ;
 	if (tcgetattr(fileno, &old_term) != 0)
-		return (_error("tcgetattr", strerror(errno), NULL, 1));
+		return (close(fileno),
+			_error("tcgetattr", strerror(errno), NULL, 1));
 	old_term.c_lflag |= ECHOCTL;
 	if (tcsetattr(fileno, TCSANOW, &old_term) != 0)
-		return (_error("tcsetattr", strerror(errno), NULL, 1));
+		_error("tcsetattr", strerror(errno), NULL, 1);
+	close(fileno);
 }
