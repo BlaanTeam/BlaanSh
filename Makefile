@@ -56,6 +56,8 @@ EXPANDER_FILES = expander/expander.c \
 		expander/expand_groups.c \
 		expander/wildcard_matching.c
 
+COMPLETION_FILES = completion/completion.c
+
 FILES =	minishell.c \
 	$(UTILS_FILES) \
 	$(BUILTINS_FILES) \
@@ -64,6 +66,7 @@ FILES =	minishell.c \
 	$(EXPANDER_FILES) \
 	$(PARSER_FILES) \
 	$(EXECUTOR_FILES) \
+	$(COMPLETION_FILES) \
 
 OBJS = $(FILES:%.c=%.o)
 OBJS := $(addprefix $(SRC), $(OBJS))

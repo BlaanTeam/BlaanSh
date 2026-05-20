@@ -98,9 +98,11 @@ char	*xitoa_perm(int n);
 // look like they're leaking the parent's allocations.
 _Noreturn void	child_exit(int status);
 
+// readline tab-completion (installed once at startup)
+void	completion_init(void);
+
 // global utils
 char	*ft_getcwd(void);
-bool	is_identifier(char *identifier);
 bool	is_identifier(char *identifier);
 bool	is_numeric(char *str);
 void	exit_with_cleanup(void);
